@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="TAPValidator">
+	<!--<bannerLeft>
+		<name>TAPValidator</name>
+		<src>http://maven.apache.org/images/apache-maven-project.png</src>
+		<href>http://vamdc.doronin.org/TAPValidator/</href>
+	</bannerLeft>
+	<bannerRight>
+		<src>http://maven.apache.org/images/maven-small.gif</src>
+	</bannerRight>-->
+	<body>
+		<links>
+			<item name="VAMDC" href="http://www.vamdc.org/" />
+			<item name="VAMDC wiki" href="http://voparis-twiki.obspm.fr/twiki/bin/view/VAMDC/"/>
+		</links>
+
+		<menu name="TAPValidator documentation">
+			<item name="Introduction" href="index.html"/>
+			<item name="GUI mode manual" href="gui.html"/>
+			<item name="GUI mode settings" href="gui_settings.html"/>
+			<item name="CLI mode manual" href="cli.html"/>
+		</menu>
+		
+		<!--<menu ref="modules"/>-->
+		<menu ref="reports"/>
+	</body>
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-default-skin</artifactId>
+		<version>1.0</version>
+	</skin>
+</project>

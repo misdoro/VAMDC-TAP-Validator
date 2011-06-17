@@ -1,0 +1,18 @@
+TAPValidator application
+
+	TAPValidator is an application that simplifies the development and verification of TAP-VAMDC services.
+	
+	XSAMS documents can be sourced from:
+	
+	* remote TAP-VAMDC services;
+	
+	* plugin for Java TAP-VAMDC implementation;
+	
+	* local files.
+	
+	[]
+	
+	Application supports both {{{./gui.html}graphical}} and {{{./cli.html}command-line}} operation modes.
+	In command-line mode document validation results are saved in specific XML format, 
+	defined by {{{./report/report.xsd}report.xsd}} schema
+	

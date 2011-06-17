@@ -1,0 +1,108 @@
+package org.vamdc.validator.interfaces;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+
+public interface XSAMSIOModel{
+	
+	/**
+	 * Send VSS1 query to XSAMSSource
+	 * @param query query string
+	 * @return output document lines count
+	 * @throws XSAMSSourceException exception, if any, that occured during the query
+	 */
+	public long doQuery(String query) throws XSAMSSourceException,XSAMSValidatorException;
+	
+	/**
+	 * Get error info.
+	 * Contents depends on source type, starting from 'file not found' or 'plugin not loaded' to all kinds of tapservice errors.
+	 * @return string representation of error, null if everything's fine.
+	 */
+	public String getErrorInfo();
+	
+	/**
+	 * 
+	 * @return document size in bytes
+	 */
+	public long getSize();
+	
+	/**
+	 * 
+	 * @return document lines count, 0 if document is not ready
+	 */
+	public long getLineCount();
+	
+	/**
+	 * Get position of some elements in xsams
+	 * @return elements locator that can be used to get position of validation errors, 
+	 */
+	public DocumentElementsLocator getElementsLocator();
+	
+	/**
+	 * Get block of XSAMS document for display
+	 * @param lineIndex starting line, first line is 1
+	 * @param lineCount how many lines to return
+	 * @return block of XSAMS document
+	 */
+	public String getBlock(long lineIndex, int lineCount);
+	
+	/**
+	 * Search for string word, starting from line lineOffset
+	 * @param word
+	 * @param lineOffset
+	 * @return line index of found string, 0 if not found.
+	 */
+	public long searchString(String word, long lineOffset);
+	
+
+	/**
+	 * Close everything
+	 */
+	public void close();
+
+	/**
+	 * Terminate running query
+	 */
+	public void stopQuery();
+	
+	/**
+	 * Reconfigure
+	 * @throws XSAMSSourceException 
+	 */
+	public void reconfigure() throws XSAMSSourceException,XSAMSValidatorException;
+	
+	/**
+	 * Set progress monitor of Model to ProgressMonitor. Sadly, we can't define limits, so just calling it continuosly.
+	 * @param mon
+	 */
+	public void setProgressMonitor(ProgressMonitor mon);
+	
+	/**
+	 * Get restrictables, supported by plugin
+	 * @return
+	 */
+	public Collection<String> getRestrictables();
+	
+	/**
+	 * Load XSAMS document from disk 
+	 * @param xsamsDocument file containing XSAMS document
+	 * @return loaded lines count
+	 * @throws IOException 
+	 */
+	public long loadFile(File xsamsDocument) throws IOException;
+	
+	/**
+	 * Save XSAMS document to disk
+	 * @param xsamsDocument
+	 * @return
+	 * @throws IOException 
+	 */
+	public long saveFile(File xsamsDocument) throws IOException;
+	
+	/**
+	 * Get active query
+	 * @return query string as it was defined in doQuery
+	 */
+	public String getQuery();
+}

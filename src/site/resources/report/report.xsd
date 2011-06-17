@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+elementFormDefault="qualified" attributeFormDefault="unqualified"
+xmlns="http://vamdc.org/tapservice/validator/report"
+targetNamespace="http://vamdc.org/tapservice/validator/report">
+	
+	<xs:element name="report" type="reportRoot">
+		<xs:annotation>
+			<xs:documentation>Validation report</xs:documentation>
+		</xs:annotation>
+			
+	</xs:element>
+	<xs:complexType name="reportRoot">
+		<xs:annotation>
+			<xs:documentation>Validation report</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="nodeCapabilitiesUrl" type="xs:anyURI"/>
+			<xs:element name="nodeTapSyncUrl" type="xs:anyURI"/>
+			<xs:element name="nodeAvailable" type="xs:boolean"/>
+			<xs:element name="queryString" type="xs:string"/>
+			<xs:element name="queryDate" type="xs:date"/>
+			<xs:element name="documentInfo" type="docInfo"/>
+			<xs:element name="validationError" type="docError" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="docInfo">
+		<xs:annotation>
+			<xs:documentation>Document information and statistics</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="documentFileName" type="xs:string"/>
+			<xs:element name="blockCount" type="blockCountType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="size" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="rowCount" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="errorCount" type="xs:nonNegativeInteger"/>
+		
+	</xs:complexType>
+	
+	<xs:complexType name="blockCountType">
+		<xs:simpleContent>
+			<xs:extension base="xs:nonNegativeInteger">
+				
+			<xs:attribute name="type" type="blockType"/>
+			</xs:extension>
+		</xs:simpleContent>
+		
+	</xs:complexType>
+	
+	<xs:simpleType name="blockType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="atom"/>
+			<xs:enumeration value="atomState"/>
+			<xs:enumeration value="molecule"/>
+			<xs:enumeration value="moleculeState"/>
+			<xs:enumeration value="particle"/>
+			<xs:enumeration value="solid"/>
+			<xs:enumeration value="collision"/>
+			<xs:enumeration value="radiative"/>
+			<xs:enumeration value="nonradiative"/>
+			<xs:enumeration value="source"/>
+			<xs:enumeration value="method"/>
+			<xs:enumeration value="function"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="docError">
+		<xs:annotation>
+			<xs:documentation>Document error, with element name,
+				error text and element start/end position in document</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="elementName" type="xs:string"/>
+			<xs:element name="errorText" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="startRow" type="xs:positiveInteger"/>
+		<xs:attribute name="startCol" type="xs:positiveInteger"/>
+		<xs:attribute name="endRow" type="xs:positiveInteger"/>
+		<xs:attribute name="endCol" type="xs:positiveInteger"/>
+	</xs:complexType>
+</xs:schema>
