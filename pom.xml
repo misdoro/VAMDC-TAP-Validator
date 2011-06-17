@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vamdc</groupId>
 	<artifactId>TAPValidator</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>11.05-SNAPSHOT</version>
 	
 	<organization>
 		<name>VAMDC</name>
