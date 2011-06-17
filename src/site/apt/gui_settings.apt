@@ -48,13 +48,13 @@ Configuration window explained
 
 	This mode may be used for testing of local deployment of TAP-VAMDC node software, or to verify operation of remote node.
 	
-	* <<TAPService Capabilities endpoint>>\
+	* <<VAMDC-TAP Capabilities endpoint>>\
 		If you use Python/Django node software or Java implementation of one, 
 		all what you need to specify is TAPService capabilities endpoint URL.
 		Validation tool will automatically retrieve TAP endpoint address from it.
 		Also for each query it will be checking that availability endpoint tells that service is available.
 		
-	* <<TAPService TAP endpoint>>\
+	* <<VAMDC-TAP sync endpoint>>\
 		If for some reason TAP endpoint url reported in your service capabilities is inaccessible,
 		you may specify it in this field.
 		

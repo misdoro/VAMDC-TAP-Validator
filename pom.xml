@@ -18,9 +18,9 @@
 	<url>http://vamdc.doronin.org/TAPValidator</url>
 	
 	<scm>
-		<connection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator</connection>
-		<developerConnection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator</developerConnection>
-		<url>http://svn.ntl.nnov.ru/misdoro/TAPValidator</url>
+		<connection>scm:svn:http://svn.ntl.nnov.ru/misdoro/trunk/TAPValidator</connection>
+		<developerConnection>scm:svn:http://svn.ntl.nnov.ru/misdoro/trunk/TAPValidator</developerConnection>
+		<url>http://svn.ntl.nnov.ru/misdoro/trunk/TAPValidator</url>
 	</scm>
 	
 	

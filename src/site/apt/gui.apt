@@ -4,8 +4,9 @@ Graphical user interface
 	
 	When first run, it's necessary to {{{./gui_settings.html}configure}} validator.
 	
-	Then usual operation would be to do several queries on the node and, if any errors occur, modify node software code.
+	Then usual operation would be to do several queries on the node (network/plugin) and, if an errors occurs, modify node software code.
 	Iterate until documents are validating without errors.
+	
 	
 * Main TAPValidator window
 	
@@ -70,10 +71,12 @@ Graphical user interface
 	Since document size is unknown during download, progress indicator just steps every 5000 lines of incoming XML document
 	and gets full when document is fully loaded and processed.
 	
+	If any error occurs during query, error message appears, then stack trace is printed to the stdout for the detailed information.
+	
 	
 * {2.} Restrictables keywords
 
-	This list displays all restrictables keywords, supported by the node.
+	This list displays a list of Restrictables keywords supported by the node.
 	
 	Double-click on a line will add corresponding keyword to the end of query string.
 	
