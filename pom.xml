@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vamdc</groupId>
 	<artifactId>TAPValidator</artifactId>
-	<version>11.05-SNAPSHOT</version>
+	<version>11.05</version>
 	
 	<organization>
 		<name>VAMDC</name>
@@ -18,9 +17,9 @@
 	<url>http://vamdc.doronin.org/TAPValidator</url>
 	
 	<scm>
-		<connection>scm:svn:http://svn.ntl.nnov.ru/misdoro/trunk/TAPValidator</connection>
-		<developerConnection>scm:svn:http://svn.ntl.nnov.ru/misdoro/trunk/TAPValidator</developerConnection>
-		<url>http://svn.ntl.nnov.ru/misdoro/trunk/TAPValidator</url>
+		<connection>scm:svn:http://svn.ntl.nnov.ru/misdoro/tags/TAPValidator-11.05</connection>
+		<developerConnection>scm:svn:http://svn.ntl.nnov.ru/misdoro/tags/TAPValidator-11.05</developerConnection>
+		<url>http://svn.ntl.nnov.ru/misdoro/tags/TAPValidator-11.05</url>
 	</scm>
 	
 	
@@ -55,7 +54,7 @@
 		<dependency>
 			<groupId>org.vamdc.tapservice</groupId>
 			<artifactId>TAP-VAMDC-Interfaces</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>11.05</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -90,17 +89,11 @@
 			<artifactId>jargs</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.vamdc.tapservice</groupId>
-			<artifactId>CayenneUtil</artifactId>
-			<version>2.0-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.vamdc.xml</groupId>
 			<artifactId>vosi</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
