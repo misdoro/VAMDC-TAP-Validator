@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.vamdc.dictionary.Restrictable;
 import org.vamdc.validator.Settings;
 import org.vamdc.validator.interfaces.XSAMSSource;
 import org.vamdc.validator.interfaces.XSAMSSourceException;
@@ -41,10 +42,13 @@ public class PluginXSAMSSource extends XSAMSSource{
 
 	@Override
 	public Collection<String> getRestrictables() {
-		if (talker!=null && talker.getRestrictables()!=null && talker.getRestrictables().keySet()!=null)
-			return talker.getRestrictables().keySet();
-		else
-			return new ArrayList<String>();
+		Collection<String> restricts = new ArrayList<String>();
+	
+		if (talker!=null && talker.getRestrictables()!=null && talker.getRestrictables()!=null)
+			for (Restrictable rest:talker.getRestrictables()){
+				restricts.add(rest.toString());
+			}
+		return restricts;
 	}
 	
 }

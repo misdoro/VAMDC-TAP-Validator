@@ -1,5 +1,6 @@
 package org.vamdc.validator.source.plugin;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,8 @@ import org.vamdc.tapservice.VSS1Parser.LogicNode;
 import org.vamdc.tapservice.VSS1Parser.QueryParser;
 import org.vamdc.tapservice.VSS1Parser.RestrictExpression;
 import org.vamdc.tapservice.api.RequestInterface;
-import org.vamdc.tapservice.api.Dictionary.Requestable;
+import org.vamdc.dictionary.Requestable;
+import org.vamdc.dictionary.Restrictable;
 import org.vamdc.xsams.XSAMSData;
 import org.vamdc.xsams.util.XSAMSDataImpl;
 
@@ -31,11 +33,11 @@ public class RequestProcess implements RequestInterface {
 		initRequest(xsamsroot,context,queryParser);
 	}
 
-	public RequestProcess (String query, Map<String,Integer> restrictables){
+	public RequestProcess (String query, Collection<Restrictable> collection){
 		initRequest(
 				new XSAMSDataImpl(),
 				DataContext.createDataContext(),
-				new QueryParser(query,restrictables));
+				new QueryParser(query,collection));
 	}
 
 	private void initRequest(XSAMSDataImpl xsamsroot,ObjectContext context,QueryParser queryParser){
@@ -93,29 +95,13 @@ public class RequestProcess implements RequestInterface {
 	public LogicNode getRestrictsTree(){
 		return query.getRestrictsTree();
 	}
-	
-	public boolean checkReturnable(String columnName){
-		return query.checkColumn(columnName);
-	}
 
 	/* (non-Javadoc)
 	 * @see org.vamdc.tapservice.api.RequestInterface#checkRequestable(Requestable)
 	 * Also checks if tapservice is configured to force source references
 	 */
 	public boolean checkBranch(Requestable columnIndex){
-		//ToDo: probably reorganize this block to use some tree structures 
-		if (columnIndex==Requestable.Sources)
-			return true;
-		if (
-				(columnIndex == Requestable.Collisions
-						||columnIndex == Requestable.RadiativeTransitions
-						||columnIndex == Requestable.NonRadiativeTransitions
-				)&& query.checkColumn(Requestable.Processes.name().toUpperCase())
-				)
-			return true;
-		if (columnIndex == Requestable.Species && query.checkColumn(Requestable.States.name().toUpperCase()))
-			return true;
-		return query.checkColumn(columnIndex.name().toUpperCase());
+		return query.checkRequestable(columnIndex);
 	}
 
 	/* (non-Javadoc)

@@ -1,7 +1,9 @@
 package org.vamdc.validator.source.plugin;
 
+import java.util.Collection;
 import java.util.Map;
 
+import org.vamdc.dictionary.Restrictable;
 import org.vamdc.tapservice.api.DatabasePlug;
 import org.vamdc.tapservice.api.RequestInterface;
 
@@ -29,7 +31,7 @@ public class PlugTalker {
 		getPlugInst().buildXSAMS(userRequest);
 	}
 
-	public Map<String,Integer> getRestrictables() {
+	public Collection<Restrictable> getRestrictables() {
 		if (getPlugInst() == null) return null;
 		return getPlugInst().getRestrictables();
 	}
