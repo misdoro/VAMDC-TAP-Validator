@@ -9,9 +9,10 @@ import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.access.DataContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vamdc.tapservice.VSS1Parser.LogicNode;
-import org.vamdc.tapservice.VSS1Parser.QueryParser;
-import org.vamdc.tapservice.VSS1Parser.RestrictExpression;
+import org.vamdc.tapservice.vss2.LogicNode;
+import org.vamdc.tapservice.vss2.Query;
+import org.vamdc.tapservice.vss2.RestrictExpression;
+import org.vamdc.tapservice.vss2.impl.QueryImpl;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.dictionary.Requestable;
 import org.vamdc.dictionary.Restrictable;
@@ -24,12 +25,12 @@ import org.vamdc.xsams.util.XSAMSDataImpl;
 public class RequestProcess implements RequestInterface {
 	private XSAMSDataImpl xsamsroot;
 	private ObjectContext context;
-	private QueryParser query;
+	private Query query;
 	public boolean Valid;
 	private Date reqstart;
 	private Logger logger;
 
-	public RequestProcess (XSAMSDataImpl xsamsroot,ObjectContext context,QueryParser queryParser){
+	public RequestProcess (XSAMSDataImpl xsamsroot,ObjectContext context,Query queryParser){
 		initRequest(xsamsroot,context,queryParser);
 	}
 
@@ -37,10 +38,10 @@ public class RequestProcess implements RequestInterface {
 		initRequest(
 				new XSAMSDataImpl(),
 				DataContext.createDataContext(),
-				new QueryParser(query,collection));
+				new QueryImpl(query,collection));
 	}
 
-	private void initRequest(XSAMSDataImpl xsamsroot,ObjectContext context,QueryParser queryParser){
+	private void initRequest(XSAMSDataImpl xsamsroot,ObjectContext context,Query queryParser){
 		this.xsamsroot = xsamsroot;
 		this.context = context;
 		this.query = queryParser;
@@ -59,7 +60,7 @@ public class RequestProcess implements RequestInterface {
 		if (query!=null && query.getRestrictsTree()!=null){
 			logger.debug("Tree string:"+query.getRestrictsTree().toString());
 			for (RestrictExpression re:query.getRestrictsList()){
-				logger.debug("Query param:"+re.getColumnName()+"comp"+re.getOperator()+"val"+re.getSingleRestrict());
+				logger.debug("Query param:"+re.getColumnName()+"comp"+re.getOperator()+"val"+re.getValue());
 			}
 		}
 	}
@@ -100,8 +101,8 @@ public class RequestProcess implements RequestInterface {
 	 * @see org.vamdc.tapservice.api.RequestInterface#checkRequestable(Requestable)
 	 * Also checks if tapservice is configured to force source references
 	 */
-	public boolean checkBranch(Requestable columnIndex){
-		return query.checkRequestable(columnIndex);
+	public boolean checkBranch(Requestable branch){
+		return query.checkSelectBranch(branch);
 	}
 
 	/* (non-Javadoc)
