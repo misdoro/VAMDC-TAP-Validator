@@ -131,4 +131,9 @@ public class RequestProcess implements RequestInterface {
 		return "Request query "+query.toString();
 	}
 
+	@Override
+	public Query getQuery() {
+		return query;
+	}
+
 }
