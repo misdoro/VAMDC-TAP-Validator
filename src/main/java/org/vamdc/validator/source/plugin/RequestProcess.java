@@ -3,7 +3,6 @@ package org.vamdc.validator.source.plugin;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.access.DataContext;

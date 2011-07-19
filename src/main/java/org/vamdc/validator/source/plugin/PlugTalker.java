@@ -1,7 +1,6 @@
 package org.vamdc.validator.source.plugin;
 
 import java.util.Collection;
-import java.util.Map;
 
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.tapservice.api.DatabasePlug;
