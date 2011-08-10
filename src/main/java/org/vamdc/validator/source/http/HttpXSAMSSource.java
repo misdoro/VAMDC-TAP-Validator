@@ -95,7 +95,7 @@ public class HttpXSAMSSource extends XSAMSSource {
 						new NoSpaceStream(
 								openConnection(
 										requestURL)));
-			return requestURL.openStream();
+			return openConnection(requestURL);
 		} catch (MalformedURLException e) {
 			try {
 				throw new XSAMSSourceException("Service base URL '"+baseURLStr+URLEncoder.encode(query,"UTF-8")+"' is malformed \r\n");
