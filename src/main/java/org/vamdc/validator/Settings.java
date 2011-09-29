@@ -28,7 +28,7 @@ public class Settings{
 	/**
 	 * Default settings
 	 */
-	public final static Map<String,Object> defaults = new HashMap<String,Object>(){
+	private final static Map<String,Object> defaults = new HashMap<String,Object>(){
 		private static final long serialVersionUID = -1018276585101724211L;
 	{
 		put(Settings.PluginClass,"org.vamdc.database.plugin.OutputBuilder");
@@ -45,9 +45,14 @@ public class Settings{
 		put(Settings.SchemaFile,"");
 		put(Settings.SchemaLocations,"http://vamdc.org/xml/xsams/0.2" +
 				" " +
-				this.getClass().getResource("/schema/xsams.xsd").toString());
+				this.getClass().getResource("/schema_0_2/xsams.xsd").toString()+
+				" " +
+				"http://vamdc.org/xml/xsams/0.3" +
+				" " +
+				this.getClass().getResource("/schema_0_3/xsams.xsd").toString());
 		
 	}};
+	
 	/**
 	 * Path for temporary file storage.
 	 * If not defined, using system default. If can't create it, use memory storage.
@@ -62,7 +67,6 @@ public class Settings{
 		file,
 		network
 	}
-	
 	
 	/**
 	 * Get preferences object
@@ -84,6 +88,19 @@ public class Settings{
 	public Settings(){
 		prefs = Preferences.userNodeForPackage(this.getClass());
 		override = new HashMap<String,Object>();
+		
+		//Handle schema upgrade. Remove schemalocations if it doesn't contain the latest XSAMS version
+		String schemaloc = prefs.get(Settings.SchemaLocations, "");
+		if (schemaloc!=null && 
+				(schemaloc.length()==0 || !schemaloc.contains("http://vamdc.org/xml/xsams/0.3"))
+				){
+			prefs.remove(Settings.SchemaLocations);
+			try {
+				prefs.sync();
+			} catch (BackingStoreException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	protected Preferences prefs;
@@ -118,6 +135,7 @@ public class Settings{
 		}
 	}
 	
+	
 	//Getters
 	public static String get(String key) {
 		Object override = Settings.getOverride().get(key);
@@ -127,7 +145,8 @@ public class Settings{
 		Object def = defaults.get(key);
 		if (def==null)
 			def="";
-		return Settings.getPreferences().get(key, String.valueOf(def));
+		String preference = Settings.getPreferences().get(key, String.valueOf(def));
+		return preference;
 		
 	}
 	
@@ -147,10 +166,14 @@ public class Settings{
 		return Integer.parseInt(Settings.get(key));
 	}
 
-	public static  long getLong(String key, long def) {
+	public static  long getLong(String key) {
 		return Long.parseLong(Settings.get(key));
 	}
 
+	public static Object getDefault(String key){
+		return defaults.get(key);
+	}
+	
 	//Setters
 	public static void put(String key, String value) {
 		Settings.getPreferences().put(key, value);

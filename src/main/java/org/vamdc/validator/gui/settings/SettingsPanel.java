@@ -279,7 +279,12 @@ public class SettingsPanel extends JPanel{
 		Settings.putInt(Settings.PluginLimitProcesses, getInt(pluginMaxProc.getText()));
 		Settings.putInt(Settings.PluginLimitStates,getInt(pluginMaxStates.getText()));
 		Settings.put(Settings.SchemaFile, xsamsPath.getText());
-		Settings.put(Settings.SchemaLocations,nsTableModel.getNSString());
+		
+		//Don't save schema locations if they haven't changed
+		String sl = nsTableModel.getNSString();
+		if (sl!=null && !sl.equals(Settings.getDefault(Settings.SchemaLocations)))
+			Settings.put(Settings.SchemaLocations,sl);
+		
 		Settings.putBoolean(Settings.ServicePrettyOut, prettyInput.isSelected());
 		Settings.put(Settings.ServiceTAPURL,tapURL.getText());
 		Settings.put(Settings.ServiceTAPSuffix, tapSuffix.getText());
