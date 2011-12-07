@@ -81,7 +81,7 @@ public class CLIProcess {
 		String query=null;
 		while ((query=(String)parser.getOptionValue(parser.queryString))!=null)
 			queries.add(query);
-		if (doc.getSampleQueries()!=null)
+		if (queries.size()==0 && doc.getSampleQueries()!=null)
 			queries.addAll(doc.getSampleQueries());
 		return queries;
 	}
