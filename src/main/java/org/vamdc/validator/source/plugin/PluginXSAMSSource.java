@@ -50,5 +50,13 @@ public class PluginXSAMSSource extends XSAMSSource{
 			}
 		return restricts;
 	}
+
+	@Override
+	public Collection<String> getSampleQueries() {
+		/*Plugin is not responsible for the sample queries generation,
+		 * so return an empty ArrayList<String>
+		 */
+		return new ArrayList<String>();
+	}
 	
 }

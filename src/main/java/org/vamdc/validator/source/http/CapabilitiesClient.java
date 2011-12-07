@@ -30,6 +30,7 @@ public class CapabilitiesClient {
 	private String endpointCapab="";
 	private String endpointTAPXS="";
 	private Collection<String> restrictables=new ArrayList<String>();
+	private Collection<String> sampleQueries=new ArrayList<String>();
 	public CapabilitiesClient(String endpointURL) throws XSAMSSourceException{
 		Client client = Client.create();
 		client.setConnectTimeout(Settings.getInt(Settings.HTTP_CONNECT_TIMEOUT));
@@ -55,7 +56,8 @@ public class CapabilitiesClient {
 				Interface intf = cap.getInterfaces().get(0);
 				endpointTAPXS = intf.getAccessURLs().get(0).getValue();
 				VamdcTap vts = (VamdcTap)cap;
-				restrictables = vts.getRestrictables();
+				restrictables.addAll(vts.getRestrictables());
+				sampleQueries.addAll(vts.getSampleQueries());
 			}
 		}
 	}
@@ -74,6 +76,10 @@ public class CapabilitiesClient {
 	
 	public Collection<String> getRestrictables(){
 		return restrictables;
+	}
+	
+	public Collection<String> getSampleQueries(){
+		return sampleQueries;
 	}
 	
 }

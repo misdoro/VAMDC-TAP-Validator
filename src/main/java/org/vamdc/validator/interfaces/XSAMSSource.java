@@ -28,4 +28,10 @@ public abstract class XSAMSSource{
 	 */
 	public abstract Collection<String> getRestrictables();
 	
+	/**
+	 * Get sample queries
+	 * @return collection of sample queries: simple, fast and valid
+	 */
+	public abstract Collection<String> getSampleQueries();
+	
 }

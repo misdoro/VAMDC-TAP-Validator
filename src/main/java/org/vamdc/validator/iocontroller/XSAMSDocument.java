@@ -221,18 +221,26 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 	@Override
 	public Collection<String> getRestrictables() {
-		Collection<String> restrict = null;
+		Collection<String> restrict = new ArrayList<String>();
 		if (source!=null)
-			restrict = source.getRestrictables();
-		if (restrict !=null)
-			return restrict;
-		return new ArrayList<String>();
+			restrict.addAll(source.getRestrictables());
+		return restrict;
 	}
-
+	
+	@Override
+	public Collection<String> getSampleQueries() {
+		Collection<String> queries = new ArrayList<String>();
+		if (source!=null && source.getSampleQueries()!=null)
+			queries.addAll(source.getSampleQueries());
+		return queries;
+	}
+	
 	@Override
 	public String getQuery() {
 		return query;
 	}
+
+	
 
 
 

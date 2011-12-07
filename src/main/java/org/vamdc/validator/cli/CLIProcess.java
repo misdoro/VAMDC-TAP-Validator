@@ -2,6 +2,8 @@ package org.vamdc.validator.cli;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.vamdc.validator.Settings;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -36,18 +38,19 @@ public class CLIProcess {
 		if (outputPath!=null){
 			File outputFile = new File(outputPath);
 			if (outputFile.isDirectory() && outputFile.canWrite()){
-				String query = null;
-				
-				//Forse network mode
+				//Force network mode
 				Settings.override(Settings.OperationMode, Settings.OperationModes.network);
 				//Set status
 				status = STATUS_PROCESSED;
 				
 				XSAMSIOModel doc = new XSAMSDocument();
+				
+				Collection<String> queries = getQueries(parser, doc);
+				
 				int counter = 0;
 				try{
-					//For each query do it, validate output and save both document and errors in output path.
-					while ((query=(String)parser.getOptionValue(parser.queryString))!=null){
+					//For each query execute it, validate output and save both document and errors in output path.
+					for (String query:queries){
 
 						System.out.println(query);
 						try{
@@ -71,6 +74,16 @@ public class CLIProcess {
 			}
 
 		}
+	}
+
+	private Collection<String> getQueries(OptionsParser parser, XSAMSIOModel doc) {
+		Collection<String> queries = new ArrayList<String>();
+		String query=null;
+		while ((query=(String)parser.getOptionValue(parser.queryString))!=null)
+			queries.add(query);
+		if (doc.getSampleQueries()!=null)
+			queries.addAll(doc.getSampleQueries());
+		return queries;
 	}
 
 	public int getStatus(){

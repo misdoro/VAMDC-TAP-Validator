@@ -79,10 +79,16 @@ public interface XSAMSIOModel{
 	public void setProgressMonitor(ProgressMonitor mon);
 	
 	/**
-	 * Get restrictables, supported by plugin
+	 * Get restrictables supported by an xsams source
 	 * @return
 	 */
 	public Collection<String> getRestrictables();
+	
+	/**
+	 * Get sample queries defined by an xsams source
+	 * @return
+	 */
+	public Collection<String> getSampleQueries();
 	
 	/**
 	 * Load XSAMS document from disk 

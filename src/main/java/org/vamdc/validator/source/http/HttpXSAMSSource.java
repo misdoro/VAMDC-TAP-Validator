@@ -290,4 +290,13 @@ public class HttpXSAMSSource extends XSAMSSource {
 
 	}
 
+
+
+	@Override
+	public Collection<String> getSampleQueries() {
+		if (caps!=null)
+			return caps.getSampleQueries();
+		else return new ArrayList<String>();
+	}
+
 }

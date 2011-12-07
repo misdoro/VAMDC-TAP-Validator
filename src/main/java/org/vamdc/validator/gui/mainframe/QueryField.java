@@ -27,6 +27,11 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 			if (query.length()>1)
 				this.addItem(query+";");
 		}
+		if (data!=null && data.getSampleQueries()!=null)
+			for (String query:data.getSampleQueries()){
+				if (query.length()>1)
+					this.addItem(query+";");
+			}
 	}
 
 	/**
@@ -65,12 +70,13 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 
 	@Override
 	public void resetComponent() {
-		//Nothing is needed here
+		this.data = null;
 	}
 
 	@Override
 	public void setModel(XSAMSIOModel data) {
 		this.data = data;
+		loadQueries();
 	}
 
 	@Override
