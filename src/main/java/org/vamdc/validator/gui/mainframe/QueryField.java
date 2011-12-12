@@ -70,7 +70,7 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 
 	@Override
 	public void resetComponent() {
-		this.data = null;
+		loadQueries();
 	}
 
 	@Override
@@ -81,9 +81,12 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 
 	@Override
 	public void updateFromModel(boolean isFinal) {
-		if (isFinal && data!=null && data.getLineCount() > 10){
-			//Suppose that query is done if the query is final and data has > 10 lines of XML :)
-			saveQuery(data.getQuery());
+		if (isFinal && data!=null){
+			if (data.getLineCount() > 10)
+				saveQuery(data.getQuery());
+			else 
+				loadQueries(); 
+			
 		}
 	}
 
