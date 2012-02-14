@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>org.vamdc.tapservice</groupId>
 			<artifactId>TAP-VAMDC-Interfaces</artifactId>
-			<version>11.12</version>
+			<version>11.12-r1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
