@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vamdc</groupId>
 	<artifactId>TAPValidator</artifactId>
-	<version>11.12</version>
+	<version>11.12-r1-SNAPSHOT</version>
 	
 	<organization>
 		<name>VAMDC</name>
@@ -17,9 +17,9 @@
 	<url>http://vamdc.doronin.org/TAPValidator</url>
 	
 	<scm>
-		<connection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator/tags/TAPValidator-11.12</connection>
-		<developerConnection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator/tags/TAPValidator-11.12</developerConnection>
-		<url>http://svn.ntl.nnov.ru/misdoro/TAPValidator/tags/TAPValidator-11.12</url>
+		<connection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</connection>
+		<developerConnection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</developerConnection>
+		<url>http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</url>
 	</scm>
 	
 	
