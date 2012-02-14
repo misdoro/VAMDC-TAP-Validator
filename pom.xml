@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vamdc</groupId>
 	<artifactId>TAPValidator</artifactId>
-	<version>12.02-SNAPSHOT</version>
+	<version>11.12-SNAPSHOT</version>
 	
 	<organization>
 		<name>VAMDC</name>
@@ -54,14 +54,14 @@
 		<dependency>
 			<groupId>org.vamdc.tapservice</groupId>
 			<artifactId>TAP-VAMDC-Interfaces</artifactId>
-			<version>11.07-SNAPSHOT</version>
+			<version>11.12</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.14</version>
+			<version>5.1.18</version>
 			<type>jar</type>
 			<scope>runtime</scope>
 		</dependency>
@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>1.5</version>
+			<version>1.11</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf</groupId>

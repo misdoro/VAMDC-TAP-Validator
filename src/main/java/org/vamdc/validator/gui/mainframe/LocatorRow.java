@@ -22,8 +22,7 @@ import javax.swing.event.ChangeListener;
  * @author doronin
  */
 public final class LocatorRow implements ChangeListener,ActionListener,MouseWheelListener{
-	
-	private static final long serialVersionUID = 3169951124996843520L;
+
 	
 	public static final int GRID_CELLS=6; //Cells that single locatorRow takes
 	
