@@ -18,7 +18,7 @@ import org.vamdc.validator.interfaces.XSAMSIOModel;
 
 public class MainFrameController implements ActionListener {
 
-	public class XsamsPanelController extends TextPanelController {
+	public static class XsamsPanelController extends TextPanelController {
 
 
 		public XsamsPanelController(TextPanel model, XSAMSIOModel xsamsdoc){
@@ -31,7 +31,7 @@ public class MainFrameController implements ActionListener {
 		}
 	}
 
-	public class ValidationPanelController extends TextPanelController{
+	public static class ValidationPanelController extends TextPanelController{
 
 		private XSAMSIOModel xsamsdoc;
 		private TextPanel xsamsPanel;
@@ -85,7 +85,7 @@ public class MainFrameController implements ActionListener {
 
 	}
 
-	private class RestrictablesController extends TextPanelController{
+	private static class RestrictablesController extends TextPanelController{
 		private JTextComponent query;
 		private RestrictsPanel model;
 

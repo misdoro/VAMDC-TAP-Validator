@@ -46,7 +46,7 @@ public abstract class TextPanel extends JPanel  {
 	private HashMap<DocumentElement,Color> highlight;
 
 
-	private class JIndexTextArea extends JTextArea implements ChangeListener{
+	private static class JIndexTextArea extends JTextArea implements ChangeListener{
 		private static final long serialVersionUID = 4499919184133885310L;
 		/**
 		 * Displayable area height

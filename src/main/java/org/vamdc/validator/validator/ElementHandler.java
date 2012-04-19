@@ -36,7 +36,7 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 		myCol=1;
 	}
 	
-	private class Element extends DocumentElement{
+	private static class Element extends DocumentElement{
 		private String name;
 		private int startLine,endLine;
 		private int startCol,endCol;
@@ -93,7 +93,7 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 		
 	}
 	
-	private class Error implements DocumentError{
+	private static class Error implements DocumentError{
 
 		private Element element;
 		private String errorMessage;

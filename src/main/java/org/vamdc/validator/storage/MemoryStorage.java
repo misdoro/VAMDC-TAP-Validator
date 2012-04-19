@@ -27,7 +27,7 @@ public class MemoryStorage extends ByteArrayOutputStream implements DocumentStor
 			return new String(block,"UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-			return new String();
+			return "";
 		}
 	}
 

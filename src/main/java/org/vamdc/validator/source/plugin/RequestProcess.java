@@ -15,32 +15,33 @@ import org.vamdc.tapservice.vss2.impl.QueryImpl;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.dictionary.Requestable;
 import org.vamdc.dictionary.Restrictable;
-import org.vamdc.xsams.XSAMSData;
-import org.vamdc.xsams.util.XSAMSDataImpl;
+import org.vamdc.xsams.XSAMSManager;
+import org.vamdc.xsams.schema.XSAMSData;
+import org.vamdc.xsams.util.XSAMSManagerImpl;
 
 /*
  * Here we keep request data
  * */
 public class RequestProcess implements RequestInterface {
-	private XSAMSDataImpl xsamsroot;
+	private XSAMSManager xsamsroot;
 	private ObjectContext context;
 	private Query query;
 	public boolean Valid;
 	private Date reqstart;
 	private Logger logger;
 
-	public RequestProcess (XSAMSDataImpl xsamsroot,ObjectContext context,Query queryParser){
+	public RequestProcess (XSAMSManager xsamsroot,ObjectContext context,Query queryParser){
 		initRequest(xsamsroot,context,queryParser);
 	}
 
 	public RequestProcess (String query, Collection<Restrictable> collection){
 		initRequest(
-				new XSAMSDataImpl(),
+				new XSAMSManagerImpl(),
 				DataContext.createDataContext(),
 				new QueryImpl(query,collection));
 	}
 
-	private void initRequest(XSAMSDataImpl xsamsroot,ObjectContext context,Query queryParser){
+	private void initRequest(XSAMSManager xsamsroot,ObjectContext context,Query queryParser){
 		this.xsamsroot = xsamsroot;
 		this.context = context;
 		this.query = queryParser;
@@ -55,7 +56,7 @@ public class RequestProcess implements RequestInterface {
 	public void finishRequest(){
 		//Called before sending data to user, to put time in log
 		if (query!=null)
-			logger.info("Request query "+query.getQuery()+" finished in "+(new Double(new Date().getTime()-reqstart.getTime()))/1000.0 + "s");
+			logger.info("Request query "+query.getQuery()+" finished in "+(new Date().getTime()-reqstart.getTime())/1000.0 + "s");
 		if (query!=null && query.getRestrictsTree()!=null){
 			logger.debug("Tree string:"+query.getRestrictsTree().toString());
 			for (RestrictExpression re:query.getRestrictsList()){
@@ -67,12 +68,12 @@ public class RequestProcess implements RequestInterface {
 	/* (non-Javadoc)
 	 * @see org.vamdc.tapservice.RequestInterface#getXsamsroot()
 	 */
-	public XSAMSData getXsamsroot() {
+	public XSAMSManager getXsamsManager() {
 		return xsamsroot;
 	}
 	
-	public org.vamdc.xsams.schema.XSAMSData getJaxbXSAMSData(){
-		return xsamsroot;
+	public XSAMSData getJaxbXSAMSData(){
+		return (XSAMSData) xsamsroot;
 	}
 
 	/* (non-Javadoc)

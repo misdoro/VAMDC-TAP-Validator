@@ -36,16 +36,17 @@ public class FileStorage extends OutputStream implements DocumentStorage{
 		try {
 			
 			rafile.seek(startByte);
-			rafile.read(block);
-			
+			int readLength = rafile.read(block);
+			if (readLength<length)
+				length=readLength;
 			block = Arrays.copyOf(block,length);
 			return new String(block,"UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-			return new String();
+			return "";
 		} catch (IOException e) {
 			e.printStackTrace();
-			return new String();
+			return "";
 		}
 	}
 

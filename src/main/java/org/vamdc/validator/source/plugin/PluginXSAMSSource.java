@@ -8,11 +8,12 @@ import org.vamdc.dictionary.Restrictable;
 import org.vamdc.validator.Settings;
 import org.vamdc.validator.interfaces.XSAMSSource;
 import org.vamdc.validator.interfaces.XSAMSSourceException;
+import org.vamdc.xsams.io.Input;
+import org.vamdc.xsams.util.XSAMSSettings;
 
 public class PluginXSAMSSource extends XSAMSSource{
 
 	private PlugTalker talker = null;
-	private XsamsIO io = null;
 	
 	public PluginXSAMSSource(String pluginClass) throws XSAMSSourceException{
 		try{
@@ -23,12 +24,10 @@ public class PluginXSAMSSource extends XSAMSSource{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		org.vamdc.xsams.util.Settings xsamsSettings = org.vamdc.xsams.util.Settings.getSettings();
-		xsamsSettings.setIdPrefix(Settings.get(Settings.PluginIDPrefix));
-		xsamsSettings.setProcessesLimit(Settings.getInt(Settings.PluginLimitProcesses));
-		xsamsSettings.setStatesLimit(Settings.getInt(Settings.PluginLimitStates));
+		XSAMSSettings.idPrefix.setStrValue(Settings.get(Settings.PluginIDPrefix));
+		XSAMSSettings.processesLimit.setIntValue(Settings.getInt(Settings.PluginLimitProcesses));
+		XSAMSSettings.statesLimit.setIntValue(Settings.getInt(Settings.PluginLimitStates));
 		
-		io = new XsamsIO();
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class PluginXSAMSSource extends XSAMSSource{
 		if (!myrequest.isValid())
 			throw new XSAMSSourceException("invalid request"+myrequest.toString());
 		talker.buildXSAMS(myrequest);
-		return io.getXSAMSStream(myrequest.getJaxbXSAMSData());
+		return Input.getXSAMSAsInputStream(myrequest.getJaxbXSAMSData());
 	}
 
 	@Override

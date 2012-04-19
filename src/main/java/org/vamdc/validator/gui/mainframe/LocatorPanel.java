@@ -21,7 +21,7 @@ public class LocatorPanel extends JPanel implements ComponentUpdateInterface{
 	 * Data container for locatorRow
 	 * @author doronin
 	 */
-	public class LocatorData{
+	public static class LocatorData{
 		public final JPanel panel;
 		public final ActionListener controller;
 		public final ButtonGroup group;
