@@ -39,22 +39,23 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 	 * @param query query string
 	 */
 	private void saveQuery(String query) {
+		StringBuilder queryLogStr = new StringBuilder();
 		if (query == null || query.length() == 0)
 			return;
 		query=query.trim();
 		
 		if (query.endsWith(";"))
 			query = query.substring(0, query.length()-1).trim();
-		String newQuery = query;
-			newQuery+=";";
+		queryLogStr.append(query);
+		queryLogStr.append(";");
 		int i=0;
 		for (String oldquery:queries){
 			if (oldquery.length()>0 && !oldquery.equalsIgnoreCase(query))
-				newQuery+=oldquery+";";
+				queryLogStr.append(oldquery).append(";");
 			if (i++>10)
 				break;
 		}
-		GuiSettings.put(GuiSettings.QUERY_HISTORY, newQuery);
+		GuiSettings.put(GuiSettings.QUERY_HISTORY, queryLogStr.toString());
 		this.removeAllItems();
 		
 		this.loadQueries();

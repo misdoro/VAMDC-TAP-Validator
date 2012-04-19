@@ -26,7 +26,7 @@ public class RequestProcess implements RequestInterface {
 	private XSAMSManager xsamsroot;
 	private ObjectContext context;
 	private Query query;
-	public boolean Valid;
+	public boolean valid;
 	private Date reqstart;
 	private Logger logger;
 
@@ -45,9 +45,9 @@ public class RequestProcess implements RequestInterface {
 		this.xsamsroot = xsamsroot;
 		this.context = context;
 		this.query = queryParser;
-		this.Valid = false;
+		this.valid = false;
 		if (query!=null && query.getRestrictsList()!=null)
-			this.Valid = query.getRestrictsList().size()>0;
+			this.valid = query.getRestrictsList().size()>0;
 
 			logger = LoggerFactory.getLogger("org.vamdc.tapservice");
 			reqstart = new Date();
@@ -109,7 +109,7 @@ public class RequestProcess implements RequestInterface {
 	 * @see org.vamdc.tapservice.RequestInterface#isValid()
 	 */
 	public boolean isValid() {
-		return Valid;
+		return valid;
 	}
 
 	/*

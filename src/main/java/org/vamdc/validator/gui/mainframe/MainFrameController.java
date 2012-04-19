@@ -218,9 +218,9 @@ public class MainFrameController implements ActionListener {
 					}
 				}
 			});
-			
+
 			inputThread.start();
-			
+
 		}
 	}
 	/**
@@ -228,8 +228,8 @@ public class MainFrameController implements ActionListener {
 	 */
 	private void handleFileOpen(){
 		//Show open dialog
-		switch(loadChooser.showOpenDialog(frame)){
-		case JFileChooser.APPROVE_OPTION:
+		if (loadChooser.showOpenDialog(frame)==JFileChooser.APPROVE_OPTION){
+
 			final File filename = loadChooser.getSelectedFile();
 			if (filename.exists() && filename.canRead()&& inputThread==null){
 				//Save new file path
@@ -248,8 +248,6 @@ public class MainFrameController implements ActionListener {
 					}
 				});
 				inputThread.start();
-
-
 			}
 		}
 	}
@@ -258,8 +256,8 @@ public class MainFrameController implements ActionListener {
 	 */
 	private void handleFileSave() {
 		//Show save dialog
-		switch(saveChooser.showSaveDialog(frame)){
-		case JFileChooser.APPROVE_OPTION://If selected file
+		if(saveChooser.showSaveDialog(frame)==JFileChooser.APPROVE_OPTION){
+			//If selected file
 			File filename = saveChooser.getSelectedFile();
 			//Check if file exists, ask user to overwrite
 			if (!filename.exists() || (filename.exists() && JOptionPane.showConfirmDialog(
@@ -320,7 +318,7 @@ public class MainFrameController implements ActionListener {
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(settingsFrame, "Exception while applying new settings: "+e.getMessage(),"Settings",JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 	}
 
 

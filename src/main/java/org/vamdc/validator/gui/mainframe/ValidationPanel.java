@@ -46,15 +46,20 @@ public class ValidationPanel extends TextPanel implements ComponentUpdateInterfa
 	}
 	
 	private String getTextInfo(List<DocumentError> errors, int start,int count){
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		start--;
 		if (start<0) start=0;
 		for (int i=start;(i<start+count)&&i<errors.size();i++){
 			DocumentError error = errors.get(i);
-			result+=error.getElement().getFirstLine()+":"+error.getElement().getFirstCol()+"\t"+
-			error.getMessage()+"\n";
+			result
+				.append(error.getElement().getFirstLine())
+				.append(":")
+				.append(error.getElement().getFirstCol())
+				.append("\t")
+				.append(error.getMessage())
+				.append("\n");
 		}
-		return result;
+		return result.toString();
 	}
 	
 }

@@ -93,10 +93,10 @@ public abstract class TextPanel extends JPanel  {
 
 		private String genLineNums(){
 			int lines = this.getDisplayableRows();
-			String text = "";
+			StringBuilder text = new StringBuilder();
 			for(long i = startLine; (i < startLine+lines)&&i<=docEndLine; i++)
-				text += i + "\n";
-			return text;
+				text.append(i).append("\n");
+			return text.toString();
 		}
 
 		public void updateIndex(){
@@ -326,9 +326,9 @@ public abstract class TextPanel extends JPanel  {
 				int firstLinePos = (int)(element.getFirstLine() - wFirstLine);
 				int lastLinePos = (int)(element.getLastLine() - wFirstLine);
 				if (firstLinePos >= 0) //Position of highlighed part 
-					hlStart = textArea.getLineStartOffset(firstLinePos--)+element.getFirstCol()-1;
+					hlStart = textArea.getLineStartOffset(firstLinePos)+element.getFirstCol()-1;
 				if (lineidx.isDisplayed(element.getLastLine())){	
-					hlEnd = textArea.getLineStartOffset(lastLinePos--)+element.getLastCol()-1;
+					hlEnd = textArea.getLineStartOffset(lastLinePos)+element.getLastCol()-1;
 				}
 				hl.addHighlight(hlStart,hlEnd,new DefaultHighlighter.DefaultHighlightPainter(color));
 			} catch (BadLocationException e) {

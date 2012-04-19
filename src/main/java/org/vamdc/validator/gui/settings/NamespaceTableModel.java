@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
  *
  */
 public class NamespaceTableModel extends AbstractTableModel{
-	
+
 	/**
 	 * Constructor that accepts string which is a space-separated list of namespace URL's and their schemalocations.
 	 * That list must have even number of members.
@@ -26,28 +26,28 @@ public class NamespaceTableModel extends AbstractTableModel{
 		super();
 		setNSString(namespaces);
 	}
-	
+
 	/**
 	 * Default constructor
 	 */
 	public NamespaceTableModel(){
 		super();
 	}
-	
+
 	/**
 	 * Get space separated namespace URLs and schemalocations
 	 * @return space separated namespace URLs and schemalocations as accepted by xerces-j schema locations attribute
 	 */
 	public String getNSString(){
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for (String[] row:nslist){
 			if (row[0].length()>0 && row[1].length()>0)
-				result+=quote(row[0])+" "+quote(row[1])+" ";
+				result.append(quote(row[0])).append(" ").append(quote(row[1])).append(" ");
 		}
-		return result;
+		return result.toString();
 		//return (String)Settings.defaults.get(Settings.SchemaLocations);
 	}
-	
+
 	/**
 	 * Quote string if it contains spaces
 	 * @param in input string
@@ -62,7 +62,7 @@ public class NamespaceTableModel extends AbstractTableModel{
 		}
 
 	}
-	
+
 	/**
 	 * Update table contents with new schema locations
 	 * @param schemalocations space separated namespace URLs and schemalocations as accepted by xerces-j schema locations attribute
@@ -83,19 +83,19 @@ public class NamespaceTableModel extends AbstractTableModel{
 		}
 		fireTableStructureChanged();
 	}
-	
-	
+
+
 	private static final long serialVersionUID = -1812053956894535267L;
 	//Column names
 	private String[] columnNames = new String[]{"Namespace URI","Schema location"};
 	//Row values
 	private ArrayList<String[]> nslist = new ArrayList<String[]>();
 
-	
+
 	@Override
 	public String getColumnName(int col) {
 		return columnNames[col];
-    }
+	}
 
 	@Override
 	public int getColumnCount() {
@@ -113,12 +113,12 @@ public class NamespaceTableModel extends AbstractTableModel{
 			return nslist.get(rowIndex)[columnIndex];			
 		return "";
 	}
-	
+
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return true; //Cells are always editable
 	}
-	
+
 	/**
 	 * Save row
 	 */
@@ -130,46 +130,48 @@ public class NamespaceTableModel extends AbstractTableModel{
 			deleteRow(row);
 			fireTableRowsDeleted(row,row);
 		}
-        switch(col){
-        case 0:
-        	try {//Saving namespace url, must be normal URL.
+		switch(col){
+		case 0:
+			try {//Saving namespace url, must be normal URL.
 				URL namespace = new URL(val);
 				addedRow=saveRow(namespace.toString(),"",row);
 			} catch (MalformedURLException e) {	
 			}
 			break;
-        case 1:
-        	try{//Saving location, may be either existing file or normal URL.
-        		URL location = new URL(val);
-        		//If protocol is file, check file and save only path
-        		if (location.getProtocol().equalsIgnoreCase("file"))
-        			if (checkFileAccess(location.getPath()))//Check if file is accessible
-        				addedRow = saveRow("",location.getPath(),row);
-        			else;
-        				// TODO: add exception
-        		else//else save full URL without checking
-        			addedRow = saveRow("",location.toString(),row);
-        	}catch (MalformedURLException e) {
-        		if (checkFileAccess(val))
-        			addedRow = saveRow("",val,row);
+		case 1:
+			try{//Saving location, may be either existing file or normal URL.
+				URL location = new URL(val);
+				//If protocol is file, check file and save only path
+				if (location.getProtocol().equalsIgnoreCase("file"))
+					if (checkFileAccess(location.getPath()))//Check if file is accessible
+						addedRow = saveRow("",location.getPath(),row);
+					else;
+				// TODO: add exception
+				else//else save full URL without checking
+					addedRow = saveRow("",location.toString(),row);
+			}catch (MalformedURLException e) {
+				if (checkFileAccess(val))
+					addedRow = saveRow("",val,row);
 			}
-        	break;
-        }
-        if (addedRow)
-        	fireTableRowsInserted(row+1, row+1);
+			break;
+		default:
+			break;
+		}
+		if (addedRow)
+			fireTableRowsInserted(row+1, row+1);
 		fireTableRowsUpdated(row, row);
-    }
-	
-	
+	}
+
+
 	/**
 	 * Delete row from arrays
 	 * @param row index
 	 */
 	private void deleteRow(int row){
 		if (row<nslist.size())
-    		nslist.remove(row);
-    }
-	
+			nslist.remove(row);
+	}
+
 	/**
 	 * Check if file exists and is readable and is file :)
 	 * @param val path to file
@@ -179,7 +181,7 @@ public class NamespaceTableModel extends AbstractTableModel{
 		File filename = new File(val);
 		return (filename.exists()&& filename.canRead() && filename.isFile());
 	}
-	
+
 	/**
 	 * Save location cell 
 	 * @param location

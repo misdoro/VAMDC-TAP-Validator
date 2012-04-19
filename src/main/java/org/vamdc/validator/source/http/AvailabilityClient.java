@@ -20,11 +20,11 @@ public class AvailabilityClient {
 	}
 	
 	public String getMessage(){
-		String out="";
+		StringBuilder out=new StringBuilder();
 		for (String note:avail.getNotes()){
-			out+=note+"\n";
+			out.append(note).append("\n");
 		}
-		return out;
+		return out.toString();
 	}
 	
 	public boolean isAvailable(){

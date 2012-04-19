@@ -16,9 +16,11 @@ public abstract class DocumentElement {
 		CollisionalTransition,
 		RadiativeTransition,
 		NonRadiativeTransition,
+		AbsorptionCrossSection,
 		Source,
 		Method,
-		Function
+		Function,
+		Environment
 	}
 	
 	/**

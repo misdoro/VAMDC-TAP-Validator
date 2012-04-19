@@ -15,14 +15,14 @@ public class RestrictsPanel extends TextPanel implements ComponentUpdateInterfac
 	public void updateText() {
 		if (restricts!=null && restricts.size()>0){
 			int length = restricts.size();
-			String text = "";
+			StringBuilder text = new StringBuilder();
 			int start = Math.max(this.getDocPosition()-1,0);
 			int size = this.getWindowRows();
 			int end = Math.min(start+size,length);
 			for (int i=start;i<end;i++){
-				text+=restricts.get(i)+"\n";
+				text.append(restricts.get(i)).append("\n");
 			}
-			this.setText(text);
+			this.setText(text.toString());
 		}else{
 			reset();
 		}

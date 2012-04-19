@@ -73,11 +73,15 @@ public class LocatorPanel extends JPanel implements ComponentUpdateInterface{
 		locators.add(
 				new LocatorRow("Collision",ElementTypes.CollisionalTransition.name(),data,++row,0));
 		locators.add(
+				new LocatorRow("AbsorptionCS",ElementTypes.AbsorptionCrossSection.name(),data,++row,0));
+		locators.add(
 				new LocatorRow("Source",ElementTypes.Source.name(),data,++row,0));
 		locators.add(
 				new LocatorRow("Method",ElementTypes.Method.name(),data,++row,0));
 		locators.add(
 				new LocatorRow("Function",ElementTypes.Function.name(),data,++row,0));
+		locators.add(
+				new LocatorRow("Environment",ElementTypes.Environment.name(),data,++row,0));
 		
 		this.setMaximumSize(this.getMinimumSize());
 		this.setPreferredSize(this.getMinimumSize());

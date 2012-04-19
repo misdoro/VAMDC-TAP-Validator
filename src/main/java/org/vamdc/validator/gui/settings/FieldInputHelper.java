@@ -57,7 +57,9 @@ public class FieldInputHelper implements ActionListener, MouseInputListener {
 				switch(chooser.showOpenDialog(component)){
 				case JFileChooser.APPROVE_OPTION:
 					component.setText(chooser.getSelectedFile().getAbsolutePath());
-		
+					break;
+				default:
+					break;
 				}
 				
 			}

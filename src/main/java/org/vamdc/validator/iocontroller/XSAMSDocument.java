@@ -174,6 +174,9 @@ public class XSAMSDocument implements XSAMSIOModel{
 		case plugin:
 			String pluginClass = Settings.get(Settings.PluginClass);
 			src = new PluginXSAMSSource(pluginClass);
+			break;
+		default:
+			break;
 		}
 
 		return src;

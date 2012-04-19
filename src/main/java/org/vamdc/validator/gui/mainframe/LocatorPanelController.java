@@ -43,6 +43,8 @@ public class LocatorPanelController implements ActionListener{
 					if (elements.size()>row.getValue() && row.getValue()>=0)
 						selectElement(elements.get(row.getValue()));
 					break;
+				default:
+					break;
 				}
 			}catch (IllegalArgumentException ex){
 			}

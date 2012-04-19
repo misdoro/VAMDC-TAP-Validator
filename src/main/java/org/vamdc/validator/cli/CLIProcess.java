@@ -19,9 +19,9 @@ import org.vamdc.validator.iocontroller.XSAMSDocument;
  */
 public class CLIProcess {
 
-	public final int STATUS_ERROR=1;
-	public final int STATUS_PROCESSED=0;
-	public final int STATUS_DONE_NOTHING=-1;
+	public static final int STATUS_ERROR=1;
+	public static final int STATUS_PROCESSED=0;
+	public static final int STATUS_DONE_NOTHING=-1;
 
 	private int status=STATUS_DONE_NOTHING;
 
@@ -30,7 +30,7 @@ public class CLIProcess {
 		//Check if we are asked to print usage?
 		if ( Boolean.TRUE.equals(parser.getOptionValue(parser.printUsage))) {
 			parser.printUsage();
-			System.exit(0);
+			System.exit(status);
 		}
 
 		//If we have output path defined, work in CLI mode
