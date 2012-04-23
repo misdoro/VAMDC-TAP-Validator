@@ -8,6 +8,7 @@ import org.vamdc.dictionary.Restrictable;
 import org.vamdc.validator.Settings;
 import org.vamdc.validator.interfaces.XSAMSSource;
 import org.vamdc.validator.interfaces.XSAMSSourceException;
+import org.vamdc.xsams.io.IOSettings;
 import org.vamdc.xsams.io.Input;
 import org.vamdc.xsams.util.XSAMSSettings;
 
@@ -36,6 +37,7 @@ public class PluginXSAMSSource extends XSAMSSource{
 		if (!myrequest.isValid())
 			throw new XSAMSSourceException("invalid request"+myrequest.toString());
 		talker.buildXSAMS(myrequest);
+		IOSettings.prettyprint.setIntValue(1);
 		return Input.getXSAMSAsInputStream(myrequest.getJaxbXSAMSData());
 	}
 
