@@ -4,29 +4,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 import org.vamdc.validator.Settings;
 import org.vamdc.validator.interfaces.DocumentStorage;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 
+/**
+ * 
+ * @author doronin
+ *
+ */
+
 public class RawStorage extends OutputStream{
-
-
-	public RawStorage(DocumentStorage backend){
-		super();
-		if (backend!=null)
-			this.out = backend;
-		else
-			initStorage();
-	}
-
-	public RawStorage() {
-		super();
-		initStorage();
-	}
-
-
 
 	public RawStorage(ProgressMonitor monitor) {
 		super();
@@ -36,20 +25,22 @@ public class RawStorage extends OutputStream{
 
 	@Override
 	public void write(int b) throws IOException{
-		out.write(b);
-		checkByte((byte)b,bytes);
-		bytes++;
+		storageStream.write(b);
+		locator.checkByte((byte)b,savedBytes);
+		monitor(savedBytes);
+		savedBytes++;
 	}
 
 	@Override
 	public void write(byte[] b) throws IOException{
-		out.write(b);
+		storageStream.write(b);
 		//Look for EOLs
 		for(int i=0;i<b.length;i++){
-			checkByte(b[i],bytes+i);
+			locator.checkByte(b[i],savedBytes+i);
+			monitor(savedBytes+i);
 		}
 		//Set new out size
-		bytes+=b.length;
+		savedBytes+=b.length;
 	}
 
 	@Override
@@ -64,70 +55,79 @@ public class RawStorage extends OutputStream{
 		}
 		//Look for EOLs
 		for(int i=0;i<len;i++){
-			checkByte(b[i+off],bytes+i);
-			out.write(b[i+off]);
+			locator.checkByte(b[i+off],savedBytes+i);
+			monitor(savedBytes+i);
+			storageStream.write(b[i+off]);
 		}
 		//Set new out size
-		bytes+=len;
+		savedBytes+=len;
 	}
 
 	@Override
 	public void flush() throws IOException{
-		out.flush();
+		storageStream.flush();
 	}
 
 	@Override
 	public void close() throws IOException{
-		out.flush();
+		storageStream.flush();
 	}
 
 	public String getBlock(long startByte, int length) {
-		return out.getBlock(startByte, length);
+		return storageStream.getBlock(startByte, length);
 	}
 
-	public String getLine(long lineIndex) {
-		if (lineIndex<0|| lineIndex>=LinePos.size()) return "";
-		long curLine = LinePos.get((int)lineIndex);
+	public String getLine(int lineIndex) {
+		if (!locator.validIndex(lineIndex)) return "";
+		long curLine = locator.getPosition(lineIndex);
 		long nextLine = -1L;
-		if (lineIndex+1<LinePos.size())
-			nextLine = LinePos.get((int)lineIndex+1);
-		int length = (int)(nextLine-curLine);
-		return out.getBlock(curLine, length);
+		int length=0;
+		if (locator.validIndex(lineIndex+1)){
+			nextLine = locator.getPosition(lineIndex+1);
+			length = (int) (nextLine-curLine);
+		}else 
+			length = (int) (storageStream.getSize()-curLine);
+		return storageStream.getBlock(curLine, length);
 	}
 
-	public String getLines(long lineIndex, int lineCount){
-		if (LinePos==null || (LinePos!=null && LinePos.size()<0))
-			return "";
+	/**
+	 * Get few lines from the document
+	 * @param lineIndex line index,starting from 1
+	 * @param lineCount number of lines to return
+	 * @return String containing text lines
+	 */
+	public String getLines(int lineIndex, int lineCount){
+		lineIndex--;//In LinePos lines are stored starting from 0
+		if (!locator.validIndex(lineIndex)) return "";
 		else {
 			if (lineCount<=0) lineCount=1;
-			lineIndex--;//In LinePos lines are stored starting from 0
-			if (lineIndex<0 || lineIndex>=LinePos.size()) 
-				lineIndex=0;
-			long curLinePos = LinePos.get((int)lineIndex);
+			int lastLine=lineIndex+lineCount;
+			
+			long curLinePos = locator.getPosition(lineIndex);
+			
 			int length =0;
-			if (lineIndex+lineCount<LinePos.size())
-				length = (int)(LinePos.get((int)lineIndex+lineCount)-curLinePos);
+			if (locator.validIndex(lastLine))
+				length = (int) (locator.getPosition(lastLine)-curLinePos);
 			else
-				length = (int) (bytes - curLinePos - 1);
-			return out.getBlock(curLinePos, length);
+				length = (int) (savedBytes - curLinePos - 1);
+			
+			return storageStream.getBlock(curLinePos, length);
 		}
 	}
 
-	public long getLineCount() {
-		return LinePos.size();
+	public int getLineCount() {
+		return locator.getLineCount();
 	}
 
 	public void saveFile(File filename)throws IOException {
-		out.saveFile(filename);
+		storageStream.saveFile(filename);
 	}
 
 	public long getSizeBytes() {
-		return out.getSize();
+		return storageStream.getSize();
 	}
 
-	/*
-	 * Private block
-	 */
+
 	/**
 	 * Setup storage, first try disk storage, then if nothing helps, create memory one.
 	 */
@@ -138,69 +138,40 @@ public class RawStorage extends OutputStream{
 			//Try to find directory specified for temp files
 			String tempdirpath=Settings.get(Settings.StorageTempPath);
 			if (tempdirpath!="" 
-				&& (tempdir = new File(tempdirpath))!=null 
-				&& tempdir.isDirectory() 
-				&& tempdir.canWrite())
+					&& (tempdir = new File(tempdirpath))!=null 
+					&& tempdir.isDirectory() 
+					&& tempdir.canWrite())
 				storage = File.createTempFile("xsams", ".xml",tempdir);//Create temp file in specified place
 			else
 				storage = File.createTempFile("xsams", ".xml");//Create temp file in system default temp 
 			storage.deleteOnExit();
-			this.out = new FileStorage(storage);
+			this.storageStream = new FileStorage(storage);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		//If somehow we haven't got a file storage, keep all in memory.
-		if (this.out==null)
-			this.out = new MemoryStorage();
+		if (this.storageStream==null)
+			this.storageStream = new MemoryStorage();
 	}
 
-	/**
-	 * OutputStream to which we are bound
-	 */
-	private DocumentStorage out;
-
-	/**
-	 * Monitor to report to GUI the progress of xsams processing
-	 */
+	private LineLocator locator = new LineLocator();
+	private DocumentStorage storageStream;
 	private ProgressMonitor monitor;
+	private Long savedBytes = 0L;
 
-	/**
-	 * Line start positions in byte array
-	 */
-	private ArrayList<Long> LinePos = new ArrayList<Long>();
+	
+	private final static int REPORT_INTERVAL_BYTES = 1048576;
 
-	/**
-	 * Total bytes saved
-	 */
-	private Long bytes = 0L;
-	private Long lastEOL = -1L;//-1 here allows us to save 0 as start of first line :)
-	private int reportIndex = 0;
-	private final static int REPORT_INTERVAL = 5000;
-	private byte prevsymbol = 0;
 
-	private void checkByte(byte data, Long position){
-		//Check if we had eol before and this symbol is not eol or we have sequental EOLs
-		if (lastEOL+1L==position && ((data!= '\n' && data!='\r') || data==prevsymbol || (data=='\r' && prevsymbol=='\n'))){
-			//Got new symbol after EOL
-			LinePos.add(position);
-			//Check reporting
-			reportIndex++;
-			if (monitor!=null && reportIndex == REPORT_INTERVAL){
-				reportIndex=0;
-				monitor.tick();
-			}
-		}
-		if (data=='\n' || data=='\r'){
-			//Got EOL, move pointer to last EOL
-			lastEOL=position;
-		}
-		if (position == 0 && monitor!=null){
+	private void monitor(long position){
+		if (monitor==null)
+			return;
+		if (position == 0)
 			monitor.started();
-		}
-		
-		prevsymbol = data;
+		else if (position%REPORT_INTERVAL_BYTES == 0)
+			monitor.tick();
 	}
 
 }

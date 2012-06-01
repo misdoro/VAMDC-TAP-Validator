@@ -37,7 +37,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 	@Override
 	public String getBlock(long lineIndex, int lineCount) {
 		if (storage!=null)
-			return storage.getLines(lineIndex, lineCount);
+			return storage.getLines((int) lineIndex, lineCount);
 		else return "";
 	}
 
@@ -76,7 +76,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 	@Override
 	public long searchString(String word, long lineOffset) {
 		if (storage!=null)
-			for (long line = lineOffset;line<storage.getLineCount();line++){
+			for (int line = (int)lineOffset;line<storage.getLineCount();line++){
 				if (storage.getLine(line).contains(word)) return line;
 			}
 		return -1;
