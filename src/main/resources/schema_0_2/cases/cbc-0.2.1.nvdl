@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules xmlns="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"
+  xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">
+    <namespace ns="">
+        <validate schema="/Users/christian/research/schemata/XSAMS/0.1.1/xsams_0.1.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/dcs">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/dcs-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/hunda">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/hunda-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/hundb">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/hundb-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/ltcs">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/ltcs-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/nltcs">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/nltcs-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/stcs">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/stcs-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/lpcs">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/lpcs-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/asymcs">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/asymcs-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/asymos">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/asymos-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/sphcs">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/sphcs-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/sphos">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/sphos-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/ltos">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/ltos-0.2.1.xsd"/>
+    </namespace>
+    <namespace ns="http://www.ucl.ac.uk/~ucapch0/XSAMS/cases/0.2.1/gen">
+        <validate schema="/Users/christian/research/schemata/cbc/0.2.1/gen-0.2.1.xsd"/>
+    </namespace>
+</rules>

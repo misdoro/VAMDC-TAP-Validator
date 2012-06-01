@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:ctypes="http://vamdc.org/xml/xsams/0.3/cases/commonTypes"
+xmlns="http://vamdc.org/xml/xsams/0.3/cases/commonTypes"
+targetNamespace="http://vamdc.org/xml/xsams/0.3/cases/commonTypes"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+		<xs:annotation>
+			<xs:documentation>Contains data types and attributes common for most cases</xs:documentation>
+		</xs:annotation>
+		
+		<xs:complexType name="BaseCase">
+			<xs:annotation>
+				<xs:documentation>
+					root for QNs elements of cases.
+					In main schema it's it that is referenced.
+					Each case should extend this type to add his qn's and restrictions
+				</xs:documentation>
+			</xs:annotation>
+			<xs:attribute name="caseID" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the case</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+		
+		<xs:complexType name="RankingType">
+			<xs:simpleContent>
+				<xs:extension base="xs:nonNegativeInteger">
+					<xs:attribute name="name" use="required">
+						<xs:annotation>
+							<xs:documentation>a string identifying this ranking index</xs:documentation>
+						</xs:annotation>
+					</xs:attribute> 
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+		
+		<xs:complexType name="NuclearSpinAMType">
+			<xs:simpleContent>
+				<xs:extension base="ctypes:AMType">
+					<xs:attribute name="nuclearSpinRef" use="required">
+						<xs:annotation>
+							<xs:documentation>A label identifying the nuclear spin to which an intermediate angular momentum is coupled</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:pattern value=".+"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+
+		<xs:complexType name="NuclearSpinIntermediateAMType">
+			<xs:simpleContent>
+				<xs:extension base="ctypes:NuclearSpinAMType">
+					<xs:attribute name="j" type="xs:positiveInteger" use="required">
+						<xs:annotation>
+							<xs:documentation>An integer label, j, identifying Fj, an intermediate angular momentum quantum number</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	
+		<xs:complexType name="VibrationalQNType">
+			<xs:simpleContent>
+				<xs:extension base="xs:nonNegativeInteger">
+					<xs:attribute name="mode" type="xs:nonNegativeInteger" use="required">
+						<xs:annotation>
+							<xs:documentation>The label identifying the normal mode of this vibrational quantum number</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+		
+		<xs:complexType name="VibrationalAMQNType">
+			<xs:simpleContent>
+				<xs:extension base="xs:integer">
+					<xs:attribute name="mode" type="xs:nonNegativeInteger" use="required">
+						<xs:annotation>
+							<xs:documentation>The label identifying the degenerate normal mode that this vibrational angular momentum quantum number applies to</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	
+	<xs:complexType name="SymmetrySpeciesType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="group" use="optional">
+					<xs:annotation>
+						<xs:documentation>a string identifying the symmetry group this species belongs to</xs:documentation>
+					</xs:annotation>
+				</xs:attribute> 
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+		
+		<!-- angular momentum quantum number: integer or half-integer -->
+		<xs:simpleType name="AMType">
+			<xs:restriction base="xs:double">
+				<xs:pattern value="\d+(\.[0|5]?)?"/>
+			</xs:restriction>
+		</xs:simpleType>
+		<!-- +/- symmetry -->
+		<xs:simpleType name="PMParityType">
+			<xs:restriction base="xs:string">
+				<xs:pattern value="\+|-"/>
+			</xs:restriction>
+		</xs:simpleType>
+		<!-- a/s symmetry -->
+		<xs:simpleType name="ASParityType">
+			<xs:restriction base="xs:string">
+				<xs:pattern value="a|s"/>
+			</xs:restriction>
+		</xs:simpleType>
+		<!-- e/f symmetry -->
+		<xs:simpleType name="EFParityType">
+			<xs:restriction base="xs:string">
+				<xs:pattern value="e|f"/>
+			</xs:restriction>
+		</xs:simpleType>
+		<!-- u/g symmetry -->
+		<xs:simpleType name="UGParityType">
+			<xs:restriction base="xs:string">
+				<xs:pattern value="u|g"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:schema>

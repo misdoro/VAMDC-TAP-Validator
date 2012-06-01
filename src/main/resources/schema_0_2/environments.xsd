@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/0.2"
+	xmlns:xsams="http://vamdc.org/xml/xsams/0.2"
+	targetNamespace="http://vamdc.org/xml/xsams/0.2">
+    
+    <xs:include schemaLocation="typesAttributes.xsd"/>
+    
+    <xs:element name="Environments" type="EnvironmentsType">
+        <xs:annotation>
+            <xs:documentation>A list of environments relevant to the data</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    
+    <xs:complexType name="EnvironmentsType">
+        <xs:sequence>
+            <xs:element name="Environment" type="EnvironmentType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="EnvironmentType">
+        <xs:annotation>
+            <xs:documentation>Description of some equilibrium reference conditions or environment relevant to put some data into context</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="PrimaryType">
+                <xs:sequence>
+                    <xs:element name="Temperature" type="DataType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="TotalPressure" type="DataType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="TotalNumberDensity" type="DataType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Composition" type="CompositionType" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="envID" type="EnvironmentIDType"></xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="CompositionType">
+        <xs:annotation>
+            <xs:documentation>Description of the equilibrium composition of a particular environment</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Species" type="ReferencedSpeciesType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ReferencedSpeciesType">
+        <xs:annotation>
+            <xs:documentation>A named species or reference to a species with a given equilibrium concentration, mole fraction or partial pressure</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="PartialPressure" type="DataType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="MoleFraction" type="DataType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="Concentration" type="DataType" minOccurs="0" maxOccurs="1"/>
+        </xs:choice>
+        <xs:attribute name="name" type="xs:string" use="optional"/>
+        <xs:attribute name="speciesRef" type="SpeciesRefType" use="optional"/>
+    </xs:complexType>
+</xs:schema>

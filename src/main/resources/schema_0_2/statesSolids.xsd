@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/0.2"
+	xmlns:xsams="http://vamdc.org/xml/xsams/0.2"
+	targetNamespace="http://vamdc.org/xml/xsams/0.2">
+	
+	<xs:include schemaLocation="typesAttributes.xsd"/>
+	<xs:element name="Solids" type="SolidsType"/>
+	
+	<xs:complexType name="SolidsType">
+		<xs:annotation>
+			<xs:documentation>Solids, surfaces, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Solid" type="SolidType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="SolidType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Layer" type="MaterialType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="stateID" type="StateIDType" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="MaterialComponentType">
+		<xs:sequence>
+			<xs:element name="ChemicalElement" type="ChemicalElementType"/>
+			<xs:choice>
+				<xs:element name="StoichiometricValue" type="xs:decimal"/>
+				<xs:element name="Percentage" type="xs:decimal"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MaterialType">
+		<xs:annotation>
+			<xs:documentation>Description of an elementary material</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="MaterialName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of a material. Example: bronze</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialComposition" type="MaterialCompositionType">
+				<xs:annotation>
+					<xs:documentation>Composition of a material</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialThickness" type="DataType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Thickness of a material</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialTopology" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the material topology</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialTemperature" type="DataType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Temperature of the material</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="MaterialCompositionType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Component" type="MaterialComponentType" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

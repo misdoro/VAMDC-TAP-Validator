@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:ltos="http://vamdc.org/xml/xsams/0.3/cases/ltos"
+    xmlns:ctypes="http://vamdc.org/xml/xsams/0.3/cases/commonTypes"
+    targetNamespace="http://vamdc.org/xml/xsams/0.3/cases/ltos"
+    elementFormDefault="qualified">
+    <xs:import namespace="http://vamdc.org/xml/xsams/0.3/cases/commonTypes"
+        schemaLocation="commonTypes.xsd"/>
+    <xs:annotation>
+        <xs:documentation>Schema for specifying the quantum numbers of open-shell linear triatomic molecules</xs:documentation>
+    </xs:annotation>
+    
+    <!--=== QNs will be the root element ===-->
+    <xs:element name="QNs" type="ltos:QNsType">
+        <xs:annotation>
+            <xs:documentation>A list of quantum numbers for linear triatomic, open-shell molecules</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+	<!--Following two types are used to link case to base schema-->
+	<xs:complexType name="ThisCase" abstract="true">
+		<xs:complexContent>
+			<xs:restriction base="ctypes:BaseCase">
+				<xs:attribute name="caseID" type="xs:string" use="required" fixed="ltos"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="Case">
+		<xs:complexContent>
+			<xs:extension base="ltos:ThisCase">
+				<xs:sequence>
+					<xs:element ref="ltos:QNs" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+    <xs:complexType name="QNsType">
+        <xs:all>
+            
+            <!-- ElecStateLabel -->
+            <xs:element name="ElecStateLabel" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The label of the electronic state: X, a, A, b, etc...</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- elecInv -->
+            <xs:element name="elecInv" type="ctypes:UGParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Parity of the electronic wavefunction with respect to inversion through the molecular centre of mass in the molecular coordinate system: 'g' or 'u'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- elecRefl -->
+            <xs:element name="elecRefl" type="ctypes:PMParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Parity of the electronic wavefunction with respect to reflection in a plane containing the molecular symmetry axis in the molecular coordinate system: '+' or '-'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- S -->
+            <xs:element name="S" type="ctypes:AMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The total electronic spin angular momentum quantum number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- v1 -->
+            <xs:element name="v1" type="xs:nonNegativeInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The vibrational quantum number, v1</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- v2 -->
+            <xs:element name="v2" type="xs:nonNegativeInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The vibrational quantum number, v2</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- l2 -->
+            <xs:element name="l2" type="xs:nonNegativeInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number, l2, associated with the vibrational angular momentum of the nu2 bending mode</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- v3 -->
+            <xs:element name="v3" type="xs:nonNegativeInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The vibrational quantum number, v3</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- J -->
+            <xs:element name="J" type="xs:nonNegativeInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The rotational quantum number, J, associated with the total angular momentum excluding nuclear spin</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- N -->
+            <xs:element name="N" type="xs:nonNegativeInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number associated with the total angular momentum excluding electronic and nuclear spin: J = N + S</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- F1 -->
+            <xs:element name="F1" type="ctypes:NuclearSpinAMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number, F1, associated with the intermediate angular momentum due to coupling the rotational angular momentum with one nuclear spin. F1 may not be a good quantum number.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- F2 -->
+            <xs:element name="F2" type="ctypes:NuclearSpinAMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number, F2, associated with the intermediate angular momentum due to coupling the rotational angular momentum with one nuclear spin. F2 may not be a good quantum number.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- F -->
+            <xs:element name="F" type="ctypes:NuclearSpinAMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number, F, associated with the total angular momentum including nuclear spin</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- r -->
+            <xs:element name="r" type="ctypes:RankingType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>A ranking index for states of the same symmetry that can't be or haven't been differentiated any other way: r=1,2,...</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- parity -->
+            <xs:element name="parity" type="ctypes:PMParityType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Total parity with respect to inversion through the molecular centre of mass in the laboratory coordinate system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- kronigParity -->
+            <xs:element name="kronigParity" type="ctypes:EFParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Kronig parity ('e' or 'f')</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- asSym -->
+            <xs:element name="asSym" type="ctypes:ASParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Symmetry of the rovibronic wavefunction for diatomic molecules with a centre of inversion: a or s such that the total wavefunction including nuclear spin is symmetric or antisymmetric under permutation of the identical nuclei, according to whether they are bosons or fermions respectively.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+        </xs:all>
+    </xs:complexType>
+    
+</xs:schema>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XSAMSData xmlns="http://vamdc.org/xml/xsams/0.3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://vamdc.org/xml/xsams/0.3 ../../xsams.xsd">
+    <!--<Environments>
+        <Environment>
+            <Comments></Comments>
+            <SourceRef></SourceRef>
+            <Temperature>
+                <Comments></Comments>
+                <SourceRef></SourceRef>
+                <Value units=""></Value>
+                <Accuracy>
+                    <Systematic></Systematic>
+                    <Statistical></Statistical>
+                </Accuracy>
+            </Temperature>
+            <TotalPressure>
+                <Comments></Comments>
+                <SourceRef></SourceRef>
+                <Value units=""></Value>
+                <Accuracy>
+                    <Systematic></Systematic>
+                    <Statistical></Statistical>
+                </Accuracy>
+            </TotalPressure>
+            <TotalNumberDensity>
+                <Comments></Comments>
+                <SourceRef></SourceRef>
+                <Value units=""></Value>
+                <Accuracy>
+                    <Systematic></Systematic>
+                    <Statistical></Statistical>
+                </Accuracy>
+            </TotalNumberDensity>
+            <Composition>
+                <Species>
+                    <PartialPressure>
+                        <Comments></Comments>
+                        <SourceRef></SourceRef>
+                        <Value units=""></Value>
+                        <Accuracy>
+                            <Systematic></Systematic>
+                            <Statistical></Statistical>
+                        </Accuracy>
+                    </PartialPressure>
+                </Species>
+            </Composition>
+        </Environment>
+    </Environments>
+    -->
+    <Species>
+        <Atoms>
+            <Atom>
+                <ChemicalElement>
+                    <NuclearCharge>1</NuclearCharge>
+                </ChemicalElement>
+                <Isotope>
+                    <Ion speciesID="XKIDA2">
+                        <IonCharge>0</IonCharge>
+                        <InChIKey>YZCKVEUIGOORGS-UHFFFAOYSA-N</InChIKey>
+                    </Ion>
+                </Isotope>
+            </Atom>
+        </Atoms>
+        
+        <Molecules>
+            <Molecule speciesID="XKIDA3">
+                <Comments></Comments>
+                <SourceRef>BKIDAS1</SourceRef>
+                <MolecularChemicalSpecies>
+                    <OrdinaryStructuralFormula>
+                        <Value>HOH</Value>
+                    </OrdinaryStructuralFormula>
+                    <StoichiometricFormula>
+                        H2O
+                    </StoichiometricFormula>
+                    <ChemicalName>
+                        <Value>water</Value>
+                    </ChemicalName>
+                    <InChIKey>XLYOFNOQVPJJNP-UHFFFAOYSA-N</InChIKey>
+                    <StableMolecularProperties>
+                        <MolecularWeight>
+                            <Value units="amu">28</Value>
+                        </MolecularWeight>
+                    </StableMolecularProperties>
+                    <Comment>water</Comment>
+                </MolecularChemicalSpecies>
+            </Molecule>
+            <Molecule speciesID="XKIDA1">
+                <Comments></Comments>
+                <SourceRef>BKIDAS1</SourceRef>
+                <MolecularChemicalSpecies>
+                    <OrdinaryStructuralFormula>
+                        <Value>H2</Value>
+                    </OrdinaryStructuralFormula>
+                    <StoichiometricFormula>
+                        H2
+                    </StoichiometricFormula>
+                    <InChIKey>UFHFLCQGNIYNRP-UHFFFAOYSA-N</InChIKey>
+                    <StableMolecularProperties>
+                        <MolecularWeight>
+                            <Value units="amu">2</Value>
+                        </MolecularWeight>
+                    </StableMolecularProperties>
+                    <Comment>hydrogen</Comment>
+                </MolecularChemicalSpecies>
+            </Molecule>
+            <Molecule speciesID="XKIDA4">
+                <Comments></Comments>
+                <SourceRef>BKIDAS1</SourceRef>
+                <MolecularChemicalSpecies>
+                    <OrdinaryStructuralFormula>
+                        <Value>O2</Value>
+                    </OrdinaryStructuralFormula>
+                    <StoichiometricFormula>
+                        O2
+                    </StoichiometricFormula>
+                    <InChIKey>MYMOFIZGZYHOMD-UHFFFAOYSA-N</InChIKey>
+                    <StableMolecularProperties>
+                        <MolecularWeight>
+                            <Value units="amu">16</Value>
+                        </MolecularWeight>
+                    </StableMolecularProperties>
+                    <Comment>oxygen</Comment>
+                </MolecularChemicalSpecies>
+            </Molecule>
+        </Molecules>
+    </Species>
+    <Processes>
+        <Collisions>
+            <CollisionalTransition id="PCtest01">
+                <Comments></Comments>
+                <SourceRef>BKIDAS1</SourceRef>
+                <ProcessClass>
+                    <UserDefinition>Chemical reaction</UserDefinition>
+                    <Code>chem</Code>
+                </ProcessClass>
+                <Reactant>
+                    <SpeciesRef>XKIDA2</SpeciesRef>
+                </Reactant>
+                <Reactant>
+                    <SpeciesRef>XKIDA3</SpeciesRef>
+                </Reactant>
+                <Product>
+                    <SpeciesRef>XKIDA1</SpeciesRef>
+                </Product>
+                <Product>
+                    <SpeciesRef>XKIDA4</SpeciesRef>
+                </Product>
+                <DataSets>
+                    <DataSet dataDescription="rateCoefficient">
+                        <Comments></Comments>
+                        <FitData>
+                            <Comments></Comments>
+                            <SourceRef>BKIDAS1</SourceRef>
+                            <FitParameters functionRef="FKIDAKOOJI">
+                                <FitArgument name="T" units="K">
+                                    <Description>Temperature</Description>
+                                    <LowerLimit>10</LowerLimit>
+                                    <UpperLimit>280</UpperLimit>
+                                </FitArgument>
+                                <FitParameter name="a">
+                                    <Value units="cm3/s">5.6e-12</Value>
+                                    <Accuracy type="statistical" relative="true">0.02
+                                    </Accuracy>
+                                </FitParameter>
+                                <FitParameter name="b">
+                                    <Value units="unitless">0</Value>
+                                </FitParameter>
+                                <FitParameter name="g">
+                                    <Value units="K">0</Value>
+                                </FitParameter>
+                            </FitParameters>
+                            <FitAccuracy></FitAccuracy>
+                            <PhysicalUncertainty></PhysicalUncertainty>
+                        </FitData>
+                    </DataSet>
+                </DataSets>
+            </CollisionalTransition>
+        </Collisions>
+    </Processes>
+    <Sources>
+        <Source sourceID="BKIDAS1">
+            <Category>journal</Category>
+            <SourceName></SourceName>
+            <Year>2048</Year>
+            <Authors>
+                <Author>
+                    <Name></Name>
+                    <Address></Address>
+                </Author>
+            </Authors>
+            <Title></Title>
+            <Volume></Volume>
+            <DigitalObjectIdentifier></DigitalObjectIdentifier>
+            <PageBegin></PageBegin>
+            <PageEnd></PageEnd>
+            <UniformResourceIdentifier></UniformResourceIdentifier>
+            <Publisher></Publisher>
+            <City></City>
+            <Editors>
+                <Name></Name>
+            </Editors>
+            <Version></Version>
+            <Comments></Comments>
+            <BibTeX></BibTeX>
+        </Source>
+    </Sources>
+    <Functions>
+        <Function functionID="FKIDAKOOJI">
+            <Comments>Kooij function</Comments>
+            <SourceRef>BKIDAS1</SourceRef>
+            <Name>Kooij</Name>
+            <Expression computerLanguage="Fortran">
+                a * (T/300.) ** b * EXP(-g/T)
+            </Expression>
+            <Y name="k" units="cm3/s">
+                <Description>Rate coefficient vs temperature</Description>
+            </Y>
+            <Arguments>
+                <Argument name="T" units="K">
+                    <Description>Temperature</Description>
+                    <LowerLimit>20</LowerLimit>
+                    <UpperLimit>200</UpperLimit>
+                </Argument>
+            </Arguments>
+            <Parameters>
+                <Parameter name="a" units="cm3/s">
+                    <Description>alpha multiplier</Description>
+                </Parameter>
+                <Parameter name="b" units="unitless">
+                    <Description>beta power</Description>
+                </Parameter>
+                <Parameter name="g" units="K">
+                    <Description>gamma exponent</Description>
+                </Parameter>
+            </Parameters>
+            <Description></Description>
+            <SourceCodeURL></SourceCodeURL>
+        </Function>
+    </Functions>
+    <Comments></Comments>
+</XSAMSData>

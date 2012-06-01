@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XSAMSData xmlns="http://vamdc.org/xml/xsams/0.3"
+    xmlns:targetNamespace="http://vamdc.org/xml/xsams/0.3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://vamdc.org/xml/xsams/0.3 ../../xsams.xsd"
+    xmlns:dcs="http://vamdc.org/xml/xsams/0.3/cases/dcs"
+    xmlns:hunda="http://vamdc.org/xml/xsams/0.3/cases/hunda"
+    xmlns:hundb="http://vamdc.org/xml/xsams/0.3/cases/hundb"
+    xmlns:ltcs="http://vamdc.org/xml/xsams/0.3/cases/ltcs"
+    xmlns:nltcs="http://vamdc.org/xml/xsams/0.3/cases/nltcs"
+    xmlns:stcs="http://vamdc.org/xml/xsams/0.3/cases/stcs"
+    xmlns:lpcs="http://vamdc.org/xml/xsams/0.3/cases/lpcs"
+    xmlns:asymcs="http://vamdc.org/xml/xsams/0.3/cases/asymcs"
+    xmlns:asymos="http://vamdc.org/xml/xsams/0.3/cases/asymos"
+    xmlns:sphcs="http://vamdc.org/xml/xsams/0.3/cases/sphcs"
+    xmlns:sphos="http://vamdc.org/xml/xsams/0.3/cases/sphos"
+    xmlns:ltos="http://vamdc.org/xml/xsams/0.3/cases/ltos"
+    xmlns:lpos="http://vamdc.org/xml/xsams/0.3/cases/lpos"
+    xmlns:nltos="http://vamdc.org/xml/xsams/0.3/cases/nltos">
+
+    <!--
+   ATTENTION: The amount of data returned has been truncated by the node.
+   The data below represent None % percent of all available data at this node that
+   matched the query.
+-->
+    <Sources>
+        <Source sourceID="BHIT-B_HITRAN2008">
+            <Authors>
+                <Author>
+                    <Name>L. S. Rothman</Name>
+                </Author>
+                <Author>
+                    <Name>I. E. Gordon</Name>
+                </Author>
+                <Author>
+                    <Name>A. Barbe</Name>
+                </Author>
+                <Author>
+                    <Name>D. Chris Benner</Name>
+                </Author>
+                <Author>
+                    <Name>P. F. Bernath</Name>
+                </Author>
+                <Author>
+                    <Name>M. Birk</Name>
+                </Author>
+                <Author>
+                    <Name>V. Boudon</Name>
+                </Author>
+                <Author>
+                    <Name>L. R. Brown</Name>
+                </Author>
+                <Author>
+                    <Name>A. Campargue</Name>
+                </Author>
+                <Author>
+                    <Name>J.-P. Champion</Name>
+                </Author>
+                <Author>
+                    <Name>K. Chance</Name>
+                </Author>
+                <Author>
+                    <Name>L. H. Coudert</Name>
+                </Author>
+                <Author>
+                    <Name>V. Dana</Name>
+                </Author>
+                <Author>
+                    <Name>V. M. Devi</Name>
+                </Author>
+                <Author>
+                    <Name>S. Fally</Name>
+                </Author>
+                <Author>
+                    <Name>J.-M. Flaud</Name>
+                </Author>
+                <Author>
+                    <Name>R. R. Gamache</Name>
+                </Author>
+                <Author>
+                    <Name>A. Goldman</Name>
+                </Author>
+                <Author>
+                    <Name>D. Jacquemart</Name>
+                </Author>
+                <Author>
+                    <Name>I. Kleiner</Name>
+                </Author>
+                <Author>
+                    <Name>N. Lacome</Name>
+                </Author>
+                <Author>
+                    <Name>W. J. Lafferty</Name>
+                </Author>
+                <Author>
+                    <Name>J.-Y. Mandin</Name>
+                </Author>
+                <Author>
+                    <Name>S. T. Massie</Name>
+                </Author>
+                <Author>
+                    <Name>S. N. Mikhailenko</Name>
+                </Author>
+                <Author>
+                    <Name>C. E. Miller</Name>
+                </Author>
+                <Author>
+                    <Name>N. Moazzen-Ahmadi</Name>
+                </Author>
+                <Author>
+                    <Name>O. V. Naumenko</Name>
+                </Author>
+                <Author>
+                    <Name>A. V. Nikitin</Name>
+                </Author>
+                <Author>
+                    <Name>J. Orphal</Name>
+                </Author>
+                <Author>
+                    <Name>V. I. Perevalov</Name>
+                </Author>
+                <Author>
+                    <Name>A. Perrin</Name>
+                </Author>
+                <Author>
+                    <Name>A. Predoi-Cross</Name>
+                </Author>
+                <Author>
+                    <Name>C. P. Rinsland</Name>
+                </Author>
+                <Author>
+                    <Name>M. Rotger</Name>
+                </Author>
+                <Author>
+                    <Name>M. Simeckova</Name>
+                </Author>
+                <Author>
+                    <Name>M. A. H. Smith</Name>
+                </Author>
+                <Author>
+                    <Name>K. Sung</Name>
+                </Author>
+                <Author>
+                    <Name>S. A. Tashkun</Name>
+                </Author>
+                <Author>
+                    <Name>J. Tennyson</Name>
+                </Author>
+                <Author>
+                    <Name>R. A. Toth</Name>
+                </Author>
+                <Author>
+                    <Name>A. C. Vandaele</Name>
+                </Author>
+                <Author>
+                    <Name>J. Vander Auwera</Name>
+                </Author>
+            </Authors>
+            <Title>The HITRAN 2008 molecular spectroscopic database</Title>
+            <Category>journal</Category>
+            <Year>2009</Year>
+            <SourceName>Journal of Quantitative Spectroscopy and Radiative Transfer</SourceName>
+            <Volume>110</Volume>
+            <PageBegin>533</PageBegin>
+            <PageEnd>572</PageEnd>
+            <UniformResourceIdentifier/>
+        </Source>
+    </Sources>
+    <Methods>
+        <Method methodID="MEXP">
+            <Category>experiment</Category>
+            <Description>experiment</Description>
+        </Method>
+        <Method methodID="MTHEORY">
+            <Category>theory</Category>
+            <Description>theory</Description>
+        </Method>
+    </Methods>
+    <Functions>
+        <Function functionID="FgammaL">
+            <Comments>This function gives the pressure- and temperature-dependence of the Lorentzian
+                      component of the pressure-broadened line width (HWHM)</Comments>
+            <Expression computerLanguage="Fortran">
+                gammaL_ref * p * (296./T)**n
+            </Expression>
+            <Y name="gammaL" units="1/cm"/>
+            <Arguments>
+                <Argument name="T" units="K">
+                    <Description>The absolute temperature, in K</Description>
+                </Argument>
+                <Argument name="p" units="atm">
+                    <Description>The partial pressure of the broadening species,
+                                 in atm</Description>
+                </Argument>
+            </Arguments>
+            <Parameters>
+                <Parameter name="gammaL_ref" units="1/cm">
+                    <Description>The Lorentzian HWHM of the line, broadened at
+                        Tref = 296 K and broadening species partial pressure
+                        pref = 1atm</Description>
+                </Parameter>
+                <Parameter name="n" units="unitless">
+                    <Description>
+                        The temperature exponent of the gammaL function
+                    </Description>
+                </Parameter>
+            </Parameters>
+        </Function>
+        <Function functionID="Fdelta">
+            <Comments>This function gives the pressure-dependence of the absorption
+                line wavenumber shift: nu = nu_ref + (delta).(p/pref)</Comments>
+            <Expression computerLanguage="Fortran">
+                delta_ref * p
+            </Expression>
+            <Y name="delta" units="1/cm"/>
+            <Arguments>
+                <Argument name="p" units="atm">
+                    <Description>The pressure of the shifting environment,
+                                 in atm</Description>
+                </Argument>
+            </Arguments>
+            <Parameters>
+                <Parameter name="delta_ref" units="1/cm">
+                    <Description>The pressure-shift of the absorption line at
+                        pref = 1 atm</Description>
+                </Parameter>
+            </Parameters>
+
+        </Function>
+    </Functions>
+    <Environments>
+        <Environment envID="EHITRAN_refT">
+            <Comments>the HITRAN reference temperature, 296 K</Comments>
+            <Temperature>
+                <Value units="K">296.</Value>
+            </Temperature>
+        </Environment>
+        <Environment envID="EHITRAN_refpT">
+            <Comments>the HITRAN reference pressure and temperature, 1 atm and 296 K</Comments>
+            <Temperature>
+                <Value units="K">296.</Value>
+            </Temperature>
+            <TotalPressure>
+                <Value units="atm">1.</Value>
+            </TotalPressure>
+        </Environment>
+        <Environment envID="Eair-broadening-ref-env">
+            <Comments>the HITRAN air-broadening reference conditions</Comments>
+            <Temperature>
+                <Value units="K">296.</Value>
+            </Temperature>
+            <TotalPressure>
+                <Value units="atm">1.</Value>
+            </TotalPressure>
+            <Composition>
+                <Species name="N2">
+                    <MoleFraction>
+                        <Value units="unitless">0.79</Value>
+                    </MoleFraction>
+                </Species>
+                <Species name="O2">
+                    <MoleFraction>
+                        <Value units="unitless">0.21</Value>
+                    </MoleFraction>
+                </Species>
+            </Composition>
+        </Environment>
+        <Environment envID="Eself-broadening-ref-env">
+            <Comments>the HITRAN self-broadening reference conditions</Comments>
+            <Temperature>
+                <Value units="K">296.</Value>
+            </Temperature>
+            <TotalPressure>
+                <Value units="atm">1.</Value>
+            </TotalPressure>
+            <Composition>
+                <Species name="self">
+                    <MoleFraction>
+                        <Value units="unitless">1.</Value>
+                    </MoleFraction>
+                </Species>
+            </Composition>
+        </Environment>
+    </Environments>
+    <Species>
+        <Molecules>
+            <Molecule speciesID="XHSFWRNGVRCDJHI-VDNDPFHPSA-N">
+                <MolecularChemicalSpecies>
+                    <OrdinaryStructuralFormula>
+                        <Value>C2H2</Value>
+                    </OrdinaryStructuralFormula>
+                    <StoichiometricFormula>H2C2</StoichiometricFormula>
+                    <ChemicalName>
+                        <Value>Ethyne; Acetylene</Value>
+                    </ChemicalName>
+                    <InChI>InChI=1S/C2H2/c1-2/h1-2H/i1+0H,2+1H</InChI>
+                    <InChIKey>HSFWRNGVRCDJHI-VDNDPFHPSA-N</InChIKey>
+                    <Comment>(12C)(13C)H2</Comment>
+                </MolecularChemicalSpecies>
+
+                <MolecularState stateID="SS300-C2H2-2">
+                    <Description/>
+                    <MolecularStateCharacterisation>
+                        <StateEnergy energyOrigin="Zero-point energy">
+                            <Value units="1/cm">580.7229</Value>
+                        </StateEnergy>
+                        <TotalStatisticalWeight>360</TotalStatisticalWeight>
+                    </MolecularStateCharacterisation>
+
+                    <Case xsi:type="lpcs:Case" caseID="lpcs">
+                        <lpcs:QNs>
+                            <lpcs:ElecStateLabel>X</lpcs:ElecStateLabel>
+                            <lpcs:vi mode="2">0</lpcs:vi>
+                            <lpcs:vi mode="1">0</lpcs:vi>
+                            <lpcs:vi mode="3">0</lpcs:vi>
+                            <lpcs:vi mode="4">0</lpcs:vi>
+                            <lpcs:vi mode="5">0</lpcs:vi>
+                            <lpcs:li mode="4">0</lpcs:li>
+                            <lpcs:li mode="5">0</lpcs:li>
+                            <lpcs:l>0</lpcs:l>
+                            <lpcs:J>22</lpcs:J>
+                            <lpcs:parity>+</lpcs:parity>
+                            <lpcs:kronigParity>e</lpcs:kronigParity>
+                        </lpcs:QNs>
+                    </Case>
+                </MolecularState>
+
+                <MolecularState stateID="SS342-C2H2-2">
+                    <Description/>
+                    <MolecularStateCharacterisation>
+                        <StateEnergy energyOrigin="Zero-point energy">
+                            <Value units="1/cm">7169.6576</Value>
+                        </StateEnergy>
+                        <TotalStatisticalWeight>376</TotalStatisticalWeight>
+                    </MolecularStateCharacterisation>
+
+                    <Case xsi:type="lpcs:Case" caseID="lpcs">
+                        <lpcs:QNs>
+                            <lpcs:ElecStateLabel>X</lpcs:ElecStateLabel>
+                            <lpcs:vi mode="2">0</lpcs:vi>
+                            <lpcs:vi mode="1">1</lpcs:vi>
+                            <lpcs:vi mode="3">1</lpcs:vi>
+                            <lpcs:vi mode="4">0</lpcs:vi>
+                            <lpcs:vi mode="5">0</lpcs:vi>
+                            <lpcs:li mode="4">0</lpcs:li>
+                            <lpcs:li mode="5">0</lpcs:li>
+                            <lpcs:l>0</lpcs:l>
+                            <lpcs:J>23</lpcs:J>
+                            <lpcs:parity>+</lpcs:parity>
+                            <lpcs:kronigParity>f</lpcs:kronigParity>
+                        </lpcs:QNs>
+                    </Case>
+                </MolecularState>
+
+            </Molecule>
+        </Molecules>
+    </Species>
+    <Processes>
+        <Radiative>
+            <RadiativeTransition id="PRtest01" process="excitation">
+                <EnergyWavelength>
+
+                    <Wavenumber>
+                        <SourceRef>BHIT-B_HITRAN2008</SourceRef>
+                        <Value units="1/cm">6588.9347</Value>
+                        <Accuracy type="statistical" relative="true">0.000001</Accuracy>
+                    </Wavenumber>
+                </EnergyWavelength>
+                <UpperStateRef>SS342-C2H2-2</UpperStateRef>
+                <LowerStateRef>SS300-C2H2-2</LowerStateRef>
+                <Probability>
+                    <TransitionProbabilityA>
+                        <SourceRef>BHIT-B_HITRAN2008</SourceRef>
+                        <Value units="1/s">4.173</Value>
+                        <Accuracy type="statistical">0.08346</Accuracy>
+                    </TransitionProbabilityA>
+                    <TransitionKind>P</TransitionKind>
+                </Probability>
+				<Broadening envRef="Eair-broadening-ref-env" name="pressure">
+					<Lineshape name="Lorentzian">
+						<Comments>The temperature-dependent pressure broadening Lorentzian lineshape</Comments>
+						<LineshapeParameter name="gammaL">
+							<FitParameters functionRef="FgammaL">
+								<FitArgument units="K" name="T">
+									<LowerLimit>240</LowerLimit>
+									<UpperLimit>350</UpperLimit>
+								</FitArgument>
+								<FitArgument units="atm" name="p">
+									<LowerLimit>0.</LowerLimit>
+									<UpperLimit>1.2</UpperLimit>
+								</FitArgument>
+								<FitParameter name="gammaL_ref">
+									<SourceRef>BHIT-B_HITRAN2008</SourceRef>
+									<Value units="1/cm">0.0635</Value>
+								    <Accuracy type="statistical">0.003175</Accuracy>
+								</FitParameter>
+								<FitParameter name="n">
+									<SourceRef>BHIT-B_HITRAN2008</SourceRef>
+									<Value units="unitless">0.75</Value>
+									<Accuracy type="statistical">0.15</Accuracy>
+								</FitParameter>
+							</FitParameters>
+						</LineshapeParameter>
+					</Lineshape>
+				</Broadening>
+				<Broadening envRef="Eself-broadening-ref-env" name="pressure">
+					<Lineshape name="Lorentzian">
+						<LineshapeParameter name="gammaL">
+							<SourceRef>BHIT-B_HITRAN2008</SourceRef>
+							<Value units="1/cm">0.116</Value>
+							<Accuracy type="statistical">0.0058</Accuracy>
+						</LineshapeParameter>
+					</Lineshape>
+				</Broadening>
+				<Shifting envRef="Eair-broadening-ref-env">
+					<ShiftingParameter name="delta">
+						<FitParameters functionRef="Fdelta">
+							<FitArgument name="p" units="atm">
+								<LowerLimit>0.</LowerLimit>
+								<UpperLimit>1.2</UpperLimit>
+							</FitArgument>
+							<FitParameter name="delta_ref">
+								<SourceRef>BHIT-B_HITRAN2008</SourceRef>
+								<Value units="unitless">-0.001</Value>
+								<Accuracy type="statistical" relative="true">0.1</Accuracy>
+							</FitParameter>
+						</FitParameters>
+					</ShiftingParameter>
+				</Shifting>
+            </RadiativeTransition>
+        </Radiative>
+    </Processes>
+</XSAMSData>

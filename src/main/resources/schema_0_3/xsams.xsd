@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/0.3"
+	xmlns:xsams="http://vamdc.org/xml/xsams/0.3"
+	targetNamespace="http://vamdc.org/xml/xsams/0.3">
+	<xs:include schemaLocation="./methods.xsd"/>
+	<xs:include schemaLocation="./sources.xsd"/>
+	<xs:include schemaLocation="./functions.xsd"/>
+	<xs:include schemaLocation="./environments.xsd"/>
+	<xs:include schemaLocation="./typesAttributes.xsd"/>
+	<xs:include schemaLocation="./statesAtoms.xsd"/>
+	<xs:include schemaLocation="./statesMolecules.xsd"/>
+	<xs:include schemaLocation="./statesSolids.xsd"/>
+	<xs:include schemaLocation="./statesParticles.xsd"/>
+	<xs:include schemaLocation="./radiative.xsd"/>
+	<xs:include schemaLocation="./nonradiative.xsd"/>
+	<xs:include schemaLocation="./collisions.xsd"/>
+	
+	<!--Import all case namespaces-->
+	<xs:include schemaLocation="./cases/import.xsd"/>
+	
+	
+	<xs:element name="XSAMSData" type="XSAMSDataType">
+		<xs:annotation>
+			<xs:documentation>XML schema for description of atomic, molecular, and particle-solid-interaction processes</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="XSAMSDataType">
+		<xs:all>
+			<xs:element name="Environments" type="EnvironmentsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of environments relevant to the data</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Species" type="SpeciesType">
+				<xs:annotation>
+					<xs:documentation>List of atomic states, molecular states, particles, surfaces, and solids</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Processes" type="ProcessesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Physical processes connecting states (e.g., radiative, collisional, autoionization, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="Sources"/>
+			<xs:element ref="Methods" minOccurs="0"/>
+			<xs:element ref="Functions" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Any relevant comments</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ProcessesType">
+		<xs:all>
+			<xs:element name="Radiative" type="RadiativeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of radiative transitions</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="NonRadiative" minOccurs="0"/>
+			<xs:element name="Collisions" type="CollisionsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of transitions due to collisions</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="SpeciesType">
+		<xs:all>
+			<xs:element name="Atoms" type="AtomsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of atoms</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Molecules" type="MoleculesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of molecules</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Solids" type="SolidsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of solids and surfaces</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Particles" type="ParticlesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of elementary particles (electron, photon, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+</xs:schema>

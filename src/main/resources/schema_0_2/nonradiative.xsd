@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/0.2"
+	xmlns:xsams="http://vamdc.org/xml/xsams/0.2"
+	targetNamespace="http://vamdc.org/xml/xsams/0.2">
+	
+	<xs:include schemaLocation="./typesAttributes.xsd"/>
+	<xs:element name="NonRadiative" type="NonRadiativeType">
+		<xs:annotation>
+			<xs:documentation>List of autoionization and predissociation transitions</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="NonRadiativeType">
+		<xs:sequence>
+			<xs:element name="NonRadiativeTransition" type="NonRadiativeTransitionType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonRadiativeTransitionType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="InitialStateRef" type="StateRefType">
+						<xs:annotation>
+							<xs:documentation>Reference to the initial state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="FinalStateRef" type="StateRefType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to the final state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SpeciesRef" type="SpeciesRefType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to specie</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Probability" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Transition probability</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="NonRadiativeWidth" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>NonRadiative width </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TransitionEnergy" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Transition energy</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Type" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Description of the transition (e.g., Coster-Kronig)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/0.3"
+	xmlns:xsams="http://vamdc.org/xml/xsams/0.3"
+	targetNamespace="http://vamdc.org/xml/xsams/0.3">
+	
+	<xs:include schemaLocation="./typesAttributes.xsd"/>
+	<xs:element name="Collisions" type="CollisionsType">
+		<xs:annotation>
+			<xs:documentation>List of collisional processes</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CollisionsType">
+		<xs:sequence>
+			<xs:element name="CollisionalTransition" type="CollisionalTransitionType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A specific collisional transition</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CollisionalTransitionType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="ProcessClass" type="CollisionalProcessClassType">
+						<xs:annotation>
+							<xs:documentation>Collisional process</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Reactant" type="SpeciesStateRefType" minOccurs="2" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>List of reacting systems</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntermediateState" type="SpeciesStateRefType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>List of intermediate state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Product" type="SpeciesStateRefType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>List of final states</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Threshold" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reaction threshold</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DataSets" type="DataSetsType"/>
+				</xs:sequence>
+				<xs:attribute name="id" type="ProcessIDType" use="required"/>
+				<xs:attribute name="groupLabel"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CollisionalProcessClassType">
+		<xs:sequence>
+			<xs:element name="UserDefinition" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the process</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Code" type="CodeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A 4-letter code describing various processes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IAEACode" type="IAEACodeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>From the "IAEA Classification of Processes", October 2003</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IAEACodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="EGN"/>
+			<xs:enumeration value="EAS"/>
+			<xs:enumeration value="EBS"/>
+			<xs:enumeration value="EDX"/>
+			<xs:enumeration value="EEL"/>
+			<xs:enumeration value="ELB"/>
+			<xs:enumeration value="ETS"/>
+			<xs:enumeration value="EDT"/>
+			<xs:enumeration value="EFL"/>
+			<xs:enumeration value="EEX"/>
+			<xs:enumeration value="EIN"/>
+			<xs:enumeration value="EMI"/>
+			<xs:enumeration value="ENI"/>
+			<xs:enumeration value="EMT"/>
+			<xs:enumeration value="EUP"/>
+			<xs:enumeration value="EDP"/>
+			<xs:enumeration value="EIP"/>
+			<xs:enumeration value="ERC"/>
+			<xs:enumeration value="ERR"/>
+			<xs:enumeration value="ERD"/>
+			<xs:enumeration value="ERT"/>
+			<xs:enumeration value="ERO"/>
+			<xs:enumeration value="EDC"/>
+			<xs:enumeration value="EDS"/>
+			<xs:enumeration value="EDR"/>
+			<xs:enumeration value="EDA"/>
+			<xs:enumeration value="EDE"/>
+			<xs:enumeration value="EDI"/>
+			<xs:enumeration value="PGN"/>
+			<xs:enumeration value="PTS"/>
+			<xs:enumeration value="PDS"/>
+			<xs:enumeration value="PES"/>
+			<xs:enumeration value="PMA"/>
+			<xs:enumeration value="PDT"/>
+			<xs:enumeration value="PFL"/>
+			<xs:enumeration value="PEX"/>
+			<xs:enumeration value="PIN"/>
+			<xs:enumeration value="PFF"/>
+			<xs:enumeration value="PEA"/>
+			<xs:enumeration value="PTA"/>
+			<xs:enumeration value="PAD"/>
+			<xs:enumeration value="PED"/>
+			<xs:enumeration value="PNL"/>
+			<xs:enumeration value="PZE"/>
+			<xs:enumeration value="PSE"/>
+			<xs:enumeration value="PGF"/>
+			<xs:enumeration value="PTF"/>
+			<xs:enumeration value="HGN"/>
+			<xs:enumeration value="HAS"/>
+			<xs:enumeration value="HLB"/>
+			<xs:enumeration value="HDS"/>
+			<xs:enumeration value="HDX"/>
+			<xs:enumeration value="HES"/>
+			<xs:enumeration value="HCX"/>
+			<xs:enumeration value="HUP"/>
+			<xs:enumeration value="HAS"/>
+			<xs:enumeration value="HIR"/>
+			<xs:enumeration value="HEL"/>
+			<xs:enumeration value="HET"/>
+			<xs:enumeration value="HIP"/>
+			<xs:enumeration value="HRC"/>
+			<xs:enumeration value="HTS"/>
+			<xs:enumeration value="HDT"/>
+			<xs:enumeration value="HFL"/>
+			<xs:enumeration value="HEX"/>
+			<xs:enumeration value="HIN"/>
+			<xs:enumeration value="HPN"/>
+			<xs:enumeration value="HST"/>
+			<xs:enumeration value="HAT"/>
+			<xs:enumeration value="HAI"/>
+			<xs:enumeration value="HDI"/>
+			<xs:enumeration value="HDC"/>
+			<xs:enumeration value="HMN"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="phem"/>
+			<xs:enumeration value="phab"/>
+			<xs:enumeration value="phsc"/>
+			<xs:enumeration value="elas"/>
+			<xs:enumeration value="inel"/>
+			<xs:enumeration value="exci"/>
+			<xs:enumeration value="deex"/>
+			<xs:enumeration value="ioni"/>
+			<xs:enumeration value="tran"/>
+			<xs:enumeration value="exch"/>
+			<xs:enumeration value="reco"/>
+			<xs:enumeration value="elat"/>
+			<xs:enumeration value="eldt"/>
+			<xs:enumeration value="asso"/>
+			<xs:enumeration value="diss"/>
+			<xs:enumeration value="intr"/>
+			<xs:enumeration value="chem"/>
+			<xs:enumeration value="sore"/>
+			<xs:enumeration value="soem"/>
+			<xs:enumeration value="sodp"/>
+			<xs:enumeration value="soch"/>
+			<xs:enumeration value="sope"/>
+			<xs:enumeration value=""/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

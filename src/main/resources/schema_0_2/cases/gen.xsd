@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:gen="http://vamdc.org/xml/xsams/0.2/cases/gen"
+	xmlns:ctypes="http://vamdc.org/xml/xsams/0.2/cases/commonTypes"
+    xmlns="http://vamdc.org/xml/xsams/0.2/cases/gen"
+    targetNamespace="http://vamdc.org/xml/xsams/0.2/cases/gen"
+    elementFormDefault="qualified">
+    <xs:import namespace="http://vamdc.org/xml/xsams/0.2/cases/commonTypes" schemaLocation="commonTypes.xsd"/>
+	
+    <!--=== QNs will be the root element ===-->
+    <xs:element name="QNs" type="gen:QNsType">
+        <xs:annotation>
+            <xs:documentation>A list of quantum numbers for closed-shell, symmetric top molecules</xs:documentation>
+        </xs:annotation>
+        <!-- the name attribute to qn must be unique within each state -->
+        <xs:unique name="qn-name">
+            <xs:selector xpath="gen:QN"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+        <!-- the name attribute to symmetry must be unique within each state -->
+        <xs:unique name="sym-name">
+            <xs:selector xpath="gen:Sym"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+	
+	<!--Following two types are used to link case to base schema-->
+	<xs:complexType name="ThisCase" abstract="true">
+		<xs:complexContent>
+			<xs:restriction base="ctypes:BaseCase">
+				<xs:attribute name="caseID" type="xs:string" use="required" fixed="gen"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="Case">
+		<xs:complexContent>
+			<xs:extension base="gen:ThisCase">
+				<xs:sequence>
+					<xs:element ref="gen:QNs" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+    
+	<xs:complexType name="QNsType">
+		<xs:sequence>
+			<!-- ElecStateLabel -->
+			<xs:element name="ElecStateLabel" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The label of the electronic state: X, a, A, b, etc...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- QN -->
+			<xs:element name="QN" type="gen:GenericQNType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A generic, named quantum number.</xs:documentation>
+				</xs:annotation>
+				
+			</xs:element>
+			<!-- Sym -->
+			<xs:element name="Sym" type="gen:GenericSymType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A generic, named symmetry.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+    <!-- we repeat QN and Sym here so that they can be used (within the gen namespace) inside any other
+        case QNs element to extend the range of quantum numbers and symmetries that can be specified -->
+    <!-- QN -->
+    <xs:element name="QN" type="gen:GenericQNType">
+        <xs:annotation>
+            <xs:documentation>A generic, named quantum number.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <!-- Sym -->
+    <xs:element name="Sym" type="gen:GenericSymType">
+        <xs:annotation>
+            <xs:documentation>A generic, named symmetry.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:complexType name="GenericQNType">
+        <xs:simpleContent>
+            <xs:extension base="xs:double">
+                <xs:attribute name="name" use="required">
+                    <xs:annotation>
+                        <xs:documentation>a string identifying this quantum number</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute> 
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>  
+    
+    <xs:complexType name="GenericSymType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="name" use="required">
+                    <xs:annotation>
+                        <xs:documentation>a string identifying this symmetry</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="group" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>a string identifying the symmetry group this species belongs to</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+</xs:schema>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Molecules xmlns="http://vamdc.org/xml/xsams/0.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gen="http://vamdc.org/xml/xsams/0.2/cases/gen"
+	xsi:schemaLocation="http://vamdc.org/xml/xsams/0.2 ../../statesMolecules.xsd http://vamdc.org/xml/xsams/0.2/cases/gen ../../cases/gen.xsd">
+    <!-- Failing test for molecular state total lifetime type uniqueness-->
+    <Molecule speciesID="X1">
+        <Comments></Comments>
+        <MolecularChemicalSpecies>
+            <OrdinaryStructuralFormula>
+                <Comments>blah</Comments>
+                <Value>1</Value>
+            </OrdinaryStructuralFormula>
+            <StoichiometricFormula>CO</StoichiometricFormula>
+            <ChemicalName>
+                <Value>1</Value>
+            </ChemicalName>
+            <InChIKey>234</InChIKey>
+        </MolecularChemicalSpecies>
+        <MolecularState stateID="S1">
+            <Comments></Comments>
+            <Description></Description>
+            <MolecularStateCharacterisation>
+                <StateEnergy energyOrigin="ground state">
+                    <Comments></Comments>
+                    <Value units="eV">1</Value>
+                    <Accuracy></Accuracy>
+                </StateEnergy>
+                <LifeTime decay="totalRadiative">
+                    <Value units="s">1</Value>
+                </LifeTime>
+                <LifeTime decay="totalRadiative">
+                    <Value units="s">0.5</Value>
+                </LifeTime>
+            </MolecularStateCharacterisation>
+        </MolecularState>
+    </Molecule>
+</Molecules>

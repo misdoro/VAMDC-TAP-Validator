@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XSAMSData xmlns="http://vamdc.org/xml/xsams/0.3"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:cml="http://www.xml-cml.org/schema"
+ xsi:schemaLocation="http://vamdc.org/xml/xsams/0.3 ../../xsams.xsd">
+<Sources>
+    <Source sourceID="BSRC">
+        <Category>vamdc node</Category>
+        <Year>2011</Year>
+        <Authors>
+            <Author>
+                <Name></Name>
+            </Author>
+        </Authors>
+    </Source>
+</Sources>
+<Environments>
+    <Environment envID="EHIT-512"><Temperature><Value units="K">1500.0</Value></Temperature></Environment>
+    <Environment envID="EHIT-513"><Temperature><Value units="K">2250.0</Value></Temperature></Environment>
+    <Environment envID="EHIT-514"><Temperature><Value units="K">3000.0</Value></Temperature></Environment>
+</Environments>
+<Species>
+<Molecules>
+<Molecule speciesID="XHIT-YZCKVEUIGOORGS-UHFFFAOYSA-N">
+    <MolecularChemicalSpecies>
+    <OrdinaryStructuralFormula>
+        <Value>H</Value>
+    </OrdinaryStructuralFormula>
+    <StoichiometricFormula>H</StoichiometricFormula>
+    <ChemicalName><Value>Hydrogen</Value></ChemicalName>
+    <InChI>InChI=1S/H</InChI>
+    <InChIKey>YZCKVEUIGOORGS-UHFFFAOYSA-N</InChIKey>
+    </MolecularChemicalSpecies>
+</Molecule>
+<Molecule speciesID="XHIT-SWQJXJOGLNCZEY-UHFFFAOYSA-N">
+    <MolecularChemicalSpecies>
+    <OrdinaryStructuralFormula>
+        <Value>He</Value>
+    </OrdinaryStructuralFormula>
+    <StoichiometricFormula>He</StoichiometricFormula>
+    <ChemicalName><Value>Helium</Value></ChemicalName>
+    <InChI>InChI=1S/He</InChI>
+    <InChIKey>SWQJXJOGLNCZEY-UHFFFAOYSA-N</InChIKey>
+    </MolecularChemicalSpecies>
+</Molecule>
+</Molecules>
+</Species>
+<Processes>
+<Radiative>
+<CollisionInducedAbsorptionCrossSection envRef="EHIT-512" id="PHIT-CIA-0">
+    <Description>The collision-induced absorption cross section for He-H at 1500.0 K</Description>
+    <X parameter="nu" units="1/cm">
+        <LinearSequence count="10951" initial="50.000000" increment="1.000000"/>
+    </X>
+    <Y parameter="alpha" units="cm5">
+    <DataFile>He-H_1500.0K_50-11000.alpha</DataFile>
+    </Y>
+    <SpeciesRef>XHIT-SWQJXJOGLNCZEY-UHFFFAOYSA-N</SpeciesRef>
+    <SpeciesRef>XHIT-YZCKVEUIGOORGS-UHFFFAOYSA-N</SpeciesRef>
+</CollisionInducedAbsorptionCrossSection>
+<CollisionInducedAbsorptionCrossSection envRef="EHIT-513" id="PHIT-CIA-1">
+    <Description>The collision-induced absorption cross section for He-H at 2250.0 K</Description>
+    <X parameter="nu" units="1/cm">
+        <LinearSequence count="10951" initial="50.000000" increment="1.000000"/>
+    </X>
+    <Y parameter="alpha" units="cm5">
+    <DataFile>He-H_2250.0K_50-11000.alpha</DataFile>
+    </Y>
+    <SpeciesRef>XHIT-SWQJXJOGLNCZEY-UHFFFAOYSA-N</SpeciesRef>
+    <SpeciesRef>XHIT-YZCKVEUIGOORGS-UHFFFAOYSA-N</SpeciesRef>
+</CollisionInducedAbsorptionCrossSection>
+<CollisionInducedAbsorptionCrossSection envRef="EHIT-514" id="PHIT-CIA-2">
+    <Description>The collision-induced absorption cross section for He-H at 3000.0 K</Description>
+    <X parameter="nu" units="1/cm">
+        <LinearSequence count="10951" initial="50.000000" increment="1.000000"/>
+    </X>
+    <Y parameter="alpha" units="cm5">
+    <DataFile>He-H_3000.0K_50-11000.alpha</DataFile>
+    </Y>
+    <SpeciesRef>XHIT-SWQJXJOGLNCZEY-UHFFFAOYSA-N</SpeciesRef>
+    <SpeciesRef>XHIT-YZCKVEUIGOORGS-UHFFFAOYSA-N</SpeciesRef>
+</CollisionInducedAbsorptionCrossSection>
+</Radiative>
+    <Collisions>
+        <CollisionalTransition id="PHIT-C-CIA-0">
+            <ProcessClass></ProcessClass>
+            <Reactant><SpeciesRef>XHIT-SWQJXJOGLNCZEY-UHFFFAOYSA-N</SpeciesRef></Reactant>
+            <Reactant><SpeciesRef>XHIT-SWQJXJOGLNCZEY-UHFFFAOYSA-N</SpeciesRef></Reactant>
+            <DataSets>
+                <DataSet dataDescription="crossSection">
+                    <Comments>The collision-induced absorption cross section for He-H at 2250.0 K</Comments>
+                    <TabulatedData>
+                        <X parameter="nu" units="1/cm">
+                              <LinearSequence count="10951" initial="50.000000" increment="1.000000"/>
+                              <Accuracy>
+                                <ErrorValue>
+                                    0.2
+                                </ErrorValue>
+                              </Accuracy>
+                            </X>
+                            <Y parameter="alpha" units="cm5">
+                                <DataFile>He-H_2250.0K_50-11000.alpha</DataFile>
+                            </Y>
+                        
+                    </TabulatedData>
+                </DataSet>
+            </DataSets>
+        </CollisionalTransition>
+    </Collisions>
+</Processes>
+</XSAMSData>
