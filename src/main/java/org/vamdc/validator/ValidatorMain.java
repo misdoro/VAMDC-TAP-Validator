@@ -45,7 +45,7 @@ public class ValidatorMain{
 			proc = new CLIProcess(parser);
 		}
 
-		if (proc.getStatus() == proc.STATUS_DONE_NOTHING){
+		if (proc.getStatus() == CLIProcess.STATUS_DONE_NOTHING){
 			System.out.println("Starting GUI");
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
