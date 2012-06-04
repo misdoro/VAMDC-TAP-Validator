@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.vamdc.validator.Settings;
+import org.vamdc.validator.OperationModes;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.interfaces.XSAMSSourceException;
 import org.vamdc.validator.interfaces.XSAMSValidatorException;
@@ -39,7 +40,7 @@ public class CLIProcess {
 			File outputFile = new File(outputPath);
 			if (outputFile.isDirectory() && outputFile.canWrite()){
 				//Force network mode
-				Settings.override(Settings.OperationMode, Settings.OperationModes.network);
+				Setting.OperationMode.setValue(OperationModes.network.name());
 				//Set status
 				status = STATUS_PROCESSED;
 				

@@ -19,7 +19,8 @@ public class FieldVerifier extends InputVerifier{
 		HTTPURL,
 		FILE,
 		DIR,
-		INT
+		INT,
+		STRING,
 	}
 
 	private Type type;
@@ -76,6 +77,8 @@ public class FieldVerifier extends InputVerifier{
 					error=e.getMessage();
 					return false;
 				}
+			default:
+				return true;
 			}
 
 		return true;

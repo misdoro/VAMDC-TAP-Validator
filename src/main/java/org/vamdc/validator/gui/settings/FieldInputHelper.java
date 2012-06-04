@@ -10,7 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.event.MouseInputListener;
 import javax.swing.text.JTextComponent;
 
-import org.vamdc.validator.gui.GuiSettings;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.gui.settings.FieldVerifier.Type;
 
 /**
@@ -27,7 +27,7 @@ public class FieldInputHelper implements ActionListener, MouseInputListener {
 		this.type = myType;
 		if(this.type.equals(Type.DIR)||this.type.equals(Type.FILE)){
 			chooser = new JFileChooser();
-			File fodir = new File(GuiSettings.get(GuiSettings.FILE_OPEN_PATH));
+			File fodir = new File(Setting.GUIFileOpenPath.getValue());
 			chooser.setCurrentDirectory(fodir);
 			chooser.setMultiSelectionEnabled(false);
 			if (this.type.equals(Type.DIR))

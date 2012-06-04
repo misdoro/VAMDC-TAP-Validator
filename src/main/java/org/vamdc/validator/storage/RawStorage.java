@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.vamdc.validator.Settings;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.DocumentStorage;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 
@@ -134,7 +134,7 @@ public class RawStorage extends OutputStream{
 			File tempdir = null;//Temporary directory path specified by user
 			File storage = null;//Storage temporary file
 			//Try to find directory specified for temp files
-			String tempdirpath=Settings.get(Settings.StorageTempPath);
+			String tempdirpath=Setting.StorageTempPath.getValue();
 			if (tempdirpath!="" 
 					&& (tempdir = new File(tempdirpath))!=null 
 					&& tempdir.isDirectory() 

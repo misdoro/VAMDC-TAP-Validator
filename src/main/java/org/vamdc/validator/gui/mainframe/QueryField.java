@@ -4,7 +4,7 @@ package org.vamdc.validator.gui.mainframe;
 import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
 
-import org.vamdc.validator.gui.GuiSettings;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 
 public class QueryField extends JComboBox implements ComponentUpdateInterface{
@@ -21,7 +21,7 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 	}
 
 	private void loadQueries(){
-		String allqueries = GuiSettings.get(GuiSettings.QUERY_HISTORY, "Select * where AtomSymbol='Fe';");
+		String allqueries = Setting.GUIQueryHistory.getValue();
 		queries = allqueries.split(";");
 		for (String query:queries){
 			if (query.length()>1)
@@ -55,7 +55,7 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 			if (i++>10)
 				break;
 		}
-		GuiSettings.put(GuiSettings.QUERY_HISTORY, queryLogStr.toString());
+		Setting.GUIQueryHistory.setValue(queryLogStr.toString(), true);
 		this.removeAllItems();
 		
 		this.loadQueries();

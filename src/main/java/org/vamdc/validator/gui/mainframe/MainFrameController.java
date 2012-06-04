@@ -11,8 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
-import org.vamdc.validator.gui.GuiSettings;
 import org.vamdc.validator.gui.settings.SettingsPanel;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -151,11 +151,11 @@ public class MainFrameController implements ActionListener {
 		new RestrictablesController(frame.restrictPanel,frame.getQueryField());
 
 		saveChooser = new JFileChooser();
-		File cdir = new File(GuiSettings.get(GuiSettings.FILE_SAVE_PATH));
+		File cdir = new File(Setting.GUIFileSavePath.getValue());
 		saveChooser.setCurrentDirectory(cdir);
 
 		loadChooser = new JFileChooser();
-		File fodir = new File(GuiSettings.get(GuiSettings.FILE_OPEN_PATH));
+		File fodir = new File(Setting.GUIFileOpenPath.getValue());
 		loadChooser.setCurrentDirectory(fodir);
 
 		locController = new LocatorPanelController(doc,frame.xsamsPanel);
@@ -191,7 +191,6 @@ public class MainFrameController implements ActionListener {
 		}else if (command == MenuBar.CMD_CONFIG){
 			settingsFrame.pack();
 			settingsFrame.setVisible(true);
-			frame.setEnabled(false);
 		}else if (command == MenuBar.CMD_OPEN){
 			handleFileOpen();
 		}else if (command == MenuBar.CMD_SAVE){
@@ -239,7 +238,7 @@ public class MainFrameController implements ActionListener {
 			final File filename = loadChooser.getSelectedFile();
 			if (filename.exists() && filename.canRead()&& inputThread==null){
 				//Save new file path
-				GuiSettings.put(GuiSettings.FILE_OPEN_PATH, filename.getPath());
+				Setting.GUIFileOpenPath.setValue(filename.getPath(),true);
 				//Create a thread processing file
 				inputThread = new Thread( new Runnable(){
 					@Override
@@ -273,7 +272,8 @@ public class MainFrameController implements ActionListener {
 					JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)){
 
 				//Save path in preferences for future use
-				GuiSettings.put(GuiSettings.FILE_SAVE_PATH, filename.getPath());
+				Setting.GUIFileSavePath.setValue(filename.getPath(),true);
+				
 				//Tell storage to save file
 				try{
 					doc.saveFile(filename);
@@ -320,7 +320,6 @@ public class MainFrameController implements ActionListener {
 		try{
 			doc.reconfigure();
 			settingsFrame.setVisible(false);
-			frame.setEnabled(true);
 			frame.updateFromModel(true);
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(settingsFrame, "Exception while applying new settings: "+e.getMessage(),"Settings",JOptionPane.ERROR_MESSAGE);

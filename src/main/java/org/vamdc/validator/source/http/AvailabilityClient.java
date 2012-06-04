@@ -1,6 +1,6 @@
 package org.vamdc.validator.source.http;
 
-import org.vamdc.validator.Settings;
+import org.vamdc.validator.Setting;
 
 import net.ivoa.xml.vosiavailability.v1.Availability;
 
@@ -12,8 +12,8 @@ public class AvailabilityClient {
 	private Availability avail=null;
 	public AvailabilityClient(String endpointURL){
 		Client client = Client.create();
-		client.setConnectTimeout(Settings.getInt(Settings.HTTP_CONNECT_TIMEOUT));
-		client.setReadTimeout(Settings.getInt(Settings.HTTP_DATA_TIMEOUT));
+		client.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getIntValue());
+		client.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getIntValue());
 		WebResource availResource = client.resource(endpointURL);
 		avail = availResource.get(Availability.class);
 		System.out.println("TAP Service is available!"+avail.isAvailable());

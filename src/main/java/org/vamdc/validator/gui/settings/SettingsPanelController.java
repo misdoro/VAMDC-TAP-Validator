@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import org.vamdc.validator.Settings;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.gui.mainframe.MainFrameController;
 
 public class SettingsPanelController implements ActionListener{
@@ -35,7 +35,7 @@ public class SettingsPanelController implements ActionListener{
 			//Reset settings to defaults
 			if (JOptionPane.showConfirmDialog(panel, "Load defaults for all options?", "Settings", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){	
 
-				Settings.reset();
+				Setting.reset();
 				panel.loadSettings();
 			}
 		}

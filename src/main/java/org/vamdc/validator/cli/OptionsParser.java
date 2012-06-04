@@ -1,6 +1,7 @@
 package org.vamdc.validator.cli;
 
-import org.vamdc.validator.Settings;
+import org.vamdc.validator.Setting;
+
 
 /**
  * Init options, parse, override settings
@@ -104,14 +105,21 @@ public class OptionsParser extends CommandOptions{
 	 */
 	public void overrideSettings(){
 		//String value = null;
-		//Service URL		
-		Settings.override(Settings.ServiceTAPURL,this.getOptionValue(serviceTap));
-		Settings.override(Settings.ServiceVOSIURL,this.getOptionValue(serviceCaps));
-		Settings.override(Settings.SchemaFile, this.getOptionValue(schemaLocation));
-		Settings.override(Settings.SchemaLocations, this.getOptionValue(namespaceLocation));
-		Settings.override(Settings.ServicePrettyOut, this.getOptionValue(servicePrettyOut));
-		Settings.override(Settings.StorageTempPath, this.getOptionValue(tempPath));
+		//Service URL
+		loadSetting(Setting.ServiceTAPURL,serviceTap);
+		loadSetting(Setting.ServiceVOSIURL,serviceCaps);
+		loadSetting(Setting.SchemaFile,schemaLocation);
+		loadSetting(Setting.SchemaLocations,namespaceLocation);
+		loadSetting(Setting.PrettyPrint,servicePrettyOut);
+		loadSetting(Setting.StorageTempPath,tempPath);
 
+	}
+	
+	private void loadSetting(Setting parameter,Option option){
+		Object result = this.getOptionValue(option);
+		if (result!=null){
+			parameter.setValue(result.toString());
+		}
 	}
 	
 }

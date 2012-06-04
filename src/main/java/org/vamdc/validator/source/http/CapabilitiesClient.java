@@ -7,7 +7,7 @@ import net.ivoa.xml.voresource.v1.Capability;
 import net.ivoa.xml.voresource.v1.Interface;
 import net.ivoa.xml.vosicapabilities.v1.Capabilities;
 
-import org.vamdc.validator.Settings;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSSourceException;
 import org.vamdc.xml.vamdc_tap.v1.VamdcTap;
 
@@ -33,8 +33,8 @@ public class CapabilitiesClient {
 	private Collection<String> sampleQueries=new ArrayList<String>();
 	public CapabilitiesClient(String endpointURL) throws XSAMSSourceException{
 		Client client = Client.create();
-		client.setConnectTimeout(Settings.getInt(Settings.HTTP_CONNECT_TIMEOUT));
-		client.setReadTimeout(Settings.getInt(Settings.HTTP_DATA_TIMEOUT));
+		client.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getIntValue());
+		client.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getIntValue());
 		
 		WebResource availabilityResource = client.resource(endpointURL);
 		try{

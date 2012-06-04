@@ -15,7 +15,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.vamdc.validator.Settings;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.DocumentElement;
 import org.vamdc.validator.interfaces.DocumentElementsLocator;
 import org.vamdc.validator.interfaces.DocumentError;
@@ -36,8 +36,8 @@ public class XMLReport {
 
 		report = new Report();
 		//Fill in report
-		report.setNodeCapabilitiesUrl(Settings.get(Settings.ServiceVOSIURL));
-		report.setNodeTapSyncUrl(Settings.get(Settings.ServiceTAPURL));
+		report.setNodeCapabilitiesUrl(Setting.ServiceVOSIURL.getValue());
+		report.setNodeTapSyncUrl(Setting.ServiceTAPURL.getValue());
 		report.setNodeAvailable(doc.getLineCount()>0);
 		
 		XMLGregorianCalendar cal=null;

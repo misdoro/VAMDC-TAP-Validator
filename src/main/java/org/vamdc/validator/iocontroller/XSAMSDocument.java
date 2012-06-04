@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.io.input.TeeInputStream;
-import org.vamdc.validator.Settings;
-import org.vamdc.validator.Settings.OperationModes;
+import org.vamdc.validator.OperationModes;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.DocumentElementsLocator;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -167,12 +167,12 @@ public class XSAMSDocument implements XSAMSIOModel{
 	
 	private XSAMSSource setupSource() throws XSAMSSourceException{
 		XSAMSSource src = null;
-		switch( OperationModes.valueOf((String)Settings.get(Settings.OperationMode))){
+		switch( OperationModes.valueOf(Setting.OperationMode.getValue())){
 		case network:
 			src = new HttpXSAMSSource();
 			break;
 		case plugin:
-			String pluginClass = Settings.get(Settings.PluginClass);
+			String pluginClass = Setting.PluginClass.getValue();
 			src = new PluginXSAMSSource(pluginClass);
 			break;
 		default:
@@ -218,8 +218,8 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 		//Setup XSAMS validator
 		validator = new Validator(
-				Settings.get(Settings.SchemaFile),
-				Settings.get(Settings.SchemaLocations));
+				Setting.SchemaFile.getValue(),
+				Setting.SchemaLocations.getValue());
 	}
 
 	@Override

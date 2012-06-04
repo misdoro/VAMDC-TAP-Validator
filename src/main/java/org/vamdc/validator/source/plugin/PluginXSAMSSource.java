@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.vamdc.dictionary.Restrictable;
-import org.vamdc.validator.Settings;
+import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSSource;
 import org.vamdc.validator.interfaces.XSAMSSourceException;
 import org.vamdc.xsams.io.IOSettings;
@@ -22,12 +22,11 @@ public class PluginXSAMSSource extends XSAMSSource{
 		}catch (ClassNotFoundException e){
 			throw new XSAMSSourceException("Class "+e.getMessage()+" not found");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		XSAMSSettings.idPrefix.setStrValue(Settings.get(Settings.PluginIDPrefix));
-		XSAMSSettings.processesLimit.setIntValue(Settings.getInt(Settings.PluginLimitProcesses));
-		XSAMSSettings.statesLimit.setIntValue(Settings.getInt(Settings.PluginLimitStates));
+		XSAMSSettings.idPrefix.setStrValue(Setting.PluginIDPrefix.getValue());
+		XSAMSSettings.processesLimit.setIntValue(Setting.PluginLimitProcesses.getIntValue());
+		XSAMSSettings.statesLimit.setIntValue(Setting.PluginLimitStates.getIntValue());
 		
 	}
 
