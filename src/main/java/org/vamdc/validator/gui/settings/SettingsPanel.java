@@ -39,9 +39,8 @@ public class SettingsPanel extends JPanel{
 	private MainFrameController main;
 	private SettingsPanelController control;
 	
-	private Collection<SettingField> fields = new ArrayList<SettingField>();
+	private Collection<SettingControl> fields = new ArrayList<SettingControl>();
 	private JRadioButton useNetMode,usePlugMode;
-	private JCheckBox prettyInput;
 	private JTable schemaTable;
 	private NamespaceTableModel nsTableModel;
 
@@ -132,10 +131,13 @@ public class SettingsPanel extends JPanel{
 		gridItem(grid);
 		netPanel.add(getTextField(Setting.ServiceTAPSuffix,Type.STRING,fields),grid);
 		
-		//Pretty-printing switch
 		gridNextLabel(grid);
 		gridItem(grid);
-		netPanel.add(prettyInput=new JCheckBox("Input pretty-printing"),grid);
+		netPanel.add(getCheckbox(Setting.PrettyPrint,"Input pretty-printing",fields),grid);
+		
+		gridNextLabel(grid);
+		gridItem(grid);
+		netPanel.add(getCheckbox(Setting.UseGzip,"Use transfer compression",fields),grid);
 
 		addLabel(netPanel,grid,"HTTP CONNECT timeout");
 		gridItem(grid);
@@ -186,7 +188,7 @@ public class SettingsPanel extends JPanel{
 			panel.add(new JLabel(label),grid);
 	}
 
-	private SettingField getTextField(Setting option,Type type,Collection<SettingField> fields){
+	private SettingField getTextField(Setting option,Type type,Collection<SettingControl> fields){
 		SettingField field = new SettingField(option);
 		FieldInputHelper helper = new FieldInputHelper(type);
 		field.addActionListener(helper);
@@ -196,6 +198,13 @@ public class SettingsPanel extends JPanel{
 		field.setName(option.name());
 		fields.add(field);
 		return field;
+	}
+	
+	private JCheckBox getCheckbox(Setting option, String label, Collection<SettingControl> fields){
+		SettingCheckbox result = new SettingCheckbox(option,label);
+		fields.add(result);
+		return result;
+		
 	}
 	
 	/**
@@ -249,7 +258,7 @@ public class SettingsPanel extends JPanel{
 	 */
 	public void saveSettings(){
 		
-		for (SettingField field:fields){
+		for (SettingControl field:fields){
 			field.save();
 		}
 		
@@ -265,7 +274,6 @@ public class SettingsPanel extends JPanel{
 		if (sl!=null && !sl.equals(Setting.getSchemaLoc())){
 			Setting.SchemaLocations.setValue(sl);
 		}
-		Setting.PrettyPrint.setValue(prettyInput.isSelected());
 		
 		Setting.save();
 		
@@ -278,7 +286,7 @@ public class SettingsPanel extends JPanel{
 		
 		Setting.load();
 		
-		for (SettingField field:fields){
+		for (SettingControl field:fields){
 			field.load();
 		}
 		
@@ -296,8 +304,6 @@ public class SettingsPanel extends JPanel{
 		}
 		
 		nsTableModel.setNSString(Setting.SchemaLocations.getValue());
-		
-		//prettyInput.setSelected(Settings.getBoolean(Settings.ServicePrettyOut));
 	}
 
 }
