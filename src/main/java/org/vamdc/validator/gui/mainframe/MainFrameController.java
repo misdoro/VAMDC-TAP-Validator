@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -15,6 +16,7 @@ import org.vamdc.validator.gui.GuiSettings;
 import org.vamdc.validator.gui.settings.SettingsPanel;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
+
 
 public class MainFrameController implements ActionListener {
 
@@ -125,7 +127,7 @@ public class MainFrameController implements ActionListener {
 	private Thread inputThread; //Thread for xsams input
 
 	public final LocatorPanelController locController; 
-	private JFrame settingsFrame;
+	private JDialog settingsFrame;
 	private SettingsPanel settingsPanel;
 	private String searchPattern="";
 	private final JFileChooser saveChooser;
@@ -136,9 +138,12 @@ public class MainFrameController implements ActionListener {
 		this.frame=frame;
 
 		settingsPanel = new SettingsPanel(this);
-		settingsFrame = new JFrame("Settings");
+		settingsFrame = new JDialog(frame,"Settings");
 		settingsFrame.setContentPane(settingsPanel);
 		settingsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		settingsFrame.setModal(true);
+		//frame.addFocusListener(new SettingsActivator(frame,settingsFrame));
+		
 
 		//Init text panel controllers
 		new XsamsPanelController(frame.xsamsPanel,this.doc);
@@ -186,6 +191,7 @@ public class MainFrameController implements ActionListener {
 		}else if (command == MenuBar.CMD_CONFIG){
 			settingsFrame.pack();
 			settingsFrame.setVisible(true);
+			frame.setEnabled(false);
 		}else if (command == MenuBar.CMD_OPEN){
 			handleFileOpen();
 		}else if (command == MenuBar.CMD_SAVE){
@@ -314,6 +320,7 @@ public class MainFrameController implements ActionListener {
 		try{
 			doc.reconfigure();
 			settingsFrame.setVisible(false);
+			frame.setEnabled(true);
 			frame.updateFromModel(true);
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(settingsFrame, "Exception while applying new settings: "+e.getMessage(),"Settings",JOptionPane.ERROR_MESSAGE);
