@@ -25,8 +25,8 @@ public class PluginXSAMSSource extends XSAMSSource{
 			e.printStackTrace();
 		}
 		XSAMSSettings.idPrefix.setStrValue(Setting.PluginIDPrefix.getValue());
-		XSAMSSettings.processesLimit.setIntValue(Setting.PluginLimitProcesses.getIntValue());
-		XSAMSSettings.statesLimit.setIntValue(Setting.PluginLimitStates.getIntValue());
+		XSAMSSettings.processesLimit.setIntValue(Setting.PluginLimitProcesses.getInt());
+		XSAMSSettings.statesLimit.setIntValue(Setting.PluginLimitStates.getInt());
 		
 	}
 

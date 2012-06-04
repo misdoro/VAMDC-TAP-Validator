@@ -12,8 +12,8 @@ public class AvailabilityClient {
 	private Availability avail=null;
 	public AvailabilityClient(String endpointURL){
 		Client client = Client.create();
-		client.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getIntValue());
-		client.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getIntValue());
+		client.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
+		client.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
 		WebResource availResource = client.resource(endpointURL);
 		avail = availResource.get(Availability.class);
 		System.out.println("TAP Service is available!"+avail.isAvailable());

@@ -33,8 +33,8 @@ public class CapabilitiesClient {
 	private Collection<String> sampleQueries=new ArrayList<String>();
 	public CapabilitiesClient(String endpointURL) throws XSAMSSourceException{
 		Client client = Client.create();
-		client.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getIntValue());
-		client.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getIntValue());
+		client.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
+		client.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
 		
 		WebResource availabilityResource = client.resource(endpointURL);
 		try{

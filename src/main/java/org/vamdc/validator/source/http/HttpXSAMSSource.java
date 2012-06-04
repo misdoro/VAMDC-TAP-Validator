@@ -74,8 +74,8 @@ public class HttpXSAMSSource extends XSAMSSource {
 	public InputStream doQuery(String query) throws XSAMSSourceException{
 		URL requestURL = null;
 		
-		IOSettings.httpConnectTimeout.setIntValue(Setting.HTTP_CONNECT_TIMEOUT.getIntValue());
-		IOSettings.httpDataTimeout.setIntValue(Setting.HTTP_DATA_TIMEOUT.getIntValue());
+		IOSettings.httpConnectTimeout.setIntValue(Setting.HTTP_CONNECT_TIMEOUT.getInt());
+		IOSettings.httpDataTimeout.setIntValue(Setting.HTTP_DATA_TIMEOUT.getInt());
 		int pretty = 0;
 		if (Setting.PrettyPrint.getBool())
 			pretty=1;

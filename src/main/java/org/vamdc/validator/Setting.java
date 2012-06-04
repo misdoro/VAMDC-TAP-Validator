@@ -69,7 +69,7 @@ public enum Setting {
 			
 	}
 	public String getValue(){ return value.toString(); }
-	public int getIntValue(){ return Integer.parseInt(getValue()); }
+	public int getInt(){ return Integer.parseInt(getValue()); }
 	public boolean getBool(){ return Boolean.parseBoolean(getValue()); }
 	
 	public static void load(){
