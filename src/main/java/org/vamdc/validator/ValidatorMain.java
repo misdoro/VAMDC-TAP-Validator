@@ -25,6 +25,8 @@ public class ValidatorMain{
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		
+		Setting.load();
 
 		OptionsParser parser = new OptionsParser();
 
