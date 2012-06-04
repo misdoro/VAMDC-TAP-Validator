@@ -10,11 +10,9 @@ import org.vamdc.validator.interfaces.DocumentStorage;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 
 /**
+ * Storage controller, able to retrieve document lines
  * 
- * @author doronin
- *
  */
-
 public class RawStorage extends OutputStream{
 
 	public RawStorage(ProgressMonitor monitor) {
