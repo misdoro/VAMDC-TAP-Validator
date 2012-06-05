@@ -3,6 +3,7 @@ package org.vamdc.validator.source.plugin;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -62,10 +63,8 @@ public class PluginXSAMSSource implements XSAMSSource{
 
 	@Override
 	public Collection<String> getSampleQueries() {
-		/*Plugin is not responsible for the sample queries generation,
-		 * so return an empty ArrayList<String>
-		 */
-		return new ArrayList<String>();
+		//Plugin is not responsible for sample queries generation
+		return Collections.emptyList();
 	}
 
 	@Override
