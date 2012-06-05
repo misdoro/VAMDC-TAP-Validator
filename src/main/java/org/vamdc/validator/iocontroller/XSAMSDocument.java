@@ -7,16 +7,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.apache.commons.io.input.TeeInputStream;
+import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.OperationModes;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.DocumentElementsLocator;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
-import org.vamdc.validator.interfaces.XSAMSSource;
-import org.vamdc.validator.interfaces.XSAMSSourceException;
 import org.vamdc.validator.interfaces.XSAMSValidatorException;
+import org.vamdc.validator.source.XSAMSSource;
+import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.validator.source.http.HttpXSAMSSource;
 import org.vamdc.validator.source.plugin.PluginXSAMSSource;
 import org.vamdc.validator.storage.RawStorage;
@@ -197,8 +199,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -247,6 +248,13 @@ public class XSAMSDocument implements XSAMSIOModel{
 	@Override
 	public String getQuery() {
 		return query;
+	}
+
+	@Override
+	public Map<HeaderMetrics, String> previewQuery(String query)
+			throws XSAMSSourceException {
+		this.query = query;
+		return source.getMetrics(query);
 	}
 
 	

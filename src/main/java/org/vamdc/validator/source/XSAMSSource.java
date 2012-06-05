@@ -1,22 +1,20 @@
-package org.vamdc.validator.interfaces;
+package org.vamdc.validator.source;
 
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Map;
+
+import org.vamdc.dictionary.HeaderMetrics;
 
 /**
  * Interface between xsams source and saving/validating controller
  * @author Misha Doronin
  */
-public abstract class XSAMSSource{
-	/**
-	 * Create XSAMSSource of specified type
-	 * @throws XSAMSSourceException
-	 */
-	public XSAMSSource() throws XSAMSSourceException{
-	}
+public interface XSAMSSource{
+	
 	/**
 	 * Get XSAMS XML data stream corresponding to query
-	 * @param query VSS1 query to put on plugin
+	 * @param query VSS query to give to plugin
 	 * @return stream of XML data corresponding to query
 	 * @throws XSAMSSourceException error occured, if any
 	 */
@@ -33,5 +31,13 @@ public abstract class XSAMSSource{
 	 * @return collection of sample queries: simple, fast and valid
 	 */
 	public abstract Collection<String> getSampleQueries();
+	
+	/**
+	 * Get estimated result document metrics
+	 * @param query VSS query to give to plugin
+	 * @return map of header keywords and their integer values
+	 * @throws XSAMSSourceException 
+	 */
+	public abstract Map<HeaderMetrics,String> getMetrics(String query) throws XSAMSSourceException;
 	
 }

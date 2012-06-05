@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Map;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
+import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
 import org.vamdc.validator.gui.search.SearchData;
@@ -144,8 +146,9 @@ public class MainFrameController implements ActionListener {
 		System.out.println(command);
 
 		if (command == MainFrame.DO_QUERY){
-			handleDoQuery();
-
+			handleDoQuery(false);
+		}else if (command == MainFrame.PRE_QUERY){
+			handleDoQuery(true);
 		}else if (command == MainFrame.STOP_QUERY){
 			if (inputThread!=null){
 				doc.stopQuery();
@@ -206,7 +209,7 @@ public class MainFrameController implements ActionListener {
 	/**
 	 * Handle query action
 	 */
-	private void handleDoQuery(){
+	private void handleDoQuery(final boolean isPreview){
 		//Save query
 		final String query = frame.getQuery();
 		if (inputThread==null){
@@ -215,7 +218,12 @@ public class MainFrameController implements ActionListener {
 				public void run() {
 					try{
 						frame.progress.setIndeterminate(true);
-						doc.doQuery(query);
+						if (isPreview){
+							processHeaders(doc.previewQuery(query));
+							frame.progress.setIndeterminate(false);
+						}
+						else
+							doc.doQuery(query);
 					}catch (Exception e){
 						JOptionPane.showMessageDialog(frame, "Exception during query: "+e.getMessage(),"Query",JOptionPane.ERROR_MESSAGE);
 						frame.progress.setIndeterminate(false);
@@ -230,6 +238,15 @@ public class MainFrameController implements ActionListener {
 
 		}
 	}
+	protected void processHeaders(Map<HeaderMetrics, String> previewQuery) {
+		StringBuilder message=new StringBuilder();
+		for (HeaderMetrics metric:previewQuery.keySet()){
+			message.append(metric.name().replace("_", "-")).append(":");
+			message.append(previewQuery.get(metric)).append("\n");
+		}
+		JOptionPane.showMessageDialog(frame,message.toString());
+	}
+
 	/**
 	 * Handle file open action
 	 */

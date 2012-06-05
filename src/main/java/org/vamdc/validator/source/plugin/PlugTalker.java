@@ -1,8 +1,10 @@
 package org.vamdc.validator.source.plugin;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.vamdc.dictionary.Restrictable;
+import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.tapservice.api.DatabasePlug;
 import org.vamdc.tapservice.api.RequestInterface;
 
@@ -33,6 +35,11 @@ public class PlugTalker {
 	public Collection<Restrictable> getRestrictables() {
 		if (getPlugInst() == null) return null;
 		return getPlugInst().getRestrictables();
+	}
+	
+	public Map<HeaderMetrics,Integer> getMetrics(RequestInterface userRequest){
+		if (getPlugInst() == null) return null;
+		return getPlugInst().getMetrics(userRequest);
 	}
 	
 }

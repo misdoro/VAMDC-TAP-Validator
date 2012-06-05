@@ -3,16 +3,28 @@ package org.vamdc.validator.interfaces;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
+
+import org.vamdc.dictionary.HeaderMetrics;
+import org.vamdc.validator.source.XSAMSSourceException;
 
 public interface XSAMSIOModel{
 	
 	/**
-	 * Send VSS1 query to XSAMSSource
+	 * Send VSS query to XSAMSSource
 	 * @param query query string
 	 * @return output document lines count
-	 * @throws XSAMSSourceException exception, if any, that occured during the query
+	 * @throws XSAMSSourceException exception, if any, that occurred during the query
 	 */
 	public long doQuery(String query) throws XSAMSSourceException,XSAMSValidatorException;
+	
+	/**
+	 * Sends a HEAD request with VSS query to estimate the data
+	 * @param query query string
+	 * @return map with estimation headers
+	 * @throws XSAMSSourceException
+	 */
+	public Map<HeaderMetrics,String> previewQuery(String query) throws XSAMSSourceException;
 	
 	/**
 	 * Get error info.

@@ -8,9 +8,9 @@ import java.util.Collection;
 import org.vamdc.validator.OperationModes;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
-import org.vamdc.validator.interfaces.XSAMSSourceException;
 import org.vamdc.validator.interfaces.XSAMSValidatorException;
 import org.vamdc.validator.iocontroller.XSAMSDocument;
+import org.vamdc.validator.source.XSAMSSourceException;
 
 /**
  * Command-line interface process.

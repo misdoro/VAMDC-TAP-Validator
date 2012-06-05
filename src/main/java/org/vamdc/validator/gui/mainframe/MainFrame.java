@@ -26,6 +26,7 @@ import org.vamdc.validator.interfaces.XSAMSIOModel;
 public class MainFrame extends JFrame implements ComponentUpdateInterface, ProgressMonitor{
 	private static final long serialVersionUID = 4739426234268388161L;
 
+	public final static String PRE_QUERY = "Preview";
 	public final static String DO_QUERY = "Query";
 	public final static String STOP_QUERY = "Stop";
 		
@@ -101,22 +102,25 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		childComponents.add(query);
 		constraints.weightx = 0;
 		
-		JButton doQuery = new JButton(MainFrame.DO_QUERY);
-		doQuery.setActionCommand(MainFrame.DO_QUERY);
-		doQuery.addActionListener(controller);
-		constraints.gridx++;
-		queryPanel.add(doQuery,constraints);
-		
-		JButton stopQuery = new JButton(MainFrame.STOP_QUERY);
-		stopQuery.setActionCommand(MainFrame.STOP_QUERY);
-		stopQuery.addActionListener(controller);
-		constraints.gridx++;
-		queryPanel.add(stopQuery,constraints);
+		addActionButton(queryPanel, constraints,MainFrame.PRE_QUERY);
+		addActionButton(queryPanel, constraints,MainFrame.DO_QUERY);
+		addActionButton(queryPanel, constraints,MainFrame.STOP_QUERY);
 		
 		constraints.gridx++;
 		queryPanel.add(progress,constraints);
 		
 		return queryPanel;
+	}
+
+
+
+	private void addActionButton(JPanel queryPanel,
+			GridBagConstraints constraints,String action) {
+		JButton stopQuery = new JButton(action);
+		stopQuery.setActionCommand(action);
+		stopQuery.addActionListener(controller);
+		constraints.gridx++;
+		queryPanel.add(stopQuery,constraints);
 	}
 	
 	private Component getCenterPanel(){

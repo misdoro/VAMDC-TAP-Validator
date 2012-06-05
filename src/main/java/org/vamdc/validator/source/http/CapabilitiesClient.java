@@ -8,7 +8,7 @@ import net.ivoa.xml.voresource.v1.Interface;
 import net.ivoa.xml.vosicapabilities.v1.Capabilities;
 
 import org.vamdc.validator.Setting;
-import org.vamdc.validator.interfaces.XSAMSSourceException;
+import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.xml.vamdc_tap.v1.VamdcTap;
 
 import com.sun.jersey.api.client.Client;
