@@ -54,39 +54,6 @@ public class MainFrameController implements ActionListener {
 			xsamsPanel.centerLine((int)clickedError.getElement().getFirstLine());
 		}
 
-		/*@Override
-		public void update() {
-			if (xsamsdoc!=null && xsamsdoc.getElementsLocator()!=null && xsamsdoc.getElementsLocator().getErrors()!=null){
-				//Get count of errors:
-				List<DocumentError> errors = xsamsdoc.getElementsLocator().getErrors();
-				int length = errors.size();
-				if (length <=0 ){//No errors, reset me to empty.
-					this.reset();
-				}else{//Model has some errors data to display
-
-
-					//Check if XSAMS window tracks me, re-highlight it and move
-					if (GuiSettings.getBoolean(GuiSettings.TRACK_ERRORS, false)){
-						//Highlight active line in me
-						panel.resetHighlight();
-						panel.highlightLine(panel.getScrollBar().getValue(), Color.BLUE);
-
-						xscontroller.panel.resetHighlight();
-						int start = panel.getScrollBar().getValue()-panel.getWindowRows()/2;
-						if (start<0) start=0;
-						int count = panel.getWindowRows();
-						for (int i=start;(i<start+count)&&i<errors.size();i++){
-							xscontroller.panel.addHighlight(errors.get(i).getElement(), Color.RED);
-						}
-						int center = panel.getScrollBar().getValue()-1;
-						xscontroller.panel.centerLine(errors.get(center).getElement().getFirstLine());
-					}
-
-				}
-
-			}
-		}*/
-
 	}
 
 	private static class RestrictablesController extends TextPanelController{
@@ -182,7 +149,6 @@ public class MainFrameController implements ActionListener {
 		}else if (command == MainFrame.STOP_QUERY){
 			if (inputThread!=null){
 				doc.stopQuery();
-				//this.done(0,);
 			}
 		}else if (command == MenuBar.CMD_FIND){
 			searchFrame.pack();
