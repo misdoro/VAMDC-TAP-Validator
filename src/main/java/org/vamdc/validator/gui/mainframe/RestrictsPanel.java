@@ -1,8 +1,10 @@
 package org.vamdc.validator.gui.mainframe;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.vamdc.dictionary.Restrictable;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 
 public class RestrictsPanel extends TextPanel implements ComponentUpdateInterface{
@@ -23,6 +25,15 @@ public class RestrictsPanel extends TextPanel implements ComponentUpdateInterfac
 				text.append(restricts.get(i)).append("\n");
 			}
 			this.setText(text.toString());
+			for (int i=start;i<end;i++){
+				String restrict = restricts.get(i);
+				Restrictable keyword=null;
+				try{
+					keyword=Restrictable.valueOfIgnoreCase(restrict);
+				}catch (IllegalArgumentException e){}
+				if (keyword==null)
+					highlightLine(i+1, Color.LIGHT_GRAY);
+			}
 		}else{
 			reset();
 		}
