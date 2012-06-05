@@ -46,11 +46,6 @@ public class SettingsPanel extends JPanel{
 
 	//Button group for operation mode chooser
 	private ButtonGroup opModeGroup= new ButtonGroup();
-
-	public SettingsPanel(){
-		super();
-		init();
-	}
 	
 	public SettingsPanel(MainFrameController main){
 		super();
