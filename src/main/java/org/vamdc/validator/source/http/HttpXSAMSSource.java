@@ -143,6 +143,8 @@ public class HttpXSAMSSource implements XSAMSSource {
 		try {
 			HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
 			conn.setRequestMethod("HEAD");
+			conn.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
+			conn.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
 			if (conn.getResponseCode()!=200)
 				throw new XSAMSSourceException("Response code "+conn.getResponseCode()+" for "+requestURL.toString());
 			return processHeaders(conn.getHeaderFields());
