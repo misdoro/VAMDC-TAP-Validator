@@ -21,7 +21,7 @@ public class AvailabilityClient {
 	
 	public String getMessage(){
 		StringBuilder out=new StringBuilder();
-		for (String note:avail.getNotes()){
+		for (String note:avail.getNote()){
 			out.append(note).append("\n");
 		}
 		return out.toString();

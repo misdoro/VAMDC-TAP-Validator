@@ -12,6 +12,7 @@ public enum Setting {
 	ServiceTAPSuffix("tapsuffix","sync?LANG=VSS1&REQUEST=doQuery&FORMAT=XSAMS&QUERY="),
 	ServiceVOSIURL("vosiurl","http://host.name:8080/tap/capabilities"),
 	
+	RegistryURL("registryURL",""),
 	
 	HTTP_CONNECT_TIMEOUT("http_conn_timeout",2000),
 	HTTP_DATA_TIMEOUT ("http_data_timeout",30000),
@@ -27,10 +28,10 @@ public enum Setting {
 	UseGzip("compress",true),
 	
 	GUIFileSavePath("guifileSavePath",""),
-	
 	GUIFileOpenPath("guifileOpenPath",""),
-	
 	GUIQueryHistory("guiqueries","Select * where AtomSymbol='Fe';"),
+	
+	GUIVOSIHistory("guiVOSIHistory",""),
 	
 	;
 		

@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vamdc</groupId>
 	<artifactId>TAPValidator</artifactId>
 	<version>11.12-SNAPSHOT</version>
-	
+
 	<organization>
 		<name>VAMDC</name>
 		<url>http://vamdc.eu/</url>
@@ -11,18 +12,18 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<name>TAPService plugin tester and service validator</name>
 	<description>version 2, working both as http tapservice validator and as java tapservice plugin test utility</description>
 	<url>http://vamdc.doronin.org/TAPValidator</url>
-	
+
 	<scm>
 		<connection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</connection>
 		<developerConnection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</developerConnection>
 		<url>http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</url>
 	</scm>
-	
-	
+
+
 	<repositories>
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
@@ -43,7 +44,7 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>xerces</groupId>
@@ -57,6 +58,12 @@
 			<version>11.12-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.vamdc</groupId>
+			<artifactId>registry-client-light</artifactId>
+			<version>11.12</version>
+			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -89,14 +96,6 @@
 			<artifactId>jargs</artifactId>
 			<version>1.0</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.vamdc.xml</groupId>
-			<artifactId>vosi</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.vamdc.xml</groupId>
 			<artifactId>xsams-io</artifactId>
@@ -112,7 +111,7 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -155,7 +154,7 @@
 			</extension>
 		</extensions>
 	</build>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>vamdcrepo</id>
@@ -167,5 +166,14 @@
 			<url>ftp://doronin.org/</url>
 		</site>
 	</distributionManagement>
-	
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>net.ivoa</groupId>
+				<artifactId>mappings</artifactId>
+				<version>11.12</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

@@ -43,21 +43,21 @@ public class CapabilitiesClient {
 			//caps = new Capabilities();
 			throw new XSAMSSourceException(e.getMessage());
 		}
-		for (Capability cap:caps.getCapabilities()){
+		for (Capability cap:caps.getCapability()){
 			if (cap.getStandardID().equals(CapabilitiesClient.STDIDAvailability)){
-				Interface intf = cap.getInterfaces().get(0);
-				endpointAvail = intf.getAccessURLs().get(0).getValue();
+				Interface intf = cap.getInterface().get(0);
+				endpointAvail = intf.getAccessURL().get(0).getValue();
 			}
 			if (cap.getStandardID().equals(CapabilitiesClient.STDIDCapabilities)){
-				Interface intf = cap.getInterfaces().get(0);
-				endpointCapab = intf.getAccessURLs().get(0).getValue();
+				Interface intf = cap.getInterface().get(0);
+				endpointCapab = intf.getAccessURL().get(0).getValue();
 			}
 			if (cap instanceof VamdcTap){
-				Interface intf = cap.getInterfaces().get(0);
-				endpointTAPXS = intf.getAccessURLs().get(0).getValue();
+				Interface intf = cap.getInterface().get(0);
+				endpointTAPXS = intf.getAccessURL().get(0).getValue();
 				VamdcTap vts = (VamdcTap)cap;
-				restrictables.addAll(vts.getRestrictables());
-				sampleQueries.addAll(vts.getSampleQueries());
+				restrictables.addAll(vts.getRestrictable());
+				sampleQueries.addAll(vts.getSampleQuery());
 			}
 		}
 	}
