@@ -113,6 +113,7 @@ public class SettingsPanel extends JPanel{
 
 		GridBagConstraints grid = new GridBagConstraints();
 		grid.fill = GridBagConstraints.HORIZONTAL;
+		
 
 		//Mode selector
 		gridNextLabel(grid);
@@ -130,23 +131,22 @@ public class SettingsPanel extends JPanel{
 		addLabel(netPanel,grid,"TAP url suffix (EXPERT OPTION! :) )");
 		gridItem(grid);
 		netPanel.add(getTextField(Setting.ServiceTAPSuffix,Type.STRING,fields),grid);
-		
-		gridNextLabel(grid);
-		gridItem(grid);
-		netPanel.add(getCheckbox(Setting.PrettyPrint,"Input pretty-printing",fields),grid);
-		
-		gridNextLabel(grid);
-		gridItem(grid);
-		netPanel.add(getCheckbox(Setting.UseGzip,"Use transfer compression",fields),grid);
 
 		addLabel(netPanel,grid,"HTTP CONNECT timeout");
 		gridItem(grid);
+		grid.gridwidth=1;
 		netPanel.add(getTextField(Setting.HTTP_CONNECT_TIMEOUT,Type.INT,fields),grid);
 
-
+		gridItem(grid);
+		netPanel.add(getCheckbox(Setting.PrettyPrint,"Input pretty-printing",fields),grid);
+		
 		addLabel(netPanel,grid,"HTTP Data timeout");
 		gridItem(grid);
+		grid.gridwidth=1;
 		netPanel.add(getTextField(Setting.HTTP_DATA_TIMEOUT,Type.INT,fields),grid);
+		
+		gridItem(grid);
+		netPanel.add(getCheckbox(Setting.UseGzip,"Transfer compression",fields),grid);
 
 		return netPanel;
 	}
@@ -213,8 +213,9 @@ public class SettingsPanel extends JPanel{
 	 */
 	private static void gridNextLabel(GridBagConstraints grid){
 		grid.gridx=0;
-		grid.weightx = 0.0;
+		grid.weightx = 0;
 		grid.gridy++;
+		grid.gridwidth=1;
 	}
 
 	/**
@@ -223,6 +224,7 @@ public class SettingsPanel extends JPanel{
 	 */
 	private void gridItem(GridBagConstraints grid){
 		grid.gridx++;
+		grid.gridwidth=GridBagConstraints.REMAINDER;
 		grid.weightx = 1.0;
 	}
 
