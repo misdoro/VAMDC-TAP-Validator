@@ -1,5 +1,11 @@
 package org.vamdc.validator.gui.mainframe;
 
+import java.awt.Color;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+
+import org.vamdc.validator.gui.search.SearchData;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 
 /**
@@ -9,8 +15,8 @@ import org.vamdc.validator.interfaces.XSAMSIOModel;
 public class XSAMSPanel extends TextPanel implements ComponentUpdateInterface{
 
 	private static final long serialVersionUID = 3718826116022244080L;
-	private XSAMSIOModel xsamsDoc;
-	
+	private XSAMSIOModel xsamsDoc=null;
+	private SearchData search=null;
 	
 	@Override
 	public void resetComponent() {
@@ -45,6 +51,40 @@ public class XSAMSPanel extends TextPanel implements ComponentUpdateInterface{
 			this.setText(xsamsDoc.getBlock(this.getDocPosition(), this.getWindowRows()));
 		}else
 			this.resetComponent();
+	}
+	
+	@Override
+	protected void updateHighlight(){
+		super.updateHighlight();
+		if (search!=null)
+			highlightSearchResult();
+	}
+	
+	public void setSearch(SearchData search){
+		this.search=search;
+	}
+	
+	private void highlightSearchResult() {
+		String searchText = search.getSearchText();
+		if (searchText!=null && !searchText.isEmpty()){
+
+		 	String text = this.getTextArea().getText();
+			if (search.ignoreCase()){
+				searchText=searchText.toLowerCase();
+				text=text.toLowerCase();
+			}
+			int start=0,position = 0;
+
+			while((position=text.indexOf(searchText, start))>=0){
+				try {
+					hl.addHighlight(position,position+searchText.length(), 
+							new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
+				start=position+searchText.length();
+			}
+		}
 	}
 
 }

@@ -74,10 +74,16 @@ public class XSAMSDocument implements XSAMSIOModel{
 	}
 
 	@Override
-	public long searchString(String word, long lineOffset) {
+	public int searchString(String word, int lineOffset,boolean ignoreCase) {
+		if (ignoreCase)
+			word = word.toLowerCase();
 		if (storage!=null)
-			for (int line = (int)lineOffset;line<storage.getLineCount();line++){
-				if (storage.getLine(line).contains(word)) return line;
+			for (int line = lineOffset;line<storage.getLineCount();line++){
+				String textLine = storage.getLine(line);
+				if (ignoreCase)
+					textLine = textLine.toLowerCase();
+				if (textLine.contains(word)) 
+					return line;
 			}
 		return -1;
 	}

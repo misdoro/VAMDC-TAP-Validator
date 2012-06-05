@@ -53,7 +53,7 @@ public interface XSAMSIOModel{
 	 * @param lineOffset
 	 * @return line index of found string, 0 if not found.
 	 */
-	public long searchString(String word, long lineOffset);
+	public int searchString(String word, int lineOffset, boolean ignoreCase);
 	
 
 	/**

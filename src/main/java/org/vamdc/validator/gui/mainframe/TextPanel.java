@@ -38,9 +38,7 @@ public abstract class TextPanel extends JPanel  {
 	private JScrollBar scrollBar;
 	private JTextArea textArea;
 	private JIndexTextArea lineidx;
-	private Highlighter hl;
-	private String searchText;//Text to highlight in gray colour
-	private Color searchColor=Color.GRAY;
+	protected Highlighter hl;
 
 	//Elements to highlight
 	private HashMap<DocumentElement,Color> highlight;
@@ -156,11 +154,6 @@ public abstract class TextPanel extends JPanel  {
 		updateHighlight();
 	}
 
-	public void setSearchString(String text){
-		searchText=text;
-		updateHighlight();
-	}
-
 	/**
 	 * Set view position in document to docIndex
 	 * Text is then updated through call to scrollbar change event monitor.
@@ -178,7 +171,9 @@ public abstract class TextPanel extends JPanel  {
 	 * Center on certain line
 	 * @param lineIndex line index to center on
 	 */
-	public void centerLine(long lineIndex){
+	public void centerLine(int lineIndex){
+		if (lineIndex<0 || lineIndex>this.getDocEnd())
+			return;
 		long startLine = lineIndex - this.getWindowRows()/2;
 		if (startLine<=0) startLine=1;
 		this.setDocPosition(startLine);
@@ -286,28 +281,16 @@ public abstract class TextPanel extends JPanel  {
 	/**
 	 * Update highlight
 	 */
-	private void updateHighlight(){
+	protected void updateHighlight(){
 		hl.removeAllHighlights();
 		
-		//Highlight search results
-		if (searchText!=null && !searchText.isEmpty()){
-			String text = this.getTextArea().getText();
-			int start=0,position = 0;
-
-			while((position=text.indexOf(searchText, start))>=0){
-				try {
-					hl.addHighlight(position,position+searchText.length(), new DefaultHighlighter.DefaultHighlightPainter(searchColor));
-				} catch (BadLocationException e) {
-					e.printStackTrace();
-				}
-				start=position+searchText.length();
-			}
-		}
 		//Highlight elements
 		for (DocumentElement element:highlight.keySet()){
 			highlight(element,highlight.get(element));
 		}
 	}
+
+
 	/**
 	 * try to highlight specific document element in current displayable part
 	 * @param element

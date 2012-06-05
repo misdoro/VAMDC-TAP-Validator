@@ -97,7 +97,7 @@ public class LocatorPanelController implements ActionListener{
 		if (docElement!=null){
 			xsamsPanel.resetHighlight();
 			xsamsPanel.addHighlight(docElement, Color.LIGHT_GRAY);
-			xsamsPanel.centerLine(docElement.getFirstLine());
+			xsamsPanel.centerLine((int)docElement.getFirstLine());
 		}
 	}
 

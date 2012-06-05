@@ -13,6 +13,8 @@ import javax.swing.text.JTextComponent;
 
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
+import org.vamdc.validator.gui.search.SearchData;
+import org.vamdc.validator.gui.search.SearchPanel;
 import org.vamdc.validator.gui.settings.SettingsPanel;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -28,7 +30,7 @@ public class MainFrameController implements ActionListener {
 		}
 
 		@Override
-		public void clickedLine(long lineNum) {
+		public void clickedLine(int lineNum) {
 			panel.centerLine(lineNum);
 		}
 	}
@@ -46,10 +48,10 @@ public class MainFrameController implements ActionListener {
 		}
 
 		@Override
-		public void clickedLine(long lineNum) {
+		public void clickedLine(int lineNum) {
 			DocumentError clickedError = xsamsdoc.getElementsLocator().getErrors().get((int) lineNum);
 			xsamsPanel.setHighlight(clickedError.getElement(), Color.RED);
-			xsamsPanel.centerLine(clickedError.getElement().getFirstLine());
+			xsamsPanel.centerLine((int)clickedError.getElement().getFirstLine());
 		}
 
 		/*@Override
@@ -99,7 +101,7 @@ public class MainFrameController implements ActionListener {
 		}
 
 		@Override
-		public void clickedLine(long lineNum) {
+		public void clickedLine(int lineNum) {
 			//Add selected restrictable to the end of query string.
 			if (this.query==null || this.query.getText()==null)
 				return;
@@ -127,24 +129,19 @@ public class MainFrameController implements ActionListener {
 	private Thread inputThread; //Thread for xsams input
 
 	public final LocatorPanelController locController; 
-	private JDialog settingsFrame;
-	private SettingsPanel settingsPanel;
-	private String searchPattern="";
+	private JDialog settingsFrame,searchFrame;
+	private SearchData search;
 	private final JFileChooser saveChooser;
 	private final JFileChooser loadChooser;
 
 	public MainFrameController(XSAMSIOModel doc,MainFrame frame){
 		this.doc=doc;
 		this.frame=frame;
-
-		settingsPanel = new SettingsPanel(this);
-		settingsFrame = new JDialog(frame,"Settings");
-		settingsFrame.setContentPane(settingsPanel);
-		settingsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		settingsFrame.setModal(true);
-		//frame.addFocusListener(new SettingsActivator(frame,settingsFrame));
 		
+		initSettings(frame);
 
+		initSearch(frame);
+		
 		//Init text panel controllers
 		new XsamsPanelController(frame.xsamsPanel,this.doc);
 		new ValidationPanelController(frame.valPanel,this.doc,frame.xsamsPanel);
@@ -161,6 +158,19 @@ public class MainFrameController implements ActionListener {
 		locController = new LocatorPanelController(doc,frame.xsamsPanel);
 	}
 
+	private void initSettings(MainFrame frame) {
+		settingsFrame = new JDialog(frame,"Settings");
+		settingsFrame.setContentPane(new SettingsPanel(this));
+		settingsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		settingsFrame.setModal(true);
+	}
+
+	private void initSearch(MainFrame frame) {
+		searchFrame = new SearchPanel(frame,"Search",this);
+		search = ((SearchPanel)searchFrame).getSearch();
+		frame.xsamsPanel.setSearch(search);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String command = event.getActionCommand();
@@ -175,19 +185,13 @@ public class MainFrameController implements ActionListener {
 				//this.done(0,);
 			}
 		}else if (command == MenuBar.CMD_FIND){
-			//Display search dialog, start search on specified string:
-			String newSearchPattern = JOptionPane.showInputDialog(frame,"Find:",searchPattern);
-			if (newSearchPattern==null) return;
-			else {
-				searchPattern=newSearchPattern;
-				frame.xsamsPanel.setSearchString(searchPattern);
-			}
-			searchNext();
+			searchFrame.pack();
+			searchFrame.setVisible(true);
 		}else if (command == MenuBar.CMD_EXIT){
 			if (JOptionPane.showConfirmDialog(frame, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
 				System.exit(0);
 		}else if (command == MenuBar.CMD_FINDNEXT){
-			searchNext();
+			search();
 		}else if (command == MenuBar.CMD_CONFIG){
 			settingsFrame.pack();
 			settingsFrame.setVisible(true);
@@ -200,6 +204,38 @@ public class MainFrameController implements ActionListener {
 		}
 	}
 
+	public void search() {
+		frame.xsamsPanel.centerLine(searchNext(frame.xsamsPanel.getDocCenter()));
+	}
+	
+	/**
+	 * Handle search
+	 */
+	public int searchNext(int startLine){
+		String searchText = search.getSearchText();
+		if (searchText==null || searchText.equals("")) return -1;
+		int foundLine = doc.searchString(searchText, startLine,search.ignoreCase());
+		if (foundLine==-1){
+			switch (JOptionPane.showConfirmDialog(
+					frame,
+					"String "+searchText+" not found, start from the beginning?",
+					"Search",
+					JOptionPane.YES_NO_OPTION))
+					{
+					case JOptionPane.OK_OPTION:
+						foundLine = doc.searchString(searchText,0,search.ignoreCase());
+						break;
+					case JOptionPane.NO_OPTION:
+						return -1;
+					}
+		}
+		if (foundLine==-1){
+			JOptionPane.showMessageDialog(frame, "String "+searchText+" not found.","Search",JOptionPane.INFORMATION_MESSAGE);
+			return -1;
+		}
+
+		return foundLine;
+	}
 
 	/**
 	 * Handle query action
@@ -283,34 +319,6 @@ public class MainFrameController implements ActionListener {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Handle search
-	 */
-	private void searchNext(){
-		if (searchPattern==null || searchPattern.equals("")) return;
-		long foundLine = doc.searchString(searchPattern, frame.xsamsPanel.getDocCenter());
-		if (foundLine==-1){
-			switch (JOptionPane.showConfirmDialog(
-					frame,
-					"String "+searchPattern+" not found, start from the beginning?",
-					"Search",
-					JOptionPane.YES_NO_OPTION))
-					{
-					case JOptionPane.OK_OPTION:
-						foundLine = doc.searchString(searchPattern,0);
-						break;
-					case JOptionPane.NO_OPTION:
-						return;
-					}
-		}
-		if (foundLine==-1){
-			JOptionPane.showMessageDialog(frame, "String "+searchPattern+" not found.","Search",JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
-
-		frame.xsamsPanel.centerLine(foundLine);
 	}
 
 	/**

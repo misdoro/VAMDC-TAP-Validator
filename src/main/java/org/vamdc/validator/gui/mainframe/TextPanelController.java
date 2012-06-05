@@ -80,7 +80,7 @@ public abstract class TextPanelController implements ComponentListener,Adjustmen
 	 * It is called when we had double click on certain line of document
 	 * @param lineNum
 	 */
-	public abstract void clickedLine(long lineNum);
+	public abstract void clickedLine(int lineNum);
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
