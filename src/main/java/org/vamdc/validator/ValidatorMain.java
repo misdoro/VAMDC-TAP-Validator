@@ -1,5 +1,8 @@
 package org.vamdc.validator;
 
+import java.io.File;
+import java.io.IOException;
+
 import jargs.gnu.CmdLineParser;
 
 import org.vamdc.validator.cli.CLIProcess;
@@ -47,6 +50,8 @@ public class ValidatorMain{
 			proc = new CLIProcess(parser);
 		}
 
+		final String[] remainder = parser.getRemainingArgs();
+		
 		if (proc.getStatus() == CLIProcess.STATUS_DONE_NOTHING){
 			System.out.println("Starting GUI");
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -54,6 +59,12 @@ public class ValidatorMain{
 					XSAMSIOModel doc = new XSAMSDocument();
 					MainFrame frame = new MainFrame(doc);
 					frame.setVisible(true);
+					if (remainder!=null && remainder.length>0)
+						try {
+							doc.loadFile(new File(remainder[0]));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 				}
 			});
 		}
