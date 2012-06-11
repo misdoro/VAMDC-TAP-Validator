@@ -23,6 +23,7 @@ import org.vamdc.validator.source.http.HttpXSAMSSource;
 import org.vamdc.validator.source.plugin.PluginXSAMSSource;
 import org.vamdc.validator.storage.RawStorage;
 import org.vamdc.validator.validator.Validator;
+import org.vamdc.xsams.io.PrettyPrint;
 
 public class XSAMSDocument implements XSAMSIOModel{
 
@@ -30,6 +31,9 @@ public class XSAMSDocument implements XSAMSIOModel{
 	public long doQuery(String query) throws XSAMSSourceException {
 		//Save query string
 		this.query = query;
+		
+		if (source==null)
+			throw new XSAMSSourceException("XSAMS source is not available");
 		//Setup xsams source
 		xsamsStream = source.getXsamsStream(query);
 		//Process it
@@ -62,7 +66,9 @@ public class XSAMSDocument implements XSAMSIOModel{
 	@Override
 	public long loadFile(File xsamsDocument) throws IOException {
 		//Setup XSAMS input stream
-		xsamsStream =new BufferedInputStream(new FileInputStream(xsamsDocument),4096);
+		xsamsStream = new BufferedInputStream(new FileInputStream(xsamsDocument),4096);
+		if (Setting.PrettyPrint.getBool())
+			xsamsStream = PrettyPrint.transformStatic(xsamsStream);
 		//Process it
 		return processStream(xsamsStream, "");
 	}
@@ -254,6 +260,10 @@ public class XSAMSDocument implements XSAMSIOModel{
 	public Map<HeaderMetrics, String> previewQuery(String query)
 			throws XSAMSSourceException {
 		this.query = query;
+
+		if (source==null)
+			throw new XSAMSSourceException("XSAMS source is not available");
+		
 		return source.getMetrics(query);
 	}
 
