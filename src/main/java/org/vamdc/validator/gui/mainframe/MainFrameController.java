@@ -280,6 +280,7 @@ public class MainFrameController implements ActionListener {
 							doc.loadFile(filename);
 						}catch (Exception ex){
 							JOptionPane.showMessageDialog(frame, "Exception during open: "+ex.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
+							ex.printStackTrace();
 						}finally{
 							inputThread=null;
 						}
