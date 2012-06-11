@@ -64,7 +64,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 		//Setup XSAMS input stream
 		xsamsStream =new BufferedInputStream(new FileInputStream(xsamsDocument),4096);
 		//Process it
-		return processStream(xsamsStream, null);
+		return processStream(xsamsStream, "");
 	}
 	
 	
@@ -218,15 +218,15 @@ public class XSAMSDocument implements XSAMSIOModel{
 		//Remove source&validator
 		source = null;
 		validator=null;
-		//Setup XSAMS source
-		source = setupSource();
-
-		//Storage is created on per-query basis
-
+		
 		//Setup XSAMS validator
 		validator = new Validator(
 				Setting.SchemaFile.getValue(),
 				Setting.SchemaLocations.getValue());
+		
+		//Setup XSAMS source
+		source = setupSource();
+		
 	}
 
 	@Override
