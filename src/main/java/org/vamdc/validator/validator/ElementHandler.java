@@ -97,6 +97,7 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 
 		private Element element;
 		private String errorMessage;
+		private String errorClass;
 		private Type myType=Type.element;
 		private String mySearch="";
 		
@@ -134,7 +135,11 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 		}
 		
 		private void handleErrorMessage(){
-			if (errorMessage.contains("ID/IDREF")){
+			String[] einf=errorMessage.split(":",2);
+			errorMessage=einf[1];
+			errorClass=einf[0];
+			
+			if (errorClass.startsWith("cvc-id.")){
 				myType=Type.search;
 				mySearch=errorMessage.split("'")[1];
 			}
