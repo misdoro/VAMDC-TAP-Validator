@@ -15,4 +15,13 @@ public interface DocumentError {
 	 */
 	public DocumentElement getElement();
 	
+	public String getSearchString();
+	
+	public Type getType();
+	
+	public enum Type{
+		element,
+		search
+	}
+	
 }

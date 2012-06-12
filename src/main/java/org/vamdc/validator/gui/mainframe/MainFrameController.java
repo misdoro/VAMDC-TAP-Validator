@@ -20,6 +20,7 @@ import org.vamdc.validator.gui.search.SearchData;
 import org.vamdc.validator.gui.search.SearchPanel;
 import org.vamdc.validator.gui.settings.SettingsPanel;
 import org.vamdc.validator.interfaces.DocumentError;
+import org.vamdc.validator.interfaces.DocumentError.Type;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 
 
@@ -38,7 +39,7 @@ public class MainFrameController implements ActionListener {
 		}
 	}
 
-	public static class ValidationPanelController extends TextPanelController{
+	public class ValidationPanelController extends TextPanelController{
 
 		private XSAMSIOModel xsamsdoc;
 		private TextPanel xsamsPanel;
@@ -53,9 +54,14 @@ public class MainFrameController implements ActionListener {
 		@Override
 		public void clickedLine(int lineNum) {
 			DocumentError clickedError = xsamsdoc.getElementsLocator().getErrors().get((int) lineNum);
-			xsamsPanel.setHighlight(clickedError.getElement(), Color.RED);
-			xsamsPanel.centerLine((int)clickedError.getElement().getFirstLine());
-			centerError(clickedError);
+			if (clickedError.getType()==Type.element){
+				xsamsPanel.setHighlight(clickedError.getElement(), Color.RED);
+				xsamsPanel.centerLine((int)clickedError.getElement().getFirstLine());
+				centerError(clickedError);
+			}else if (clickedError.getType()==Type.search){
+				search.setData(clickedError.getSearchString(), false);
+				xsamsPanel.centerLine(searchNext(1));
+			}
 			
 		}
 

@@ -97,9 +97,16 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 
 		private Element element;
 		private String errorMessage;
+		private Type myType=Type.element;
+		private String mySearch="";
 		
-		public Error( String msg){
-			errorMessage = msg;
+		
+		public Error(SAXParseException e){
+			errorMessage = e.getMessage();
+			handleErrorMessage();
+			Element pos = new Element(e.getLineNumber(),e.getColumnNumber(),"element");
+			pos.setEnd(e.getLineNumber(), e.getColumnNumber());
+			this.setElement(pos);
 		}
 		
 		public void setElement(Element el){
@@ -114,6 +121,23 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 		@Override
 		public String getMessage() {
 			return errorMessage;
+		}
+
+		@Override
+		public String getSearchString() {
+			return mySearch;
+		}
+
+		@Override
+		public Type getType() {
+			return myType;
+		}
+		
+		private void handleErrorMessage(){
+			if (errorMessage.contains("ID/IDREF")){
+				myType=Type.search;
+				mySearch=errorMessage.split("'")[1];
+			}
 		}
 	}
 	
@@ -229,7 +253,7 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 	public void error(SAXParseException exception) throws SAXException {
 		if (newErrors == null)
 			newErrors = new ArrayList<Error>();
-		newErrors.add(new Error(exception.getMessage()));
+		newErrors.add(new Error(exception));
 	}
 	@Override
 	public void fatalError(SAXParseException exception) throws SAXException {
