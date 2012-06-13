@@ -62,7 +62,7 @@ public class CLIProcess {
 							e.printStackTrace();
 						}
 
-						saveOutput(doc,outputFile, counter++);
+						status+=saveOutput(doc,outputFile, counter++);
 					}
 				}catch(IOException e){
 					e.printStackTrace();
@@ -100,7 +100,7 @@ public class CLIProcess {
 	 * @param basePath base path for files
 	 * @param index index of query in a list
 	 */
-	private void saveOutput(XSAMSIOModel doc, File basePath, int index) throws IOException{
+	private int saveOutput(XSAMSIOModel doc, File basePath, int index) throws IOException{
 		//Check if base is a directory
 		if (!basePath.isDirectory())
 			throw new IOException("basePath is not a directory");
@@ -121,10 +121,10 @@ public class CLIProcess {
 			System.out.print("Writing "+statusFile.getAbsolutePath()+" ...");
 			new XMLReport(doc,statusFile,xsamsDocument.getName()).write();
 			System.out.println("Done ");
+			return doc.getElementsLocator().getErrors().size();
 		}
 		else
 			throw new IOException("File"+statusFile.getAbsolutePath()+" already exists!");
-
 	}
 
 }
