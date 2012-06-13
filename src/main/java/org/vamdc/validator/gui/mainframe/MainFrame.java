@@ -226,6 +226,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 				frame.updateFromModel(true);
 				frame.progress.setIndeterminate(false);
 				frame.progress.setValue(100);
+				frame.pack();
 			}}
 		);
 	}
