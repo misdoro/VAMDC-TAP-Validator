@@ -1,6 +1,7 @@
 package org.vamdc.validator.gui.mainframe;
 
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
@@ -79,6 +80,7 @@ public final class LocatorRow implements ChangeListener,ActionListener,MouseWhee
 		data.panel.add(maximum,constr);
 		constr.gridx++;
 		next = new JButton("->");
+		next.setMargin(new Insets(1,1,1,1));
 		next.setMaximumSize(next.getMinimumSize());
 		next.setPreferredSize(next.getMinimumSize());
 		data.panel.add(next,constr);
