@@ -19,11 +19,13 @@ public class ValidatorMain{
 	 * Description for about dialog
 	 */
 	public final static String ABOUT_MESSAGE=
-		"(C)VAMDC Project, 2011\n" +
+		"(C)VAMDC Project, 2011-2012\n" +
 		"http://www.vamdc.eu/\n" +
 		"\n" +
 		"Author: Misha Doronin\n" +
-		"misha@doronin.org\n";
+		"misha@doronin.org\n" +
+		"support@vamdc.org"
+		;
 	/**
 	 * @param args
 	 */
