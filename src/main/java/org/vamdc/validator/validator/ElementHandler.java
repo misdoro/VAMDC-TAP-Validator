@@ -136,8 +136,12 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 		
 		private void handleErrorMessage(){
 			String[] einf=errorMessage.split(":",2);
-			errorMessage=einf[1];
-			errorClass=einf[0];
+			if (einf.length>=2){
+				errorMessage=einf[1];
+				errorClass=einf[0];
+			}else{
+				errorClass="markup";
+			}
 			
 			if (errorClass.startsWith("cvc-id.")){
 				myType=Type.search;
