@@ -69,6 +69,9 @@ public class CLIProcess {
 					status++;
 				}finally{
 					doc.close();
+					if (status>0){
+						System.exit(status);
+					}
 				}
 			}else{
 				status = STATUS_ERROR;
