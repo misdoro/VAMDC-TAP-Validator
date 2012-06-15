@@ -115,6 +115,10 @@ public class SettingsPanel extends JPanel{
 		netPanel.add(useNetMode = new JRadioButton("Use Network Mode"),grid);
 		opModeGroup.add(useNetMode);
 		
+		addLabel(netPanel,grid,"Registry base URL");
+		gridItem(grid);
+		netPanel.add(getTextField(Setting.RegistryURL,Type.HTTPURL,fields),grid);
+		
 		addLabel(netPanel,grid,"VAMDC-TAP Capabilities endpoint");
 		gridItem(grid);
 		netPanel.add(getTextField(Setting.ServiceVOSIURL,Type.HTTPURL,fields),grid);

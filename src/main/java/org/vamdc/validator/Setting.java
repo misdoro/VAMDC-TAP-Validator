@@ -12,7 +12,8 @@ public enum Setting {
 	ServiceTAPSuffix("tapsuffix","sync?LANG=VSS1&REQUEST=doQuery&FORMAT=XSAMS&QUERY="),
 	ServiceVOSIURL("vosiurl","http://host.name:8080/tap/capabilities"),
 	
-	RegistryURL("registryURL",""),
+	RegistryURL("registryURL","http://registry.vamdc.eu/registry-11.12/"),
+	GUICapsURLHistory("capabilityURLHistory",""),
 	
 	HTTP_CONNECT_TIMEOUT("http_conn_timeout",2000),
 	HTTP_DATA_TIMEOUT ("http_data_timeout",30000),

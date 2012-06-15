@@ -1,37 +1,31 @@
 package org.vamdc.validator.gui.mainframe;
 
-
-import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
 
 import org.vamdc.validator.Setting;
+import org.vamdc.validator.gui.HistoryComboBox;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 
-public class QueryField extends JComboBox implements ComponentUpdateInterface{
+public class QueryField extends HistoryComboBox implements ComponentUpdateInterface{
 	
 	private static final long serialVersionUID = -9123198309241131479L;
-	private String[] queries;
 	
 	private XSAMSIOModel data;
 	
 	public QueryField(){
-		super();
-		this.setEditable(true);
-		loadQueries();
+		super(";",10);
+		
 	}
 
-	private void loadQueries(){
-		String allqueries = Setting.GUIQueryHistory.getValue();
-		queries = allqueries.split(";");
-		for (String query:queries){
-			if (query.length()>1)
-				this.addItem(query+";");
-		}
+	@Override
+	protected void loadValues(){
+		super.loadValues();
 		if (data!=null && data.getSampleQueries()!=null)
 			for (String query:data.getSampleQueries()){
 				if (query.length()>1)
 					this.addItem(query+";");
 			}
+		
 	}
 
 	/**
@@ -39,26 +33,11 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 	 * @param query query string
 	 */
 	private void saveQuery(String query) {
-		StringBuilder queryLogStr = new StringBuilder();
-		if (query == null || query.length() == 0)
-			return;
-		query=query.trim();
+		this.saveValue(query);
 		
-		if (query.endsWith(";"))
-			query = query.substring(0, query.length()-1).trim();
-		queryLogStr.append(query);
-		queryLogStr.append(";");
-		int i=0;
-		for (String oldquery:queries){
-			if (oldquery.length()>0 && !oldquery.equalsIgnoreCase(query))
-				queryLogStr.append(oldquery).append(";");
-			if (i++>10)
-				break;
-		}
-		Setting.GUIQueryHistory.setValue(queryLogStr.toString(), true);
 		this.removeAllItems();
 		
-		this.loadQueries();
+		this.loadValues();
 	}
 
 	public String getText() {
@@ -71,13 +50,13 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 
 	@Override
 	public void resetComponent() {
-		loadQueries();
+		loadValues();
 	}
 
 	@Override
 	public void setModel(XSAMSIOModel data) {
 		this.data = data;
-		loadQueries();
+		loadValues();
 	}
 
 	@Override
@@ -86,9 +65,19 @@ public class QueryField extends JComboBox implements ComponentUpdateInterface{
 			if (data.getLineCount() > 10)
 				saveQuery(data.getQuery());
 			else 
-				loadQueries(); 
+				loadValues(); 
 			
 		}
+	}
+
+	@Override
+	protected String getSavedString() {
+		return Setting.GUIQueryHistory.getValue();
+	}
+
+	@Override
+	protected void saveString(String value) {
+		Setting.GUIQueryHistory.setValue(value, true);
 	}
 
 }
