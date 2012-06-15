@@ -23,6 +23,10 @@ public abstract class HistoryComboBox extends JComboBox{
 	public String getText() {
 		return this.getEditor().getItem().toString();
 	}
+	
+	public void setText(String text) {
+		this.getEditor().setItem(text);
+	}
 
 	protected void loadValues(){
 		if (getSavedString()==null)

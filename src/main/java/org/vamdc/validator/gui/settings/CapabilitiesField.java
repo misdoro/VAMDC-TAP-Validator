@@ -3,7 +3,7 @@ package org.vamdc.validator.gui.settings;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.gui.HistoryComboBox;
 
-public class CapabilitiesField extends HistoryComboBox{
+public class CapabilitiesField extends HistoryComboBox implements SettingControl{
 
 	private static final long serialVersionUID = 7778562723435344834L;
 
@@ -19,6 +19,16 @@ public class CapabilitiesField extends HistoryComboBox{
 	@Override
 	protected void saveString(String value) {
 		Setting.GUICapsURLHistory.setValue(value,true);
+	}
+
+	@Override
+	public void load() {
+		this.setText(Setting.ServiceVOSIURL.getValue());
+	}
+
+	@Override
+	public void save() {
+		Setting.ServiceVOSIURL.setValue(this.getText());
 	}
 	
 	

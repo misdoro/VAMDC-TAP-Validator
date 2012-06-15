@@ -115,13 +115,16 @@ public class SettingsPanel extends JPanel{
 		netPanel.add(useNetMode = new JRadioButton("Use Network Mode"),grid);
 		opModeGroup.add(useNetMode);
 		
+		CapabilitiesField caps = new CapabilitiesField();
+		
 		addLabel(netPanel,grid,"Registry base URL");
 		gridItem(grid);
-		netPanel.add(getTextField(Setting.RegistryURL,Type.HTTPURL,fields),grid);
+		netPanel.add(new RegistryPanel(fields,caps),grid);
 		
 		addLabel(netPanel,grid,"VAMDC-TAP Capabilities endpoint");
 		gridItem(grid);
-		netPanel.add(getTextField(Setting.ServiceVOSIURL,Type.HTTPURL,fields),grid);
+		netPanel.add(caps,grid);
+		fields.add(caps);
 
 		addLabel(netPanel,grid,"VAMDC-TAP sync endpoint");
 		gridItem(grid);
@@ -187,7 +190,7 @@ public class SettingsPanel extends JPanel{
 			panel.add(new JLabel(label),grid);
 	}
 
-	private SettingField getTextField(Setting option,Type type,Collection<SettingControl> fields){
+	public static SettingField getTextField(Setting option,Type type,Collection<SettingControl> fields){
 		SettingField field = new SettingField(option);
 		FieldInputHelper helper = new FieldInputHelper(type);
 		field.addActionListener(helper);
