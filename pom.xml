@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vamdc</groupId>
 	<artifactId>TAPValidator</artifactId>
-	<version>11.12-SNAPSHOT</version>
+	<version>12.07-SNAPSHOT</version>
 
 	<organization>
 		<name>VAMDC</name>
@@ -13,35 +13,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<name>TAPService plugin tester and service validator</name>
+	<name>VAMDC-TAP service validator and Java node software plugin tester</name>
 	<description>version 2, working both as http tapservice validator and as java tapservice plugin test utility</description>
 	<url>http://vamdc.doronin.org/TAPValidator</url>
 
 	<scm>
-		<connection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</connection>
-		<developerConnection>scm:svn:http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</developerConnection>
-		<url>http://svn.ntl.nnov.ru/misdoro/TAPValidator/trunk</url>
+		<connection>scm:git:git@github.com:misdoro/VAMDC-TAP-Validator.git</connection>
+		<url>scm:git:git@github.com:misdoro/VAMDC-TAP-Validator.git</url>
+		<developerConnection>scm:git:git@github.com:misdoro/VAMDC-TAP-Validator.git</developerConnection>
 	</scm>
-
-
+	
 	<repositories>
 		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<name>Java.net Repository for Maven</name>
-			<url>http://download.java.net/maven/2/</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>vamdc repository</id>
-			<name>VAMDC stuff for Maven</name>
-			<url>http://vamdc.doronin.org/maven/</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>JBOSS public repository</id>
-			<name>JBOSS repo</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
-			<layout>default</layout>
+			<id>nexus</id>
+			<name>VAMDC Releases</name>
+			<url>http://dev.vamdc.org/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 
@@ -54,14 +40,14 @@
 		<dependency>
 			<groupId>org.vamdc.tapservice</groupId>
 			<artifactId>TAP-VAMDC-Interfaces</artifactId>
-			<version>11.12-SNAPSHOT</version>
+			<version>12.07-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.vamdc</groupId>
 			<artifactId>registry-client-light</artifactId>
-			<version>11.12</version>
+			<version>12.07</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
@@ -98,7 +84,7 @@
 		<dependency>
 			<groupId>org.vamdc.xml</groupId>
 			<artifactId>xsams-io</artifactId>
-			<version>11.12-SNAPSHOT</version>
+			<version>12.07</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
