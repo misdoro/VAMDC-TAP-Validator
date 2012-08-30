@@ -167,7 +167,7 @@ public class SettingsPanel extends JPanel{
 
 		addLabel(plugPanel, grid,"Plugin class name");
 		gridItem(grid);
-		plugPanel.add(getTextField(Setting.PluginIDPrefix, Type.STRING,fields),grid);
+		plugPanel.add(getTextField(Setting.PluginClass,Type.STRING,fields),grid);
 
 		addLabel(plugPanel,grid,"Unique ID prefix");
 		gridItem(grid);
