@@ -53,6 +53,8 @@ public class MainFrameController implements ActionListener {
 
 		@Override
 		public void clickedLine(int lineNum) {
+			if (xsamsdoc.getElementsLocator().getErrors().size()<=lineNum)
+				return;
 			DocumentError clickedError = xsamsdoc.getElementsLocator().getErrors().get((int) lineNum);
 			if (clickedError.getType()==Type.element){
 				xsamsPanel.setHighlight(clickedError.getElement(), Color.RED);

@@ -65,15 +65,18 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 	@Override
 	public long loadFile(File xsamsDocument) throws IOException {
-		//Setup XSAMS input stream
-		xsamsStream = new BufferedInputStream(new FileInputStream(xsamsDocument),4096);
+		return loadStream(new FileInputStream(xsamsDocument));
+		
+	}
+	
+	@Override
+	public long loadStream(InputStream stream) throws IOException {
+		xsamsStream = new BufferedInputStream(stream,4096);
 		if (Setting.PrettyPrint.getBool())
 			xsamsStream = PrettyPrint.transformStatic(xsamsStream);
 		//Process it
 		return processStream(xsamsStream, "");
 	}
-	
-	
 
 	@Override
 	public long saveFile(File xsamsDocument)throws IOException {

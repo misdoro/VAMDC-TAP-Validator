@@ -2,6 +2,7 @@ package org.vamdc.validator.interfaces;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 
@@ -111,6 +112,14 @@ public interface XSAMSIOModel{
 	public long loadFile(File xsamsDocument) throws IOException;
 	
 	/**
+	 * Load XSAMS document from stream
+	 * @param stream
+	 * @return
+	 * @throws IOException
+	 */
+	public long loadStream(InputStream stream) throws IOException;
+	
+	/**
 	 * Save XSAMS document to disk
 	 * @param xsamsDocument
 	 * @return
@@ -123,4 +132,6 @@ public interface XSAMSIOModel{
 	 * @return query string as it was defined in doQuery
 	 */
 	public String getQuery();
+
+	
 }

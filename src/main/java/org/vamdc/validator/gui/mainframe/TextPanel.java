@@ -13,6 +13,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.TransferHandler;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
@@ -152,6 +153,12 @@ public abstract class TextPanel extends JPanel  {
 		lineidx.updateIndex();
 		scrollBar.setVisibleAmount(this.getWindowRows()-1);
 		updateHighlight();
+	}
+	
+	@Override
+	public void setTransferHandler(TransferHandler hdl){
+		super.setTransferHandler(hdl);
+		textArea.setTransferHandler(hdl);
 	}
 
 	/**
