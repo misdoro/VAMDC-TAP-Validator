@@ -2,7 +2,6 @@ package org.vamdc.validator.gui.mainframe;
 
 import java.awt.Color;
 
-import javax.swing.TransferHandler;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 
