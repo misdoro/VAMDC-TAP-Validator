@@ -5,25 +5,25 @@ import java.util.Map;
 
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.dictionary.HeaderMetrics;
-import org.vamdc.tapservice.api.DatabasePlug;
+import org.vamdc.tapservice.api.DatabasePlugin;
 import org.vamdc.tapservice.api.RequestInterface;
 
 public class PlugTalker {
-	private DatabasePlug plugInst;
+	private DatabasePlugin plugInst;
 
 	/**
 	 * constructor
 	 * @param plugClass class name for tested plug
 	 */
 	public PlugTalker(String plugClass) throws Exception{
-		setPlugInst((DatabasePlug) Class.forName(plugClass).newInstance());
+		setPlugInst((DatabasePlugin) Class.forName(plugClass).newInstance());
 	}
 
-	public void setPlugInst(DatabasePlug plugInst) {
+	public void setPlugInst(DatabasePlugin plugInst) {
 		this.plugInst = plugInst;
 	}
 
-	public DatabasePlug getPlugInst() {
+	public DatabasePlugin getPlugInst() {
 		return plugInst;
 	}
 	
@@ -37,7 +37,7 @@ public class PlugTalker {
 		return getPlugInst().getRestrictables();
 	}
 	
-	public Map<HeaderMetrics,Integer> getMetrics(RequestInterface userRequest){
+	public Map<HeaderMetrics, Object> getMetrics(RequestInterface userRequest){
 		if (getPlugInst() == null) return null;
 		return getPlugInst().getMetrics(userRequest);
 	}

@@ -15,7 +15,6 @@
 
 	<name>VAMDC-TAP service validator and Java node software plugin tester</name>
 	<description>version 2, working both as http tapservice validator and as java tapservice plugin test utility</description>
-	<url>http://vamdc.doronin.org/TAPValidator</url>
 
 	<scm>
 		<connection>scm:git:git@github.com:misdoro/VAMDC-TAP-Validator.git</connection>
@@ -38,9 +37,9 @@
 			<version>2.10.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.vamdc.tapservice</groupId>
-			<artifactId>TAP-VAMDC-Interfaces</artifactId>
-			<version>12.07-SNAPSHOT</version>
+			<groupId>org.vamdc.tap</groupId>
+			<artifactId>vamdctap-interfaces</artifactId>
+			<version>12.07</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -89,9 +88,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.vamdc.tapservice</groupId>
-			<artifactId>CayenneUtil</artifactId>
-			<version>2.0-SNAPSHOT</version>
+			<groupId>org.vamdc.tap</groupId>
+			<artifactId>vamdctap-querymapper</artifactId>
+			<version>12.07</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

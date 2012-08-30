@@ -75,10 +75,10 @@ public class PluginXSAMSSource implements XSAMSSource{
 	}
 
 	private Map<HeaderMetrics, String> processMetrics(
-			Map<HeaderMetrics, Integer> metrics) {
+			Map<HeaderMetrics, Object> metrics) {
 		Map<HeaderMetrics,String> result = new TreeMap<HeaderMetrics,String>();
 		for (HeaderMetrics header:HeaderMetrics.values()){
-			Integer val = metrics.get(header);
+			Object val = metrics.get(header);
 			if (val!=null)
 				result.put(header, val.toString());
 		}

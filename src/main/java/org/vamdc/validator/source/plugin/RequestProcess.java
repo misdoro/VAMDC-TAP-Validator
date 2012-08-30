@@ -19,9 +19,10 @@ import org.vamdc.xsams.XSAMSManager;
 import org.vamdc.xsams.schema.XSAMSData;
 import org.vamdc.xsams.util.XSAMSManagerImpl;
 
-/*
- * Here we keep request data
- * */
+/**
+ * Request process implementation, similar to java vamdc-tap webservice
+ *
+ */
 public class RequestProcess implements RequestInterface {
 	private XSAMSManager xsamsroot;
 	private ObjectContext context;
@@ -65,9 +66,7 @@ public class RequestProcess implements RequestInterface {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.vamdc.tapservice.RequestInterface#getXsamsroot()
-	 */
+	@Override
 	public XSAMSManager getXsamsManager() {
 		return xsamsroot;
 	}
@@ -76,52 +75,37 @@ public class RequestProcess implements RequestInterface {
 		return (XSAMSData) xsamsroot;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.vamdc.tapservice.RequestInterface#getCayenneContext()
-	 */
+	@Override
 	public ObjectContext getCayenneContext() {
 		return context;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.vamdc.tapservice.RequestInterface#getRestricts()
-	 */
+	@Override
 	public List<RestrictExpression> getRestricts() {
 		return query.getRestrictsList();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.vamdc.tapservice.RequestInterface#getRestrictsTree()
-	 */
+	@Override
 	public LogicNode getRestrictsTree(){
 		return query.getRestrictsTree();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.vamdc.tapservice.api.RequestInterface#checkRequestable(Requestable)
-	 * Also checks if tapservice is configured to force source references
-	 */
+	@Override
 	public boolean checkBranch(Requestable branch){
 		return query.checkSelectBranch(branch);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.vamdc.tapservice.RequestInterface#isValid()
-	 */
+	@Override
 	public boolean isValid() {
 		return valid;
 	}
 
-	/*
-	 * Get user's query
-	 */
+	@Override
 	public String getQueryString(){
 		return query.getQuery();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.vamdc.tapservice.RequestInterface#getLogger()
-	 */
+	@Override
 	public Logger getLogger(Class<?> className){
 		if (className == null)
 			return logger;
@@ -135,6 +119,12 @@ public class RequestProcess implements RequestInterface {
 	@Override
 	public Query getQuery() {
 		return query;
+	}
+
+	@Override
+	public void setLastModified(Date date) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
