@@ -11,8 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import org.vamdc.validator.interfaces.XSAMSIOModel;
-
 public class XsamsTransferHandler extends TransferHandler{
 
 	private static final long serialVersionUID = -547699830730722754L;
