@@ -34,6 +34,8 @@ public enum Setting {
 	
 	GUIVOSIHistory("guiVOSIHistory",""),
 	
+	GUIShowConsole("guiShowConsole",false),
+	
 	;
 		
 	public static String getSchemaLoc(){
@@ -61,14 +63,13 @@ public enum Setting {
 	
 	public void setValue(String value){ this.value = value; }
 	public void setValue(boolean bValue){ this.value = Boolean.valueOf(bValue).toString(); }
-	public void setValue(String value, boolean autosave) {
-		setValue(value);
-		if (autosave){
+	public void saveValue(Object value){
+		if (value!=null){
+			setValue(value.toString());
 			Preferences prefs = getPrefs();
-			prefs.put(this.preferenceName, value);
+			prefs.put(this.preferenceName, value.toString());
 			savePrefs(prefs);
-		}
-			
+		};
 	}
 	public String getValue(){ return value.toString(); }
 	public int getInt(){ return Integer.parseInt(getValue()); }

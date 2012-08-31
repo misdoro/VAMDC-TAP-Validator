@@ -10,12 +10,14 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
+import org.vamdc.validator.gui.console.ConsolePanel;
 import org.vamdc.validator.gui.search.SearchData;
 import org.vamdc.validator.gui.search.SearchPanel;
 import org.vamdc.validator.gui.settings.SettingsPanel;
@@ -121,6 +123,7 @@ public class MainFrameController implements ActionListener {
 
 	public final LocatorPanelController locController; 
 	private JDialog settingsFrame,searchFrame;
+	private ConsolePanel logPanel;
 	private SearchData search;
 	private final JFileChooser saveChooser;
 	private final JFileChooser loadChooser;
@@ -130,7 +133,9 @@ public class MainFrameController implements ActionListener {
 		this.frame=frame;
 		
 		initSettings(frame);
-
+		initLog(frame);
+		if (Setting.GUIShowConsole.getBool())
+			showLogPanel();
 		initSearch(frame);
 		
 		//Init text panel controllers
@@ -155,6 +160,10 @@ public class MainFrameController implements ActionListener {
 		settingsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		settingsFrame.setModal(true);
 	}
+	
+	private void initLog(MainFrame frame){
+		logPanel=new ConsolePanel(frame);
+	}
 
 	private void initSearch(MainFrame frame) {
 		searchFrame = new SearchPanel(frame,"Search",this);
@@ -166,7 +175,6 @@ public class MainFrameController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		String command = event.getActionCommand();
 		System.out.println(command);
-
 		if (command == MainFrame.DO_QUERY){
 			handleDoQuery(false);
 		}else if (command == MainFrame.PRE_QUERY){
@@ -186,6 +194,9 @@ public class MainFrameController implements ActionListener {
 		}else if (command == MenuBar.CMD_CONFIG){
 			settingsFrame.pack();
 			settingsFrame.setVisible(true);
+		}else if (command == MenuBar.CMD_LOG){
+			Setting.GUIShowConsole.saveValue(true);
+			showLogPanel();
 		}else if (command == MenuBar.CMD_OPEN){
 			handleFileOpen();
 		}else if (command == MenuBar.CMD_SAVE){
@@ -193,6 +204,16 @@ public class MainFrameController implements ActionListener {
 		}else if (command == MenuBar.CMD_ABOUT){
 			JOptionPane.showMessageDialog(frame, ValidatorMain.ABOUT_MESSAGE);
 		}
+	}
+
+	public void showLogPanel() {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				logPanel.pack();
+				logPanel.setVisible(true);
+				
+			}}
+		);
 	}
 
 	public void search() {
@@ -232,8 +253,10 @@ public class MainFrameController implements ActionListener {
 	 * Handle query action
 	 */
 	private void handleDoQuery(final boolean isPreview){
+		logPanel.clear();
 		//Save query
 		final String query = frame.getQuery();
+		System.out.println("Performing query "+query);
 		if (inputThread==null){
 			//Create separate thread for query execution
 			inputThread = new Thread( new Runnable(){
@@ -279,7 +302,7 @@ public class MainFrameController implements ActionListener {
 			final File filename = loadChooser.getSelectedFile();
 			if (filename.exists() && filename.canRead()&& inputThread==null){
 				//Save new file path
-				Setting.GUIFileOpenPath.setValue(filename.getPath(),true);
+				Setting.GUIFileOpenPath.saveValue(filename.getPath());
 				//Create a thread processing file
 				inputThread = new Thread( new Runnable(){
 					@Override
@@ -314,7 +337,7 @@ public class MainFrameController implements ActionListener {
 					JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)){
 
 				//Save path in preferences for future use
-				Setting.GUIFileSavePath.setValue(filename.getPath(),true);
+				Setting.GUIFileSavePath.saveValue(filename.getPath());
 				
 				//Tell storage to save file
 				try{

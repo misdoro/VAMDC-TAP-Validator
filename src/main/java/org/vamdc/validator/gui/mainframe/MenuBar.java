@@ -26,6 +26,7 @@ public class MenuBar extends JMenuBar{
 	public final static String CMD_CONFIG	="MenuConfigure";
 	public final static String CMD_ABOUT	="MenuAbout";
 	public final static String CMD_USAGE	="MenuUsage";
+	public final static String CMD_LOG		="MenuLog";
 	
 	private static final long serialVersionUID = -6004839698908145L;
 	
@@ -41,10 +42,10 @@ public class MenuBar extends JMenuBar{
 		super();
 		this.controller=controller;
 		
-		this.addJMenuItem('F', menuFile, "opEn", CMD_OPEN, "Open a new File", KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK);
-		this.addJMenuItem('F', menuFile, "saVe", CMD_SAVE, "Saves XSAMS document", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+		this.addJMenuItem('F', menuFile, "Open", CMD_OPEN, "Open a new File", KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK);
+		this.addJMenuItem('F', menuFile, "Save", CMD_SAVE, "Saves XSAMS document", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
 		menuFile.add(new JSeparator());
-		this.addJMenuItem(menuFile, "exIt", CMD_EXIT, "Quit the Viewer", KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK);
+		this.addJMenuItem(menuFile, "Exit", CMD_EXIT, "Quit the Viewer", KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK);
 		this.add(menuFile);
 
 		// ---------- EDIT MENU
@@ -54,6 +55,7 @@ public class MenuBar extends JMenuBar{
 
 		// ---------- OPTIONS MENU
 		this.addJMenuItem(menuSettings, "Configure", CMD_CONFIG, "Modify configuration", KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
+		this.addJMenuItem(menuSettings, "Console", CMD_LOG, "Open log console", KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK);
 		this.add(menuSettings);
 
 

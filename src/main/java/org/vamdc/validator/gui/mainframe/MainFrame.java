@@ -43,7 +43,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	
 	public List<ComponentUpdateInterface> childComponents = new ArrayList<ComponentUpdateInterface>();
 	
-	private MainFrameController controller;
+	public MainFrameController controller;
 	
 	public MainFrame(XSAMSIOModel doc){
 		super("VAMDC-TAP service validation GUI");

@@ -61,6 +61,8 @@ public class ValidatorMain{
 					XSAMSIOModel doc = new XSAMSDocument();
 					MainFrame frame = new MainFrame(doc);
 					frame.setVisible(true);
+					if (Setting.GUIShowConsole.getBool())
+						frame.controller.showLogPanel();
 					if (remainder!=null && remainder.length>0)
 						try {
 							doc.loadFile(new File(remainder[0]));

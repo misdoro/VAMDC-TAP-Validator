@@ -18,7 +18,7 @@ public class CapabilitiesField extends HistoryComboBox implements SettingControl
 
 	@Override
 	protected void saveString(String value) {
-		Setting.GUICapsURLHistory.setValue(value,true);
+		Setting.GUICapsURLHistory.saveValue(value);
 	}
 
 	@Override

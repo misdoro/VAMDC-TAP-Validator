@@ -77,7 +77,7 @@ public class QueryField extends HistoryComboBox implements ComponentUpdateInterf
 
 	@Override
 	protected void saveString(String value) {
-		Setting.GUIQueryHistory.setValue(value, true);
+		Setting.GUIQueryHistory.saveValue(value);
 	}
 
 }
