@@ -3,6 +3,8 @@ package org.vamdc.validator.gui.mainframe;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Map;
 
@@ -134,9 +136,11 @@ public class MainFrameController implements ActionListener {
 		
 		initSettings(frame);
 		initLog(frame);
-		if (Setting.GUIShowConsole.getBool())
+		if (Setting.GUILogConsole.getBool())
 			showLogPanel();
 		initSearch(frame);
+		
+		initCloseEvent();
 		
 		//Init text panel controllers
 		new XsamsPanelController(frame.xsamsPanel,this.doc);
@@ -152,6 +156,7 @@ public class MainFrameController implements ActionListener {
 		loadChooser.setCurrentDirectory(fodir);
 
 		locController = new LocatorPanelController(doc,frame.xsamsPanel);
+		
 	}
 
 	private void initSettings(MainFrame frame) {
@@ -195,7 +200,7 @@ public class MainFrameController implements ActionListener {
 			settingsFrame.pack();
 			settingsFrame.setVisible(true);
 		}else if (command == MenuBar.CMD_LOG){
-			Setting.GUIShowConsole.saveValue(true);
+			Setting.GUILogConsole.saveValue(true);
 			showLogPanel();
 		}else if (command == MenuBar.CMD_OPEN){
 			handleFileOpen();
@@ -209,7 +214,7 @@ public class MainFrameController implements ActionListener {
 	public void showLogPanel() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				logPanel.pack();
+				
 				logPanel.setVisible(true);
 				
 			}}
@@ -365,7 +370,16 @@ public class MainFrameController implements ActionListener {
 	}
 
 
-
+	private void initCloseEvent() {
+		frame.addWindowListener(
+				new WindowAdapter(){
+					@Override
+					public void windowClosing(WindowEvent e){
+						logPanel.saveDimensions();
+					}
+				}
+				);
+	}
 
 
 

@@ -2,6 +2,7 @@ package org.vamdc.validator.gui.console;
 
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
@@ -31,15 +32,37 @@ public class ConsolePanel extends JDialog{
 		initCloseEvent();
 		initLayout();
 		initStreams();
+		loadDimensions();
+	}
+	
+	public void saveDimensions(){
+		Rectangle pos = this.getBounds();
+		Setting.GUILogConsoleDim.saveObject(pos);
+	}
+	
+	public void loadDimensions(){
+		Object pos = Setting.GUILogConsoleDim.loadObject();
+		if (pos instanceof Rectangle){
+			this.setBounds((Rectangle) pos);
+		}else{
+			this.pack();
+		}
 	}
 
 	private void initCloseEvent() {
 		this.addWindowListener(
 				new WindowAdapter(){
 					@Override
-					public void windowClosed(WindowEvent e){Setting.GUIShowConsole.saveValue(false);}
+					public void windowClosed(WindowEvent e){Setting.GUILogConsole.saveValue(false);}
 					@Override
-					public void windowClosing(WindowEvent e){Setting.GUIShowConsole.saveValue(false);}
+					public void windowClosing(WindowEvent e){
+						Setting.GUILogConsole.saveValue(false);
+						saveDimensions();
+					}
+					@Override
+					public void windowLostFocus(WindowEvent e) {
+						saveDimensions();
+					}
 				}
 				);
 	}
@@ -83,8 +106,6 @@ public class ConsolePanel extends JDialog{
 		}
 
 	}
-
-
 
 	public void clear(){
 		text.setText("");

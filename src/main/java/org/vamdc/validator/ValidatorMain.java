@@ -61,7 +61,7 @@ public class ValidatorMain{
 					XSAMSIOModel doc = new XSAMSDocument();
 					MainFrame frame = new MainFrame(doc);
 					frame.setVisible(true);
-					if (Setting.GUIShowConsole.getBool())
+					if (Setting.GUILogConsole.getBool())
 						frame.controller.showLogPanel();
 					if (remainder!=null && remainder.length>0)
 						try {

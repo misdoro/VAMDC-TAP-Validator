@@ -31,6 +31,14 @@ public class XsamsTransferHandler extends TransferHandler{
 	@Override
 	public boolean canImport(TransferSupport input) {
 		if (!importUrlList(input) && !importFileList(input)) {
+			
+			StringBuilder log = new StringBuilder();
+			String eol = System.getProperty("line.separator");
+			for (DataFlavor flavor:input.getDataFlavors()){
+				log.append(flavor.getMimeType()).append(eol);
+			}
+
+			System.out.println("input "+log.toString());
 			return false;
 		}
 
@@ -71,8 +79,10 @@ public class XsamsTransferHandler extends TransferHandler{
 
 			return true;
 		} catch (UnsupportedFlavorException e) {
+			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return false;
 		}
 		}else if (importUrlList(support)){
