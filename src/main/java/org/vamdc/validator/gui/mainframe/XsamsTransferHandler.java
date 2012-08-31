@@ -17,15 +17,10 @@ public class XsamsTransferHandler extends TransferHandler{
 
 	private static final long serialVersionUID = -547699830730722754L;
 
-	private XSAMSIOModel xsamsDoc=null;
+	private final MainFrameController control;
 	
-	public XsamsTransferHandler(){
-		
-	}
-	
-	
-	public void setModel(XSAMSIOModel data) {
-		xsamsDoc = data;
+	public XsamsTransferHandler(MainFrameController control){
+		this.control = control;
 	}
 
 	@Override
@@ -74,7 +69,7 @@ public class XsamsTransferHandler extends TransferHandler{
 				iFile = l.get(0);
 			}
 			if (iFile!=null && iFile.exists() && iFile.canRead()){
-				xsamsDoc.loadFile(iFile);
+				control.asyncLoadFile(iFile);
 			}
 
 			return true;
@@ -95,8 +90,7 @@ public class XsamsTransferHandler extends TransferHandler{
 				}
 				if (urls.length>0){
 					URL file = new URL(urls[0]);
-					xsamsDoc.loadStream(file.openStream());
-					xsamsDoc.setFilename(urls[0]);
+					control.asyncLoadURL(file);
 				}
 			} catch (UnsupportedFlavorException e1) {
 				e1.printStackTrace();

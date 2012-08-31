@@ -320,7 +320,7 @@ public class MainFrameController implements ActionListener {
 		}
 	}
 
-	private void asyncLoadFile(final File filename) {
+	public void asyncLoadFile(final File filename) {
 		//Create a thread processing file
 		inputThread = new Thread( new Runnable(){
 			@Override
@@ -346,7 +346,7 @@ public class MainFrameController implements ActionListener {
 		}else{
 			try{
 				final URL fileUrl = new URL(doc.getFilename());
-				loadFromURL(fileUrl);
+				asyncLoadURL(fileUrl);
 				return;
 			}catch (MalformedURLException e){
 				JOptionPane.showMessageDialog(frame, "Exception during open: "+e.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
@@ -355,12 +355,13 @@ public class MainFrameController implements ActionListener {
 		JOptionPane.showMessageDialog(frame, "Unable to reload file "+doc.getFilename(),"Open",JOptionPane.ERROR_MESSAGE);
 	}
 
-	private void loadFromURL(final URL fileUrl) {
+	public void asyncLoadURL(final URL fileUrl) {
 		inputThread = new Thread( new Runnable(){
 			@Override
 			public void run() {
 				try{
 					doc.loadStream(fileUrl.openStream());
+					doc.setFilename(fileUrl.toString());
 				}catch (Exception ex){
 					JOptionPane.showMessageDialog(frame, "Exception during open: "+ex.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
 					ex.printStackTrace();

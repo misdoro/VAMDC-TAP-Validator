@@ -52,6 +52,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		//Set controller
 		this.controller = new MainFrameController(document,this);
 		
+		this.xsamsPanel.setTransferHandler(new XsamsTransferHandler(controller));
 		//Set monitor
 		this.document.setProgressMonitor(this);
 		

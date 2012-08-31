@@ -18,12 +18,9 @@ public class XSAMSPanel extends TextPanel implements ComponentUpdateInterface{
 	private XSAMSIOModel xsamsDoc=null;
 	private SearchData search=null;
 	
-	private XsamsTransferHandler xsamstr = new XsamsTransferHandler();
 	
 	public XSAMSPanel(){
 		super();
-		
-		this.setTransferHandler(xsamstr);
 	}
 	
 	@Override
@@ -37,7 +34,6 @@ public class XSAMSPanel extends TextPanel implements ComponentUpdateInterface{
 	@Override
 	public void setModel(XSAMSIOModel data) {
 		xsamsDoc = data;
-		xsamstr.setModel(data);
 	}
 
 	@Override
