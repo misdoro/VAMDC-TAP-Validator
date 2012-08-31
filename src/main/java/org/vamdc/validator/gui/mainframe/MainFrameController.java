@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
@@ -21,10 +20,11 @@ import javax.swing.text.JTextComponent;
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
+import org.vamdc.validator.gui.PositionMemoryDialog;
 import org.vamdc.validator.gui.console.ConsolePanel;
 import org.vamdc.validator.gui.search.SearchData;
 import org.vamdc.validator.gui.search.SearchPanel;
-import org.vamdc.validator.gui.settings.SettingsPanel;
+import org.vamdc.validator.gui.settings.SettingsDialog;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.DocumentError.Type;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -127,8 +127,9 @@ public class MainFrameController implements ActionListener {
 	private Thread inputThread; //Thread for xsams input
 
 	public final LocatorPanelController locController; 
-	private JDialog settingsFrame,searchFrame;
+	private JDialog searchFrame;
 	private ConsolePanel logPanel;
+	private PositionMemoryDialog settingsDialog;
 	private SearchData search;
 	private final JFileChooser saveChooser;
 	private final JFileChooser loadChooser;
@@ -137,7 +138,7 @@ public class MainFrameController implements ActionListener {
 		this.doc=doc;
 		this.frame=frame;
 
-		initSettings(frame);
+		settingsDialog = new SettingsDialog(frame,this);
 		initLog(frame);
 		if (Setting.GUILogConsole.getBool())
 			showLogPanel();
@@ -162,12 +163,7 @@ public class MainFrameController implements ActionListener {
 
 	}
 
-	private void initSettings(MainFrame frame) {
-		settingsFrame = new JDialog(frame,"Settings");
-		settingsFrame.setContentPane(new SettingsPanel(this));
-		settingsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		settingsFrame.setModal(true);
-	}
+	
 
 	private void initLog(MainFrame frame){
 		logPanel=new ConsolePanel(frame);
@@ -200,8 +196,7 @@ public class MainFrameController implements ActionListener {
 		}else if (command == MenuBar.CMD_FINDNEXT){
 			search();
 		}else if (command == MenuBar.CMD_CONFIG){
-			settingsFrame.pack();
-			settingsFrame.setVisible(true);
+			settingsDialog.setVisible(true);
 		}else if (command == MenuBar.CMD_LOG){
 			Setting.GUILogConsole.saveValue(true);
 			showLogPanel();
@@ -428,10 +423,10 @@ public class MainFrameController implements ActionListener {
 	public void reloadDocument(){
 		try{
 			doc.reconfigure();
-			settingsFrame.setVisible(false);
+			settingsDialog.setVisible(false);
 			frame.updateFromModel(true);
 		}catch (Exception e){
-			JOptionPane.showMessageDialog(settingsFrame, "Exception while applying new settings: "+e.getMessage(),"Settings",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(settingsDialog, "Exception while applying new settings: "+e.getMessage(),"Settings",JOptionPane.ERROR_MESSAGE);
 		}
 
 	}

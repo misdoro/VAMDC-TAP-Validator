@@ -2,24 +2,21 @@ package org.vamdc.validator.gui.console;
 
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Rectangle;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
 import javax.swing.BoxLayout;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.vamdc.validator.Setting;
+import org.vamdc.validator.gui.PositionMemoryDialog;
 
-public class ConsolePanel extends JDialog{
+public class ConsolePanel extends PositionMemoryDialog{
 
 	private static final long serialVersionUID = 5729446011617248198L;
 
@@ -27,44 +24,12 @@ public class ConsolePanel extends JDialog{
 	private JPanel panel = new JPanel();
 
 	public ConsolePanel(Frame owner){
-		super(owner,"Log console");
+		super("Log console",owner,Setting.GUILogConsoleDim);
 		initDialog();
 		initCloseEvent();
 		initLayout();
 		initStreams();
 		loadDimensions();
-	}
-	
-	public void saveDimensions(){
-		Rectangle pos = this.getBounds();
-		Setting.GUILogConsoleDim.saveObject(pos);
-	}
-	
-	public void loadDimensions(){
-		Object pos = Setting.GUILogConsoleDim.loadObject();
-		if (pos instanceof Rectangle){
-			this.setBounds((Rectangle) pos);
-		}else{
-			this.pack();
-		}
-	}
-
-	private void initCloseEvent() {
-		this.addWindowListener(
-				new WindowAdapter(){
-					@Override
-					public void windowClosed(WindowEvent e){Setting.GUILogConsole.saveValue(false);}
-					@Override
-					public void windowClosing(WindowEvent e){
-						Setting.GUILogConsole.saveValue(false);
-						saveDimensions();
-					}
-					@Override
-					public void windowLostFocus(WindowEvent e) {
-						saveDimensions();
-					}
-				}
-				);
 	}
 
 	private void initDialog() {

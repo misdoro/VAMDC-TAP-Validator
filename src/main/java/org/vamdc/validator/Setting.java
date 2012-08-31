@@ -42,6 +42,8 @@ public enum Setting {
 
 	GUILogConsole("guiLogConsole",false),
 	GUILogConsoleDim("guiLogConsoleDim",""),
+	
+	GUISettingsDim("guiSettingsDim",""),
 
 	;
 
