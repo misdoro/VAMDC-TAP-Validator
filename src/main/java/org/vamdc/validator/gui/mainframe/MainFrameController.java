@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import javax.swing.JDialog;
@@ -205,6 +207,8 @@ public class MainFrameController implements ActionListener {
 			showLogPanel();
 		}else if (command == MenuBar.CMD_OPEN){
 			handleFileOpen();
+		}else if (command == MenuBar.CMD_RELOAD){
+			handleFileReload();
 		}else if (command == MenuBar.CMD_SAVE){
 			handleFileSave();
 		}else if (command == MenuBar.CMD_REPORT){
@@ -307,28 +311,67 @@ public class MainFrameController implements ActionListener {
 		//Show open dialog
 		if (loadChooser.showOpenDialog(frame)==JFileChooser.APPROVE_OPTION){
 
-			final File filename = loadChooser.getSelectedFile();
+			File filename = loadChooser.getSelectedFile();
 			if (filename.exists() && filename.canRead()&& inputThread==null){
 				//Save new file path
 				Setting.GUIFileOpenPath.saveValue(filename.getPath());
-				//Create a thread processing file
-				inputThread = new Thread( new Runnable(){
-					@Override
-					public void run() {
-						try{
-							doc.loadFile(filename);
-						}catch (Exception ex){
-							JOptionPane.showMessageDialog(frame, "Exception during open: "+ex.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
-							ex.printStackTrace();
-						}finally{
-							inputThread=null;
-						}
-					}
-				});
-				inputThread.start();
+				asyncLoadFile(filename);
 			}
 		}
 	}
+
+	private void asyncLoadFile(final File filename) {
+		//Create a thread processing file
+		inputThread = new Thread( new Runnable(){
+			@Override
+			public void run() {
+				try{
+					doc.loadFile(filename);
+				}catch (Exception ex){
+					JOptionPane.showMessageDialog(frame, "Exception during open: "+ex.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
+					ex.printStackTrace();
+				}finally{
+					inputThread=null;
+				}
+			}
+		});
+		inputThread.start();
+	}
+	
+	private void handleFileReload(){
+		File file = new File (doc.getFilename());
+		if (file.exists() && file.canRead()){
+			asyncLoadFile(file);
+			return;
+		}else{
+			try{
+				final URL fileUrl = new URL(doc.getFilename());
+				loadFromURL(fileUrl);
+				return;
+			}catch (MalformedURLException e){
+				JOptionPane.showMessageDialog(frame, "Exception during open: "+e.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
+			};
+		}
+		JOptionPane.showMessageDialog(frame, "Unable to reload file "+doc.getFilename(),"Open",JOptionPane.ERROR_MESSAGE);
+	}
+
+	private void loadFromURL(final URL fileUrl) {
+		inputThread = new Thread( new Runnable(){
+			@Override
+			public void run() {
+				try{
+					doc.loadStream(fileUrl.openStream());
+				}catch (Exception ex){
+					JOptionPane.showMessageDialog(frame, "Exception during open: "+ex.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
+					ex.printStackTrace();
+				}finally{
+					inputThread=null;
+				}
+			}
+		});
+		inputThread.start();
+	}
+	
 	/**
 	 * Handle file save action
 	 */

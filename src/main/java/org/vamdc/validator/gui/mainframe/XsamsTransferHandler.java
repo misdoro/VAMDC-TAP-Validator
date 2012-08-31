@@ -96,7 +96,7 @@ public class XsamsTransferHandler extends TransferHandler{
 				if (urls.length>0){
 					URL file = new URL(urls[0]);
 					xsamsDoc.loadStream(file.openStream());
-					
+					xsamsDoc.setFilename(urls[0]);
 				}
 			} catch (UnsupportedFlavorException e1) {
 				e1.printStackTrace();

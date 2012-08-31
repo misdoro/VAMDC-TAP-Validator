@@ -65,6 +65,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 	@Override
 	public long loadFile(File xsamsDocument) throws IOException {
+		this.setFilename(xsamsDocument.getAbsolutePath());
 		return loadStream(new FileInputStream(xsamsDocument));
 		
 	}
