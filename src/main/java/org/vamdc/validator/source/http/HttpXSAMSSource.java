@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,18 +14,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.zip.GZIPInputStream;
 
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.Setting;
+import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.source.XSAMSSource;
 import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.xsams.io.IOSettings;
-import org.vamdc.xsams.io.Input;
 import org.vamdc.xsams.io.PrettyPrint;
 
 public class HttpXSAMSSource implements XSAMSSource {
 
 	private String baseURLStr = "";
+	private String filename = "";
 
 	//Default connect and read timeouts for http connections
 
@@ -53,7 +56,7 @@ public class HttpXSAMSSource implements XSAMSSource {
 	}
 
 	@Override
-	public InputStream getXsamsStream(String query) throws XSAMSSourceException {
+	public InputStream getXsamsStream(String query,XSAMSIOModel document) throws XSAMSSourceException {
 		if (baseURLStr==null)
 			throw new XSAMSSourceException("base URL is null :(");
 		if (caps!=null){
@@ -64,33 +67,36 @@ public class HttpXSAMSSource implements XSAMSSource {
 			if (!avail.isAvailable()){
 				throw new XSAMSSourceException("Service not available: "+avail.getMessage());
 			}else{
-				return doQuery(query);
+				return doQuery(query,document);
 			}
 		}else{
-			return doQuery(query);
+			return doQuery(query,document);
 		}
 	}
 
 	/**
 	 * Perform query
 	 * @param query
+	 * @param document 
 	 * @return
 	 * @throws XSAMSSourceException
 	 */
-	public InputStream doQuery(String query) throws XSAMSSourceException{
+	public InputStream doQuery(String query, XSAMSIOModel document) throws XSAMSSourceException{
 		URL requestURL = prepareRequestURL(query);
 
 		transferConnectionSettings();
-		
+		InputStream result=null;
 		try{
+			result = openConnection(requestURL);
+			//From here we must know the filename
+			document.setFilename(filename);
+			
 			if (Setting.PrettyPrint.getBool())
-				return prettyprinter.transform(
-						Input.openConnection(requestURL));
-			return Input.openConnection(requestURL);
+				result=prettyprinter.transform(result);
 		}  catch (IOException e) {
 			transformException(requestURL, e);
-			return null;
 		}
+		return result;
 	}
 
 	private void transformException(URL requestURL, IOException e)
@@ -151,6 +157,52 @@ public class HttpXSAMSSource implements XSAMSSource {
 		} catch (IOException e) {
 			transformException(requestURL,e);
 			return Collections.emptyMap();
+		}
+	}
+	
+	/**
+	 * Open URL connection, with timeouts set
+	 * @param address connection URL
+	 * @return Stream of data
+	 * @throws IOException 
+	 */
+	private InputStream openConnection(URL adress) throws IOException{
+		URLConnection conn = adress.openConnection();
+		//Allow gzip encoding
+		if (IOSettings.compress.getIntValue()==1)
+			conn.setRequestProperty("Accept-Encoding", "gzip");
+		//Set timeouts
+		conn.setConnectTimeout(IOSettings.httpConnectTimeout.getIntValue());
+		conn.setReadTimeout(IOSettings.httpDataTimeout.getIntValue());
+
+		checkHttpResultCode(adress, conn);
+		
+		extractFilename(conn);
+		
+		InputStream responseStream = conn.getInputStream();
+		String contentEncoding = conn.getContentEncoding();
+		if ("gzip".equalsIgnoreCase(contentEncoding)) {
+			responseStream = new GZIPInputStream(responseStream);
+		}
+		return responseStream;
+	}
+	
+	private void extractFilename(URLConnection conn) {
+		String disposition = conn.getHeaderField("Content-Disposition");
+		if (disposition!=null && disposition.contains("filename=")){
+			int pos = disposition.indexOf("=")+1;
+			if (pos<disposition.length()-1)
+			this.filename=disposition.substring(pos).trim();
+		}else 
+			this.filename=null;
+	}
+
+	private void checkHttpResultCode(URL adress, URLConnection conn)
+			throws IOException {
+		if (adress.getProtocol().equals("http")|| adress.getProtocol().equals("https")){
+			HttpURLConnection httpc= (HttpURLConnection) conn;
+			if (httpc.getResponseCode()!=200)
+				throw new IOException("Server responded with code "+httpc.getResponseCode());
 		}
 	}
 

@@ -10,6 +10,7 @@ import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.interfaces.XSAMSValidatorException;
 import org.vamdc.validator.iocontroller.XSAMSDocument;
+import org.vamdc.validator.report.XMLReport;
 import org.vamdc.validator.source.XSAMSSourceException;
 
 /**

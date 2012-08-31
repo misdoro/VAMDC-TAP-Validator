@@ -35,7 +35,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 		if (source==null)
 			throw new XSAMSSourceException("XSAMS source is not available");
 		//Setup xsams source
-		xsamsStream = source.getXsamsStream(query);
+		xsamsStream = source.getXsamsStream(query,this);
 		//Process it
 		return processStream(xsamsStream, query);
 	}
@@ -132,6 +132,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 	private String errorMsg;
 	private InputStream xsamsStream;
 	private String query;
+	private String filename;
 
 	/**
 	 * Process xsams stream: copy to temp storage, validate
@@ -268,6 +269,16 @@ public class XSAMSDocument implements XSAMSIOModel{
 			throw new XSAMSSourceException("XSAMS source is not available");
 		
 		return source.getMetrics(query);
+	}
+
+	@Override
+	public String getFilename() {
+		return filename;
+	}
+
+	@Override
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	

@@ -4,12 +4,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.validator.Setting;
+import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.source.XSAMSSource;
 import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.xsams.io.IOSettings;
@@ -35,9 +37,11 @@ public class PluginXSAMSSource implements XSAMSSource{
 	}
 
 	@Override
-	public InputStream getXsamsStream(String query) throws XSAMSSourceException {
+	public InputStream getXsamsStream(String query,XSAMSIOModel document) throws XSAMSSourceException {
 		RequestProcess myrequest = prepareRequest(query);
 		talker.buildXSAMS(myrequest);
+		String filename = XSAMSSettings.idPrefix.getStrValue()+ (new Date().toString().replace(" ", "_")) + ".xsams";
+		document.setFilename(filename);
 		IOSettings.prettyprint.setIntValue(1);
 		return Input.getXSAMSAsInputStream(myrequest.getJaxbXSAMSData());
 	}

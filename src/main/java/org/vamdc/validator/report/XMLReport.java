@@ -1,4 +1,4 @@
-package org.vamdc.validator.cli;
+package org.vamdc.validator.report;
 
 import java.io.File;
 import java.math.BigInteger;

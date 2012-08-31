@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 
+import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.dictionary.HeaderMetrics;
 
 /**
@@ -18,7 +19,7 @@ public interface XSAMSSource{
 	 * @return stream of XML data corresponding to query
 	 * @throws XSAMSSourceException error occured, if any
 	 */
-	public abstract InputStream getXsamsStream(String query) throws XSAMSSourceException;
+	public abstract InputStream getXsamsStream(String query,XSAMSIOModel document) throws XSAMSSourceException;
 	
 	/**
 	 * Get supported restrictables

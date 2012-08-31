@@ -132,6 +132,17 @@ public interface XSAMSIOModel{
 	 * @return query string as it was defined in doQuery
 	 */
 	public String getQuery();
+	
+	/**
+	 * Get current filename
+	 * @return current filename of the document
+	 */
+	public String getFilename();
 
+	/**
+	 * Set current filename
+	 * @param filename current filename of the document (override automatically recognized)
+	 */
+	public void setFilename(String filename);
 	
 }

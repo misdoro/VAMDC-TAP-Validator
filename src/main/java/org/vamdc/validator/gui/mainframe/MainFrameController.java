@@ -26,6 +26,7 @@ import org.vamdc.validator.gui.settings.SettingsPanel;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.DocumentError.Type;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
+import org.vamdc.validator.report.XMLReport;
 
 
 public class MainFrameController implements ActionListener {
@@ -68,7 +69,7 @@ public class MainFrameController implements ActionListener {
 				search.setData(clickedError.getSearchString(), false);
 				xsamsPanel.centerLine(searchNext(1));
 			}
-			
+
 		}
 
 		private void centerError(DocumentError clickedError) {
@@ -133,15 +134,15 @@ public class MainFrameController implements ActionListener {
 	public MainFrameController(XSAMSIOModel doc,MainFrame frame){
 		this.doc=doc;
 		this.frame=frame;
-		
+
 		initSettings(frame);
 		initLog(frame);
 		if (Setting.GUILogConsole.getBool())
 			showLogPanel();
 		initSearch(frame);
-		
+
 		initCloseEvent();
-		
+
 		//Init text panel controllers
 		new XsamsPanelController(frame.xsamsPanel,this.doc);
 		new ValidationPanelController(frame.valPanel,this.doc,frame.xsamsPanel);
@@ -156,7 +157,7 @@ public class MainFrameController implements ActionListener {
 		loadChooser.setCurrentDirectory(fodir);
 
 		locController = new LocatorPanelController(doc,frame.xsamsPanel);
-		
+
 	}
 
 	private void initSettings(MainFrame frame) {
@@ -165,7 +166,7 @@ public class MainFrameController implements ActionListener {
 		settingsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		settingsFrame.setModal(true);
 	}
-	
+
 	private void initLog(MainFrame frame){
 		logPanel=new ConsolePanel(frame);
 	}
@@ -206,6 +207,8 @@ public class MainFrameController implements ActionListener {
 			handleFileOpen();
 		}else if (command == MenuBar.CMD_SAVE){
 			handleFileSave();
+		}else if (command == MenuBar.CMD_REPORT){
+			handleSaveReport();
 		}else if (command == MenuBar.CMD_ABOUT){
 			JOptionPane.showMessageDialog(frame, ValidatorMain.ABOUT_MESSAGE);
 		}
@@ -214,17 +217,17 @@ public class MainFrameController implements ActionListener {
 	public void showLogPanel() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				
+
 				logPanel.setVisible(true);
-				
+
 			}}
-		);
+				);
 	}
 
 	public void search() {
 		frame.xsamsPanel.centerLine(searchNext(frame.xsamsPanel.getDocCenter()));
 	}
-	
+
 	/**
 	 * Handle search
 	 */
@@ -330,10 +333,26 @@ public class MainFrameController implements ActionListener {
 	 * Handle file save action
 	 */
 	private void handleFileSave() {
+		File filename=pickFilename(doc.getFilename());
+		if (filename!=null){
+			//Tell storage to save file
+			try{
+				doc.saveFile(filename);
+				JOptionPane.showMessageDialog(frame, "File "+filename.getAbsolutePath()+" written successfully.","Save",JOptionPane.INFORMATION_MESSAGE);
+			}catch (Exception ex){
+				JOptionPane.showMessageDialog(frame, "Exception during save: "+ex.getMessage(),"Save",JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
+	}
+
+	private File pickFilename(String nameSuggestion) {
+		File filename=null;
+		saveChooser.setSelectedFile(new File(nameSuggestion));
 		//Show save dialog
 		if(saveChooser.showSaveDialog(frame)==JFileChooser.APPROVE_OPTION){
 			//If selected file
-			File filename = saveChooser.getSelectedFile();
+			filename = saveChooser.getSelectedFile();
 			//Check if file exists, ask user to overwrite
 			if (!filename.exists() || (filename.exists() && JOptionPane.showConfirmDialog(
 					frame,
@@ -343,15 +362,19 @@ public class MainFrameController implements ActionListener {
 
 				//Save path in preferences for future use
 				Setting.GUIFileSavePath.saveValue(filename.getPath());
-				
-				//Tell storage to save file
-				try{
-					doc.saveFile(filename);
-					JOptionPane.showMessageDialog(frame, "File "+filename.getAbsolutePath()+" written successfully.","Save",JOptionPane.INFORMATION_MESSAGE);
-				}catch (Exception ex){
-					JOptionPane.showMessageDialog(frame, "Exception during save: "+ex.getMessage(),"Save",JOptionPane.ERROR_MESSAGE);
-				}
+				return filename;
 			}
+		}
+		return null;
+	}
+
+	/**
+	 * Handle save validation report 
+	 */
+	private void handleSaveReport(){
+		File filename = pickFilename(doc.getFilename()+".report.xml");
+		if (filename!=null){
+			new XMLReport(doc,filename,doc.getFilename()).write();
 		}
 	}
 
