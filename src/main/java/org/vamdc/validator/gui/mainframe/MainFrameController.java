@@ -163,7 +163,7 @@ public class MainFrameController implements ActionListener {
 
 	}
 
-	
+
 
 	private void initLog(MainFrame frame){
 		logPanel=new ConsolePanel(frame);
@@ -332,22 +332,28 @@ public class MainFrameController implements ActionListener {
 		});
 		inputThread.start();
 	}
-	
+
 	private void handleFileReload(){
-		File file = new File (doc.getFilename());
-		if (file.exists() && file.canRead()){
-			asyncLoadFile(file);
-			return;
-		}else{
-			try{
-				final URL fileUrl = new URL(doc.getFilename());
-				asyncLoadURL(fileUrl);
+		String filename = doc.getFilename();
+
+		if (filename!=null && filename.length()>0){
+			File file = new File (filename);
+			if (file.exists() && file.canRead()){
+				asyncLoadFile(file);
 				return;
-			}catch (MalformedURLException e){
-				JOptionPane.showMessageDialog(frame, "Exception during open: "+e.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
-			};
+			}else{
+				try{
+					final URL fileUrl = new URL(filename);
+					asyncLoadURL(fileUrl);
+					return;
+				}catch (MalformedURLException e){
+					JOptionPane.showMessageDialog(frame, "Exception during open: "+e.getMessage(),"Reload",JOptionPane.ERROR_MESSAGE);
+				};
+			}
+			JOptionPane.showMessageDialog(frame, "Unable to reload file "+doc.getFilename(),"Reload",JOptionPane.ERROR_MESSAGE);
+		}else{
+			JOptionPane.showMessageDialog(frame, "No file was loaded","Reload",JOptionPane.ERROR_MESSAGE);
 		}
-		JOptionPane.showMessageDialog(frame, "Unable to reload file "+doc.getFilename(),"Open",JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void asyncLoadURL(final URL fileUrl) {
@@ -367,7 +373,7 @@ public class MainFrameController implements ActionListener {
 		});
 		inputThread.start();
 	}
-	
+
 	/**
 	 * Handle file save action
 	 */
