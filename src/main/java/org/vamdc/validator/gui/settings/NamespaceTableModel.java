@@ -25,23 +25,6 @@ import javax.swing.table.AbstractTableModel;
 public class NamespaceTableModel extends AbstractTableModel{
 
 	/**
-	 * Constructor that accepts string which is a space-separated list of namespace URL's and their schemalocations.
-	 * That list must have even number of members.
-	 * @param namespaces
-	 */
-	public NamespaceTableModel(String namespaces){
-		super();
-		setNSString(namespaces);
-	}
-
-	/**
-	 * Default constructor
-	 */
-	public NamespaceTableModel(){
-		super();
-	}
-
-	/**
 	 * Get space separated namespace URLs and schemalocations
 	 * @return space separated namespace URLs and schemalocations as accepted by xerces-j schema locations attribute
 	 */
@@ -195,6 +178,11 @@ public class NamespaceTableModel extends AbstractTableModel{
 		return false;
 	}
 
+	/**
+	 * Extract namespace url from schema file (opened as stream)
+	 * @param schemaStream input stream from schema source
+	 * @return String corresponding to namespace URL (xmlns attribute)
+	 */
 	private String extractNamespace(InputStream schemaStream){
 		String result="";
 		try {
