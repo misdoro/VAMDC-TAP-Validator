@@ -72,7 +72,6 @@ public class ConsolePanel extends PositionMemoryDialog{
 
 	public void clear(){
 		text.setText("");
-		System.out.println("Application log console");
 	}
 
 	protected void initCloseEvent() {
