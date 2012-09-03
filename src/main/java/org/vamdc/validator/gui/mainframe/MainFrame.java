@@ -44,6 +44,8 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public List<ComponentUpdateInterface> childComponents = new ArrayList<ComponentUpdateInterface>();
 	
 	public MainFrameController controller;
+
+	private LocatorPanel locatorPanel;
 	
 	public MainFrame(XSAMSIOModel doc){
 		super("VAMDC-TAP service validation GUI");
@@ -153,9 +155,9 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		constraints.gridy++;
 		
 		constraints.weighty = 0.0;
-		LocatorPanel locpanel = new LocatorPanel(controller.locController,document);
-		rightPanel.add(locpanel,constraints);
-		childComponents.add(locpanel);
+		locatorPanel = new LocatorPanel(controller.locController,document);
+		rightPanel.add(locatorPanel,constraints);
+		childComponents.add(locatorPanel);
 		constraints.gridy++;
 		
 		constraints.weighty = 1.0;
@@ -228,7 +230,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 				frame.updateFromModel(true);
 				frame.progress.setIndeterminate(false);
 				frame.progress.setValue(100);
-				frame.pack();
+				
 			}}
 		);
 	}

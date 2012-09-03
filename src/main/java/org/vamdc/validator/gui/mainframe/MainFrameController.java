@@ -269,6 +269,7 @@ public class MainFrameController implements ActionListener {
 		System.out.println("Performing query "+query);
 		if (isPreview)
 			System.out.println("in preview mode");
+		QueryField.validateQuery(query);
 		if (inputThread==null){
 			//Create separate thread for query execution
 			inputThread = new Thread( new Runnable(){
@@ -279,8 +280,9 @@ public class MainFrameController implements ActionListener {
 							processHeaders(doc.previewQuery(query));
 							frame.progress.setIndeterminate(false);
 						}
-						else
+						else{
 							doc.doQuery(query);
+						}
 					}catch (Exception e){
 						JOptionPane.showMessageDialog(frame, "Exception during query: "+e.getMessage(),"Query",JOptionPane.ERROR_MESSAGE);
 						frame.progress.setIndeterminate(false);

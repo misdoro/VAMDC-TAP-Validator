@@ -2,6 +2,7 @@ package org.vamdc.validator.gui.mainframe;
 
 import javax.swing.text.JTextComponent;
 
+import org.vamdc.tapservice.vss2.VSSParser;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.gui.HistoryComboBox;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -22,10 +23,23 @@ public class QueryField extends HistoryComboBox implements ComponentUpdateInterf
 		super.loadValues();
 		if (data!=null && data.getSampleQueries()!=null)
 			for (String query:data.getSampleQueries()){
-				if (query.length()>1)
+				if (query.length()>1){
+					validateQuery(query);
 					this.addItem(query+";");
+				}
 			}
 		
+	}
+
+	public static boolean validateQuery(String query) {
+		try{
+			VSSParser.parse(query);
+			return true;
+		}catch (IllegalArgumentException e){
+			System.out.println("Warning! Query '"+query+"' was not valid:");
+			System.out.println(e.getMessage());
+			return false;
+		}
 	}
 
 	/**
