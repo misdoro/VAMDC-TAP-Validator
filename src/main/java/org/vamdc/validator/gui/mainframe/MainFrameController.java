@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
@@ -49,12 +50,15 @@ public class MainFrameController implements ActionListener {
 
 		private XSAMSIOModel xsamsdoc;
 		private TextPanel xsamsPanel;
+		private ErrorTransferHandler eth;
 
 		public ValidationPanelController(TextPanel valPanel,
 				XSAMSIOModel document, TextPanel xsamsPanel) {
 			super(valPanel);
 			this.xsamsdoc = document;
 			this.xsamsPanel = xsamsPanel;
+			eth = new ErrorTransferHandler(document);
+			valPanel.setTransferHandler(eth);
 		}
 
 		@Override
@@ -66,6 +70,9 @@ public class MainFrameController implements ActionListener {
 				xsamsPanel.setHighlight(clickedError.getElement(), Color.RED);
 				xsamsPanel.centerLine((int)clickedError.getElement().getFirstLine());
 				centerError(clickedError);
+				eth.setError(clickedError);
+				eth.exportToClipboard(panel, panel.getToolkit().getSystemClipboard(),
+			            TransferHandler.COPY);
 			}else if (clickedError.getType()==Type.search){
 				search.setData(clickedError.getSearchString(), false);
 				xsamsPanel.centerLine(searchNext(1));
