@@ -169,8 +169,9 @@ public class HttpXSAMSSource implements XSAMSSource {
 	private InputStream openConnection(URL adress) throws IOException{
 		URLConnection conn = adress.openConnection();
 		//Allow gzip encoding
-		if (IOSettings.compress.getIntValue()==1)
+		if (IOSettings.compress.getIntValue()==1){
 			conn.setRequestProperty("Accept-Encoding", "gzip");
+		}
 		//Set timeouts
 		conn.setConnectTimeout(IOSettings.httpConnectTimeout.getIntValue());
 		conn.setReadTimeout(IOSettings.httpDataTimeout.getIntValue());
@@ -183,6 +184,9 @@ public class HttpXSAMSSource implements XSAMSSource {
 		String contentEncoding = conn.getContentEncoding();
 		if ("gzip".equalsIgnoreCase(contentEncoding)) {
 			responseStream = new GZIPInputStream(responseStream);
+		}else{
+			if (Setting.UseGzip.getBool())
+				System.out.println("WARNING: node doesn't seem to support transfer compression!");
 		}
 		return responseStream;
 	}
