@@ -24,7 +24,8 @@ public class ValidatorMain{
 		"\n" +
 		"Author: Misha Doronin\n" +
 		"misha@doronin.org\n" +
-		"support@vamdc.org"
+		"support@vamdc.org\n"+
+		"Consacré a Rim-Itto"
 		;
 	/**
 	 * @param args

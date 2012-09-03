@@ -1,9 +1,16 @@
 package org.vamdc.validator.gui.settings;
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import java.util.ArrayList;
 
@@ -45,7 +52,6 @@ public class NamespaceTableModel extends AbstractTableModel{
 				result.append(quote(row[0])).append(" ").append(quote(row[1])).append(" ");
 		}
 		return result.toString();
-		//return (String)Settings.defaults.get(Settings.SchemaLocations);
 	}
 
 	/**
@@ -116,7 +122,7 @@ public class NamespaceTableModel extends AbstractTableModel{
 
 	@Override
 	public boolean isCellEditable(int row, int col) {
-		return true; //Cells are always editable
+		return col==1;
 	}
 
 	/**
@@ -130,36 +136,25 @@ public class NamespaceTableModel extends AbstractTableModel{
 			deleteRow(row);
 			fireTableRowsDeleted(row,row);
 		}
-		switch(col){
-		case 0:
-			try {//Saving namespace url, must be normal URL.
-				URL namespace = new URL(val);
-				addedRow=saveRow(namespace.toString(),"",row);
-			} catch (MalformedURLException e) {	
-			}
-			break;
-		case 1:
+		if (col==1){
+			if (checkFileAccess(val)){
+				try {
+					String nsurl = extractNamespace(new FileInputStream(val));
+					saveRow(nsurl,val,row);
+				} catch (FileNotFoundException e) {
+				}
+			}else
 			try{//Saving location, may be either existing file or normal URL.
 				URL location = new URL(val);
-				//If protocol is file, check file and save only path
-				if (location.getProtocol().equalsIgnoreCase("file"))
-					if (checkFileAccess(location.getPath()))//Check if file is accessible
-						addedRow = saveRow("",location.getPath(),row);
-					else;
-				// TODO: add exception
-				else//else save full URL without checking
-					addedRow = saveRow("",location.toString(),row);
-			}catch (MalformedURLException e) {
-				if (checkFileAccess(val))
-					addedRow = saveRow("",val,row);
+				String nsurl = extractNamespace(location.openStream());
+				addedRow = saveRow(nsurl,location.toString(),row);
 			}
-			break;
-		default:
-			break;
+			catch (MalformedURLException e) {} 
+			catch (IOException e) {}
 		}
+		fireTableRowsUpdated(row, row);
 		if (addedRow)
 			fireTableRowsInserted(row+1, row+1);
-		fireTableRowsUpdated(row, row);
 	}
 
 
@@ -200,5 +195,23 @@ public class NamespaceTableModel extends AbstractTableModel{
 		return false;
 	}
 
+	private String extractNamespace(InputStream schemaStream){
+		String result="";
+		try {
+			String line;
+			BufferedReader br = 
+					new BufferedReader(new InputStreamReader(schemaStream, Charset.forName("UTF-8")));
+			while ((line = br.readLine())!=null ){
+				int pos = line.indexOf("xmlns=");
+				if (pos>0){
+					result=line.substring(pos+7);
+					result = result.split("[\"']")[0];
+				}
+			}
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		}
+		return result;
+	}
 
 }
