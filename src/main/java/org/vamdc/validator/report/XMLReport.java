@@ -21,7 +21,7 @@ import org.vamdc.validator.interfaces.DocumentElementsLocator;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.interfaces.DocumentElement.ElementTypes;
-import org.vamdc.tapservice.validator.report.*;
+import org.vamdc.validator.report.schema.*;
 
 /**
  * Write report xml file for this document

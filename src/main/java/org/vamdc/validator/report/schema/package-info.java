@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://vamdc.org/tapservice/validator/report", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package org.vamdc.tapservice.validator.report;
+package org.vamdc.validator.report.schema;

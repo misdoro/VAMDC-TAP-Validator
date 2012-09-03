@@ -6,7 +6,7 @@
 //
 
 
-package org.vamdc.tapservice.validator.report;
+package org.vamdc.validator.report.schema;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
