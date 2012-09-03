@@ -6,13 +6,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 import org.vamdc.validator.Setting;
 
 /**
  * JDialog that can remember it's position on screen
  */
-public class PositionMemoryDialog extends JDialog{
+public abstract class PositionMemoryDialog extends JDialog{
 
 	private static final long serialVersionUID = 862006088829415251L;
 
@@ -21,6 +22,8 @@ public class PositionMemoryDialog extends JDialog{
 	public PositionMemoryDialog(String name, Frame owner, Setting dialogPosition){
 		super(owner,name);
 		this.dimensionOption = dialogPosition;
+		initCloseEvent();
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 	
 	public void saveDimensions(){
@@ -37,14 +40,18 @@ public class PositionMemoryDialog extends JDialog{
 		}
 	}
 	
+	protected abstract void closeEvent();
+	
 	protected void initCloseEvent() {
 		this.addWindowListener(
 				new WindowAdapter(){
 					@Override
-					public void windowClosed(WindowEvent e){Setting.GUILogConsole.saveValue(false);}
+					public void windowClosed(WindowEvent e){
+						closeEvent();
+					}
 					@Override
 					public void windowClosing(WindowEvent e){
-						Setting.GUILogConsole.saveValue(false);
+						closeEvent();
 						saveDimensions();
 					}
 					@Override
@@ -53,6 +60,11 @@ public class PositionMemoryDialog extends JDialog{
 					}
 				}
 				);
+	}
+	
+	public void hideDialog(){
+		saveDimensions();
+		this.setVisible(false);
 	}
 	
 	

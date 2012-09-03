@@ -41,9 +41,11 @@ public enum Setting {
 	GUIVOSIHistory("guiVOSIHistory",""),
 
 	GUILogConsole("guiLogConsole",false),
-	GUILogConsoleDim("guiLogConsoleDim",""),
 	
+	GUILogConsoleDim("guiLogConsoleDim",""),
 	GUISettingsDim("guiSettingsDim",""),
+	GUISearchDim("guiSearchDim",""),
+	
 
 	;
 

@@ -6,14 +6,15 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.vamdc.validator.Setting;
+import org.vamdc.validator.gui.PositionMemoryDialog;
 import org.vamdc.validator.gui.mainframe.MainFrame;
 import org.vamdc.validator.gui.mainframe.MainFrameController;
 
-public class SearchPanel extends JDialog implements ActionListener{
+public class SearchPanel extends PositionMemoryDialog implements ActionListener{
 	private static final long serialVersionUID = 2147287084424028910L;
 	
 	private JTextField search = new JTextField();
@@ -22,16 +23,17 @@ public class SearchPanel extends JDialog implements ActionListener{
 	private SearchData searchData=new SearchData();
 	private MainFrameController control;
 	
-	public SearchPanel(MainFrame frame, String string,MainFrameController control) {
-		super(frame,string);
+	public SearchPanel(MainFrame frame,MainFrameController control) {
+		super("Search Panel",frame,Setting.GUISearchDim);
 		init();
+		loadDimensions();
 		this.control = control;
 	}
 	
 	private void init(){
 		this.setModal(true);
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setContentPane(initLayout());
+		this.setResizable(false);
 		ok.addActionListener(this);
 		cancel.addActionListener(this);
 	}
@@ -55,7 +57,7 @@ public class SearchPanel extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.setVisible(false);
+		this.hideDialog();
 		if (e.getSource()==ok){
 			searchData.setData(search.getText(), ignoreCase.isSelected());
 			control.search();
@@ -64,6 +66,10 @@ public class SearchPanel extends JDialog implements ActionListener{
 
 	public SearchData getSearch() {
 		return searchData;
+	}
+
+	@Override
+	protected void closeEvent() {
 	}
 
 }

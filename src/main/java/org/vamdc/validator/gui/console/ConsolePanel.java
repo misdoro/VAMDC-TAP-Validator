@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -26,7 +25,6 @@ public class ConsolePanel extends PositionMemoryDialog{
 	public ConsolePanel(Frame owner){
 		super("Log console",owner,Setting.GUILogConsoleDim);
 		initDialog();
-		initCloseEvent();
 		initLayout();
 		initStreams();
 		loadDimensions();
@@ -34,7 +32,6 @@ public class ConsolePanel extends PositionMemoryDialog{
 
 	private void initDialog() {
 		this.setContentPane(panel);
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 
 	private void initStreams() {
@@ -74,6 +71,11 @@ public class ConsolePanel extends PositionMemoryDialog{
 	public void clear(){
 		text.setText("");
 		System.out.println("Application log console");
+	}
+
+	@Override
+	protected void closeEvent() {
+		Setting.GUILogConsole.saveValue(Boolean.FALSE);
 	}
 
 

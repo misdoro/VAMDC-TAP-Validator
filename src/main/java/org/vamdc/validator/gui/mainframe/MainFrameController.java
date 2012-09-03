@@ -10,7 +10,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -127,9 +126,8 @@ public class MainFrameController implements ActionListener {
 	private Thread inputThread; //Thread for xsams input
 
 	public final LocatorPanelController locController; 
-	private JDialog searchFrame;
 	private ConsolePanel logPanel;
-	private PositionMemoryDialog settingsDialog;
+	private PositionMemoryDialog settingsDialog,searchFrame;
 	private SearchData search;
 	private final JFileChooser saveChooser;
 	private final JFileChooser loadChooser;
@@ -170,7 +168,7 @@ public class MainFrameController implements ActionListener {
 	}
 
 	private void initSearch(MainFrame frame) {
-		searchFrame = new SearchPanel(frame,"Search",this);
+		searchFrame = new SearchPanel(frame,this);
 		search = ((SearchPanel)searchFrame).getSearch();
 		frame.xsamsPanel.setSearch(search);
 	}
@@ -187,7 +185,6 @@ public class MainFrameController implements ActionListener {
 				doc.stopQuery();
 			}
 		}else if (command == MenuBar.CMD_FIND){
-			searchFrame.pack();
 			searchFrame.setVisible(true);
 		}else if (command == MenuBar.CMD_EXIT){
 			if (JOptionPane.showConfirmDialog(frame, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
@@ -428,7 +425,7 @@ public class MainFrameController implements ActionListener {
 	public void reloadDocument(){
 		try{
 			doc.reconfigure();
-			settingsDialog.setVisible(false);
+			settingsDialog.hideDialog();
 			frame.updateFromModel(true);
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(settingsDialog, "Exception while applying new settings: "+e.getMessage(),"Settings",JOptionPane.ERROR_MESSAGE);
