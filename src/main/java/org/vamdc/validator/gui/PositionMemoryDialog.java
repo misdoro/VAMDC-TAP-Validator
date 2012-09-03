@@ -10,7 +10,7 @@ import org.vamdc.validator.Setting;
 /**
  * JDialog that can remember it's position on screen
  */
-public abstract class PositionMemoryDialog extends JDialog{
+public class PositionMemoryDialog extends JDialog{
 
 	private static final long serialVersionUID = 862006088829415251L;
 
@@ -21,12 +21,6 @@ public abstract class PositionMemoryDialog extends JDialog{
 		wph = new WindowPositionHandler(this,dialogPosition);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
-	
-	
-	
-	protected abstract void closeEvent();
-	
-	
 	
 	public void hideDialog(){
 		wph.saveDimensions();

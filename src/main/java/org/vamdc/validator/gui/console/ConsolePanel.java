@@ -2,6 +2,8 @@ package org.vamdc.validator.gui.console;
 
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -73,10 +75,17 @@ public class ConsolePanel extends PositionMemoryDialog{
 		System.out.println("Application log console");
 	}
 
-	@Override
-	protected void closeEvent() {
-		Setting.GUILogConsole.saveValue(Boolean.FALSE);
+	protected void initCloseEvent() {
+		this.addWindowListener(
+				new WindowAdapter(){
+					@Override
+					public void windowClosing(WindowEvent e){
+						Setting.GUILogConsole.saveValue(Boolean.FALSE);
+					}
+				}
+				);
 	}
+	
 
 
 
