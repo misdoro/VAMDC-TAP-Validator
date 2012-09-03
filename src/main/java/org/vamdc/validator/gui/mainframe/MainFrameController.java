@@ -72,7 +72,7 @@ public class MainFrameController implements ActionListener {
 				centerError(clickedError);
 				eth.setError(clickedError);
 				eth.exportToClipboard(panel, panel.getToolkit().getSystemClipboard(),
-			            TransferHandler.COPY);
+						TransferHandler.COPY);
 			}else if (clickedError.getType()==Type.search){
 				search.setData(clickedError.getSearchString(), false);
 				xsamsPanel.centerLine(searchNext(1));
@@ -317,7 +317,7 @@ public class MainFrameController implements ActionListener {
 			if (filename.exists() && filename.canRead()&& inputThread==null){
 				//Save new file path
 				Setting.GUIFileOpenPath.saveValue(filename.getPath());
-				
+
 				asyncLoadFile(filename);
 			}
 		}
@@ -449,15 +449,16 @@ public class MainFrameController implements ActionListener {
 	}
 
 
-	
+
 	private void initCloseEvent() {
 		frame.addWindowListener(
 				new WindowAdapter(){
 					@Override
 					public void windowClosing(WindowEvent e){
-						logPanel.saveDimensions();
-						searchFrame.saveDimensions();
-						settingsDialog.saveDimensions();
+						logPanel.hideDialog();
+						searchFrame.hideDialog();
+						settingsDialog.hideDialog();
+						frame.wph.saveDimensions();
 					}
 				}
 				);

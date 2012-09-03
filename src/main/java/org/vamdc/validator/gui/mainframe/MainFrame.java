@@ -16,6 +16,8 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
+import org.vamdc.validator.Setting;
+import org.vamdc.validator.gui.WindowPositionHandler;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 
@@ -33,8 +35,8 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public final XSAMSPanel xsamsPanel = new XSAMSPanel();
 	public final ValidationPanel valPanel = new ValidationPanel();
 	public final RestrictsPanel restrictPanel = new RestrictsPanel();
-	//public final LocatorPanel locator = new LocatorPanel();
 	public final MainFrame frame = this;
+	public final WindowPositionHandler wph = new WindowPositionHandler(this,Setting.GUIMainDim);
 	
 	private final QueryField query = new QueryField();
 	private XSAMSIOModel document;
@@ -44,8 +46,6 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public List<ComponentUpdateInterface> childComponents = new ArrayList<ComponentUpdateInterface>();
 	
 	public MainFrameController controller;
-
-	private LocatorPanel locatorPanel;
 
 	private JSplitPane xsamsPane;
 	
@@ -71,7 +71,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		this.resetComponent();
 		
 		this.setPreferredSize(new Dimension(800, 600));
-		this.pack();
+		wph.loadDimensions();
 		this.setVisible(true);
 		
 		
@@ -157,7 +157,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		constraints.gridy++;
 		
 		constraints.weighty = 0.0;
-		locatorPanel = new LocatorPanel(controller.locController,document);
+		LocatorPanel locatorPanel = new LocatorPanel(controller.locController,document);
 		rightPanel.add(locatorPanel,constraints);
 		childComponents.add(locatorPanel);
 		constraints.gridy++;

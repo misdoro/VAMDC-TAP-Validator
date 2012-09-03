@@ -26,7 +26,7 @@ public class SearchPanel extends PositionMemoryDialog implements ActionListener{
 	public SearchPanel(MainFrame frame,MainFrameController control) {
 		super("Search Panel",frame,Setting.GUISearchDim);
 		init();
-		loadDimensions();
+		wph.loadDimensions();
 		this.control = control;
 	}
 	

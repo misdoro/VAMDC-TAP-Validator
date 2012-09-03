@@ -14,7 +14,7 @@ public class SettingsDialog extends PositionMemoryDialog{
 		super("Settings", owner, Setting.GUISettingsDim);
 		this.setContentPane(new SettingsPanel(controller));
 		this.setModal(true);
-		loadDimensions();
+		wph.loadDimensions();
 	}
 
 	@Override
