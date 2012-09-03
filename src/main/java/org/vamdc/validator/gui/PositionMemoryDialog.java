@@ -19,6 +19,7 @@ public class PositionMemoryDialog extends JDialog{
 	private Setting dimensionOption;
 	
 	public PositionMemoryDialog(String name, Frame owner, Setting dialogPosition){
+		super(owner,name);
 		this.dimensionOption = dialogPosition;
 	}
 	

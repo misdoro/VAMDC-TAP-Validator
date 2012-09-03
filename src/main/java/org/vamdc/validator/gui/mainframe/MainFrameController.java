@@ -178,7 +178,6 @@ public class MainFrameController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String command = event.getActionCommand();
-		System.out.println(command);
 		if (command == MainFrame.DO_QUERY){
 			handleDoQuery(false);
 		}else if (command == MainFrame.PRE_QUERY){

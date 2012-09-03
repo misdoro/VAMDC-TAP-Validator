@@ -35,7 +35,6 @@ public class ConsolePanel extends PositionMemoryDialog{
 	private void initDialog() {
 		this.setContentPane(panel);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.setModal(false);
 	}
 
 	private void initStreams() {
@@ -49,7 +48,7 @@ public class ConsolePanel extends PositionMemoryDialog{
 		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
 
 		JScrollPane scroll = new JScrollPane(text);
-
+		text.setEditable(false);
 		panel.add(scroll);
 		panel.setPreferredSize(new Dimension(640,480));
 	}
