@@ -140,7 +140,7 @@ public class NamespaceTableModel extends AbstractTableModel{
 			if (checkFileAccess(val)){
 				try {
 					String nsurl = extractNamespace(new FileInputStream(val));
-					saveRow(nsurl,val,row);
+					addedRow = saveRow(nsurl,val,row);
 				} catch (FileNotFoundException e) {
 				}
 			}else
@@ -190,7 +190,7 @@ public class NamespaceTableModel extends AbstractTableModel{
 		}else
 			if (namespace!=null && namespace.length()>0)
 				nslist.get(row)[0]=namespace;
-			else if (location!=null && location.length()>0)
+			if (location!=null && location.length()>0)
 				nslist.get(row)[1]=location;
 		return false;
 	}
