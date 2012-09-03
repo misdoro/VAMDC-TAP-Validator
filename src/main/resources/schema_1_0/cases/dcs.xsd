@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:dcs="http://vamdc.org/xml/xsams/1.0/cases/dcs"
+xmlns:ctypes="http://vamdc.org/xml/xsams/1.0/cases/commonTypes"
+targetNamespace="http://vamdc.org/xml/xsams/1.0/cases/dcs"
+elementFormDefault="qualified">
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/commonTypes" schemaLocation="commonTypes.xsd"/>
+	<xs:annotation>
+		<xs:documentation>Schema for specifying the quantum numbers of closed-shell, diatomic molecules</xs:documentation>
+	</xs:annotation>
+	
+	
+	<!--Following two types are used to link case to base schema-->
+	<xs:complexType name="ThisCase" abstract="true">
+		<xs:complexContent>
+			<xs:restriction base="ctypes:BaseCase">
+				<xs:attribute name="caseID" type="xs:string" use="required" fixed="dcs"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="Case">
+		<xs:complexContent>
+			<xs:extension base="dcs:ThisCase">
+				<xs:sequence>
+					<xs:element ref="dcs:QNs" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<!--=== QNs will be the root element ===-->
+	<xs:element name="QNs" type="dcs:QNsType"/>
+	
+	<xs:complexType name="QNsType">
+		<xs:annotation>
+			<xs:documentation>A list of quantum numbers for diatomic, closed-shell molecules</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!-- ElecStateLabel -->
+			<xs:element name="ElecStateLabel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The label of the electronic state: X, a, A, b, etc...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- v -->
+			<xs:element name="v" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The vibrational quantum number, v</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- J -->
+			<xs:element name="J" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The rotational quantum number, J, associated with the total angular momentum excluding nuclear spin</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- I -->
+			<xs:element name="I" type="ctypes:CoupledNuclearSpinAMType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The quantum number associated with the total nuclear spin angular momentum resulting from the coupling of two individual nuclear spin angular momenta: I = I1 + I2 + ...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- F1 -->
+			<xs:element name="F1" type="ctypes:NuclearSpinAMType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The quantum number, F1, associated with the intermediate angular momentum due to coupling the rotational angular momentum with one nuclear spin. F1 may not be a good quantum number.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- F -->
+			<xs:element name="F" type="ctypes:NuclearSpinAMType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The quantum number, F, associated with the total angular momentum including nuclear spin</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- r -->
+			<xs:element name="r" type="ctypes:RankingType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A named, positive integer label identifying the state if no other good quantum numbers or symmetries are known.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- parity -->
+			<xs:element name="parity" type="ctypes:PMParityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total parity with respect to inversion through the molecular centre of mass in the laboratory coordinate system</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- kronigParity -->
+			<xs:element name="kronigParity" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Kronig parity ('e' for a closed-shell diatomic)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="e"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			
+			<!-- asSym -->
+			<xs:element name="asSym" type="ctypes:ASParityType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Symmetry of the rovibronic wavefunction for diatomic molecules with a centre of inversion: a or s such that the total wavefunction including nuclear spin is symmetric or antisymmetric under permutation of the identical nuclei, according to whether they are bosons or fermions respectively.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+		</xs:sequence>
+	</xs:complexType>
+	
+</xs:schema>

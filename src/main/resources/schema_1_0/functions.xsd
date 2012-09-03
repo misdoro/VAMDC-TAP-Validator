@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/1.0"
+	xmlns:xsams="http://vamdc.org/xml/xsams/1.0"
+	targetNamespace="http://vamdc.org/xml/xsams/1.0">
+	
+	<xs:include schemaLocation="./typesAttributes.xsd"/>
+	<xs:element name="Functions" type="FunctionsType">
+		<xs:annotation>
+			<xs:documentation>List of functions used for data description and/or presentation (e.g., fitting)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:annotation>
+		<xs:documentation>Functions used in fits etc.</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="FunctionsType">
+		<xs:sequence>
+			<xs:element name="Function" type="FunctionType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FunctionType">
+		<xs:annotation>
+			<xs:documentation>Description of used functions</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Function name. Example: BELI</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Expression" type="ExpressionType">
+						<xs:annotation>
+							<xs:documentation>Function expression in a specified programming language. Example: a*X1**2+2.5 (a is the parameter defined in the "parameters" list).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Y" type="ArgumentType"/>
+					<xs:element name="Arguments" type="ArgumentsType"/>
+					<xs:element name="Parameters" type="FunctionParametersType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>List of parameters used in the function</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ReferenceFrame" type="ReferenceFrameType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference frame in which is given the velocity, energy...</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Description" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Description of a function.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SourceCodeURL" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Location of source code </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="functionID" type="FunctionIDType" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="ArgumentsType">
+		<xs:sequence>
+			<xs:element name="Argument" type="ArgumentType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="FunctionParametersType">
+		<xs:sequence>
+			<xs:element name="Parameter" type="FunctionParameterType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="FunctionParameterType">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of a parameter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Name of the function parameter, Example: a</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="units" type="UnitsType" use="required"/>
+	</xs:complexType>
+
+</xs:schema>

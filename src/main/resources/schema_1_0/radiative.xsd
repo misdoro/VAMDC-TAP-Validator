@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/1.0"
+	xmlns:xsams="http://vamdc.org/xml/xsams/1.0"
+	targetNamespace="http://vamdc.org/xml/xsams/1.0">
+	
+	<xs:include schemaLocation="./typesAttributes.xsd"/>
+	<xs:element name="Radiative" type="RadiativeType">
+		<xs:annotation>
+			<xs:documentation>Radiative transitions (both emission and absorption)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RadiativeType">
+		<xs:sequence>
+			<xs:element name="AbsorptionCrossSection" type="AbsorptionCrossSectionType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Absorption cross section data</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CollisionInducedAbsorptionCrossSection" type="CollisionInducedAbsorptionCrossSectionType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Absorption cross section data</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RadiativeTransition" type="RadiativeTransitionType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Description of a specific radiative transition</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RadiativeTransitionType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="EnergyWavelength" type="EnergyWavelengthType">
+						<xs:annotation>
+							<xs:documentation>List of energy/spectrum parameters</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="UpperStateRef" type="StateRefType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to the upper state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LowerStateRef" type="StateRefType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to the lower state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SpeciesRef" type="SpeciesRefType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to specie</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Probability" type="RadiativeTransitionProbabilityType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Radiative transition probability and related parameters</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ProcessClass" type="ProcessClassType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>process description</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SatelliteLine" type="SatelliteLineProperties" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Satellite line properties</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Broadening" type="BroadeningType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Description of line broadening processes and related parameters</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Shifting" type="ShiftingType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Description of line shifting processes and related parameters</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="id" type="ProcessIDType" use="required"/>
+				<xs:attribute name="groupLabel" type="xs:string"/>
+				<xs:attribute name="process" type="TransitionType"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RadiativeTransitionProbabilityType">
+		<xs:annotation>
+			<xs:documentation>spontaneous transition probability, or Einstein coefficient</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="TransitionProbabilityA" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Transition probability (Einstein coefficient)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OscillatorStrength" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Oscillator strength</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LineStrength" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Line strength</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WeightedOscillatorStrength" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Weighted oscillator strength</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Log10WeightedOscillatorStrength" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Log10 of the weighted oscillator strength</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IdealisedIntensity" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Line intensity for some specific conditions.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Multipole" type="MultipoleType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Transition multipole characterisation. Example: E2, M2</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TransitionKind" type="TransitionKindType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Transition kind (polarizability)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EffectiveLandeFactor" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Effective Lande factor for transition</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="EnergyWavelengthType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Wavenumber" type="DataType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Transition wavenumber</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Wavelength" type="wlType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Transition wavelength</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Energy" type="DataType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Transition energy</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Frequency" type="DataType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Transition frequency</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="MultipoleType">
+		<xs:annotation>
+			<xs:documentation>Radiative transition multipole</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(E|M)[1-9]\d*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="TransitionKindType">
+		<xs:annotation>
+			<xs:documentation>Type of transition, e.g. Polarizability</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Polarizability"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="SatelliteLineProperties">
+		<xs:annotation>
+			<xs:documentation>Satellite line properties. 
+				Probably an id should be added to radiative transition, and reference here, to identify those lines.
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DielectronicIntensityFactor" type="DataType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Dielectronic satellite intensity factor</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CollisionalIntensityFactor" type="DataType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Collisional satellite intensity factor</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BranchingRatio" type="DataType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Satellite branching ratio</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="BroadeningType">
+		<xs:annotation>
+			<xs:documentation>Specific broadening mechanism description.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Lineshape" type="LineshapeType" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>Broadening name</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="envRef" type="EnvironmentRefType"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="LineshapeType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="LineshapeParameter" type="DataFuncType" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Lineshape name from dictionary (see schema documentation)</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="functionRef" type="FunctionRefType">
+					<xs:annotation>
+						<xs:documentation>Arbitrary function for lineshape representation, 
+							may be used if some special lineshape, not defined in dictionary,
+							is used in fitting</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="ShiftingType">
+		<xs:annotation>
+			<xs:documentation>Description of line shifting processes and related parameters</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="ShiftingParameter" type="DataFuncType" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string"/>
+				<xs:attribute name="envRef" type="EnvironmentRefType"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="AbsorptionCrossSectionType">
+		<xs:annotation>
+			<xs:documentation>Cross Section data of some sort, e.g. a photoabsorption cross section, possibly
+				              with band assignments.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="SimpleDataTableType">
+				<xs:sequence>
+					<xs:element name="Species" type="SpeciesStateRefType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to a specific species or state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BandAssignment" type="BandAssignmentType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="envRef" type="EnvironmentRefType" use="optional"/>
+				<xs:attribute name="id" type="ProcessIDType" use="required"/>
+				<xs:attribute name="groupLabel" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="CollisionInducedAbsorptionCrossSectionType">
+		<xs:annotation>
+			<xs:documentation>Collision-Induced Absorption Cross Section data, alpha, such that the absorption due to
+				short-lived pairs of species is I = alpha.p1.p2.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="SimpleDataTableType">
+				<xs:sequence>
+					<xs:element name="SpeciesRef" type="SpeciesRefType" minOccurs="2" maxOccurs="2">
+						<xs:annotation>
+							<xs:documentation>Reference to the species of the collision pair</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="envRef" type="EnvironmentRefType" use="optional"/>
+				<xs:attribute name="id" type="ProcessIDType" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+
+	<xs:complexType name="BandAssignmentType">
+		<xs:annotation>
+			<xs:documentation>Assignment of a band in a tabulated cross section, giving the centre position (wavelength or
+				              frequency), width and assignment of contributing normal modes, if relevant.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="BandCentre" type="DataType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="BandWidth" type="DataType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="Modes" type="ModesType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>                
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="ModesType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<!--<xs:element name="DeltaV" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="unbounded"/>-->
+					<xs:element name="DeltaV" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:nonNegativeInteger">
+									<xs:attribute name="modeID" type="NormalModeRefType"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>                    
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>                
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="wlType">
+		<xs:complexContent>
+			<xs:extension base="DataType">
+				<xs:sequence>
+					<xs:element name="AirToVacuum" type="DataType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="envRef" type="EnvironmentRefType"/>
+				<xs:attribute name="vacuum" type="xs:boolean" default="true"/>
+			</xs:extension>                
+		</xs:complexContent>
+	</xs:complexType>
+	
+</xs:schema>

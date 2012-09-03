@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:hunda="http://vamdc.org/xml/xsams/1.0/cases/hunda"
+		   xmlns:ctypes="http://vamdc.org/xml/xsams/1.0/cases/commonTypes"
+           targetNamespace="http://vamdc.org/xml/xsams/1.0/cases/hunda"
+           elementFormDefault="qualified">
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/commonTypes"
+				schemaLocation="commonTypes.xsd"/>
+    <xs:annotation>
+        <xs:documentation>Schema for specifying the quantum numbers for Hund's case (a) diatomic molecules</xs:documentation>
+    </xs:annotation>
+
+    <!--=== QNs will be the root element ===-->
+    <xs:element name="QNs" type="hunda:QNsType">
+        <xs:annotation>
+            <xs:documentation>A list of quantum numbers for Hund's case (a) diatomic molecules</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+	
+	<!--Following two types are used to link case to base schema-->
+	<xs:complexType name="ThisCase" abstract="true">
+		<xs:complexContent>
+			<xs:restriction base="ctypes:BaseCase">
+				<xs:attribute name="caseID" type="xs:string" use="required" fixed="hunda"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="Case">
+		<xs:complexContent>
+			<xs:extension base="hunda:ThisCase">
+				<xs:sequence>
+					<xs:element ref="hunda:QNs" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+    <xs:complexType name="QNsType">
+        <xs:sequence>
+
+			<!-- ElecStateLabel -->
+            <xs:element name="ElecStateLabel" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The label of the electronic state: X, a, A, b, etc...</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- elecInv -->
+            <xs:element name="elecInv" type="ctypes:UGParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Parity of the electronic wavefunction with respect to inversion through the molecular centre of mass in the molecular coordinate system: 'g' or 'u'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- elecRefl -->
+            <xs:element name="elecRefl" type="ctypes:PMParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Parity of the electronic wavefunction with respect to reflection in a plane containing the molecular symmetry axis in the molecular coordinate system: '+' or '-'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- Lambda -->
+            <xs:element name="Lambda" type="xs:nonNegativeInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The magnitude of the projection of the total electronic orbital angular momentum onto the internuclear axis</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- Sigma -->
+            <xs:element name="Sigma" type="ctypes:AMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The magnitude of the projection of the total electronic spin angular momentum onto the internuclear axis</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- Omega -->
+            <xs:element name="Omega" type="ctypes:AMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The magnitude of the projection of the total electronic angular momentum onto the internuclear axis</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- S -->
+            <xs:element name="S" type="ctypes:AMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The total electronic spin angular momentum quantum number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- v -->
+            <xs:element name="v" type="xs:nonNegativeInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The vibrational quantum number, v</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+			<!-- J -->
+            <xs:element name="J" type="ctypes:AMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The rotational quantum number, J, associated with the total angular momentum excluding nuclear spin</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <!-- I -->
+            <xs:element name="I" type="ctypes:CoupledNuclearSpinAMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number associated with the total nuclear spin angular momentum resulting from the coupling of two individual nuclear spin angular momenta: I = I1 + I2 + ...</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+			<!-- F1 -->
+            <xs:element name="F1" type="ctypes:NuclearSpinAMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number, F1, associated with the intermediate angular momentum due to coupling the rotational angular momentum with one nuclear spin. F1 may not be a good quantum number.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+			<!-- F -->
+            <xs:element name="F" type="ctypes:NuclearSpinAMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number, F, associated with the total angular momentum including nuclear spin</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- r -->
+            <xs:element name="r" type="ctypes:RankingType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>A named, positive integer label identifying the state if no other good quantum numbers or symmetries are known.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- parity -->
+            <xs:element name="parity" type="ctypes:PMParityType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Total parity with respect to inversion through the molecular centre of mass in the laboratory coordinate system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <!-- kronigParity -->
+            <xs:element name="kronigParity" type="ctypes:EFParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Kronig parity ('e' or 'f')</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- asSym -->
+            <xs:element name="asSym" type="ctypes:ASParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Symmetry of the rovibronic wavefunction for diatomic molecules with a centre of inversion: a or s such that the total wavefunction including nuclear spin is symmetric or antisymmetric under permutation of the identical nuclei, according to whether they are bosons or fermions respectively.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+        </xs:sequence>
+    </xs:complexType>
+
+
+
+</xs:schema>

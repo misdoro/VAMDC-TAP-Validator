@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/1.0"
+	xmlns:xsams="http://vamdc.org/xml/xsams/1.0"
+	targetNamespace="http://vamdc.org/xml/xsams/1.0">
+	
+	<xs:include schemaLocation="typesAttributes.xsd"/>
+	<xs:annotation>
+		<xs:documentation>5/8/07: polarizability added (DH,YR); quantumDefect added (12/5/07)</xs:documentation>
+	</xs:annotation>
+	<xs:element name="Atoms" type="AtomsType"/>
+	<xs:complexType name="AtomsType">
+		<xs:annotation>
+			<xs:documentation>Atoms or atomic ions</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Atom" type="AtomType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AtomType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="ChemicalElement" type="ChemicalElementType">
+						<xs:annotation>
+							<xs:documentation>Description of chemical elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Isotope" type="IsotopeType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>List of isotopes</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IsotopeType">
+		<xs:sequence>
+			<xs:element name="IsotopeParameters" type="IsotopeParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Parameters of a specific isotope</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Ion" type="AtomicIonType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of ionization states</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IsotopeParametersType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="MassNumber" type="xs:integer">
+						<xs:annotation>
+							<xs:documentation>Mass number. Example: 40.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Mass" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Measured mass.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="NuclearSpin" type="AngularMomentumType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Spin of an isotope</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AtomicIonType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="IonCharge" type="xs:integer">
+						<xs:annotation>
+							<xs:documentation>Ion charge. Example: 12.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IsoelectronicSequence" type="ElementSymbolType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Chemical element representation of isoelectronic sequence. Example: He.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AtomicState" type="AtomicStateType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>List of atomic states within an ion</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="InChI" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Standard InChI identifier</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="InChIKey" type="xs:string" minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Standard InChI key. Relatively reliable way to decide if species are equal</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="speciesID" type="SpeciesIDType" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AtomicStateType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Description" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>An arbitrary label</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AtomicNumericalData" type="AtomicNumericalDataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Numerical parameters describing an atomic state</xs:documentation>
+						</xs:annotation>
+						<xs:unique name="atomStateLifeTime">
+							<!--Atomic state life time decay mechanism shouldn't be repeated within same state-->
+							<xs:selector xpath="xsams:LifeTime"/>
+							<xs:field xpath="@decay"/>
+						</xs:unique>
+					</xs:element>
+					<xs:element name="AtomicQuantumNumbers" type="AtomicQuantumNumbersType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Discrete quantum numbers describing an atomic state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AtomicComposition" type="AtomicCompositionType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Expansion of the wavefunction in a specific basis</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="stateID" type="StateIDType" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AtomicNumericalDataType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="StateEnergy" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Energy from the ground state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IonizationEnergy" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Energy required to remove an electron</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LandeFactor" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Lande factor</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="QuantumDefect" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Quantum defect</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LifeTime" type="LifeTimeType" minOccurs="0" maxOccurs="3">
+						<xs:annotation>
+							<xs:documentation>State lifetime</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Polarizability" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>State polarizability</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StatisticalWeight" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Statistical weight. May be non-integer due to plasma environment effects.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" name="HyperfineConstantA" type="DataType">
+						<xs:annotation>
+							<xs:documentation>Hyperfine Structure Constant A, interaction with magnetic dipole nuclear moment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" name="HyperfineConstantB" type="DataType">
+						<xs:annotation>
+							<xs:documentation>Hyperfine Structure Constant B, interaction with the electric quadropole nuclear moment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AtomicCompositionType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Component" type="AtomicComponentType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Component of the state wavefunction</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AtomicCoreType">
+		<xs:sequence>
+			<xs:element name="ElementCore" type="ElementSymbolType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Isoelectronic atom of the core. Example: Xe</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Configuration" type="ConfigurationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Configuration of the core</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Term" type="TermType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Term of the core</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TotalAngularMomentum" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total angular momentum of the core</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AtomicComponentType">
+		<xs:annotation>
+			<xs:documentation>Description of a component of the atomic state wave function</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="SuperConfiguration" type="SuperConfigurationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Superconfiguration</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Configuration" type="ConfigurationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Atomic configuration</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Term" type="TermType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Atomic term</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MixingCoefficient" type="MixingCoefficientType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Expansion coefficient in the sum over the basis functions (signed or squared)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Comments on a specific component</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="AtomicQuantumNumbersType">
+		<xs:all>
+			<xs:element name="Parity" type="ParityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>State parity. Example: odd</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TotalAngularMomentum" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total angular momentum. Example: 2.5</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Kappa" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Relativistic parameter kappa</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HyperfineMomentum" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Hyperfine momentum. Example: 2</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MagneticQuantumNumber" type="AngularMomentumProjectionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Magnetic quantum number. Example: -1</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ConfigurationType">
+		<xs:annotation>
+			<xs:documentation>Description of atomic configuration</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="AtomicCore" type="AtomicCoreType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the configuration core</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Shells" type="ShellsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of electron shells</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ConfigurationLabel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Arbitrary configuration label</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ShellsType">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="Shell" type="ShellType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Atomic shell</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence minOccurs="0">
+				<xs:element name="ShellPair" type="ShellPairType" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ShellPairType">
+		<xs:sequence>
+			<xs:element name="Shell1" type="ShellType"/>
+			<xs:element name="Shell2" type="ShellType"/>
+			<xs:element name="ShellPairTerm" type="TermType"/>
+		</xs:sequence>
+		<xs:attribute name="shellPairID" type="xs:ID" use="required">
+			<xs:annotation>
+				<xs:documentation>Identifier of the shell pair</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ShellType">
+		<xs:annotation>
+			<xs:documentation>Complex type for atomic shell description.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="PrincipalQuantumNumber" type="PrincipalQuantumNumberType">
+				<xs:annotation>
+					<xs:documentation>Principal quantum number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrbitalAngularMomentum" type="OrbitalAngularMomentumType"/>
+			<xs:element name="NumberOfElectrons" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Number of electrons in the shell</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Parity" type="ParityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Parity of a shell</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Kappa" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Relativistic parameter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TotalAngularMomentum" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total angular momentum of the shell</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShellTerm" type="TermType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Term of the shell</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="shellID" type="xs:ID" use="optional">
+			<xs:annotation>
+				<xs:documentation>Shell identifier</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="SuperConfigurationType">
+		<xs:sequence>
+			<xs:element name="SuperShell" type="SuperShellType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of supershells</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SuperShellType">
+		<xs:sequence>
+			<xs:element name="PrincipalQuantumNumber" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>Principal quantum number. Example: 4</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NumberOfElectrons" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Number of electrons. May be noninteger to account for plasma effects. Example: 3</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+		<xs:complexType name="jjCouplingType">
+		<xs:sequence>
+			<xs:element name="j" type="AngularMomentumType" minOccurs="2" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Value of the total angular momentum</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="jKCouplingType">
+		<xs:all>
+			<xs:element name="j" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Value of the total angular momentum of the core</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="S2" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Spin of the external electron(s)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="K" type="AngularMomentumType">
+				<xs:annotation>
+					<xs:documentation>Value of the K-number (j + orbital angular momentum of the external electron(s))</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="LKCouplingType">
+		<xs:all>
+			<xs:element name="L" type="OrbitalAngularMomentumType">
+				<xs:annotation>
+					<xs:documentation>Value of the sum of orbital angular momenta of the core and external electron </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="K" type="AngularMomentumType">
+				<xs:annotation>
+					<xs:documentation>Value of the K-number (L + spin of the core)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="S2" type="AngularMomentumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Spin of the external electron(s)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="LSCouplingType">
+		<xs:all>
+			<xs:element name="L" type="OrbitalAngularMomentumType">
+				<xs:annotation>
+					<xs:documentation>Orbital angular momentum of the term in LS-coupling</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="S" type="AngularMomentumType">
+				<xs:annotation>
+					<xs:documentation>Spin angular momentum of the term in LS-coupling</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Multiplicity" type="xs:positiveInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>2S+1</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Seniority" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Seniority number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="MixingCoefficientType">
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="mixingClass" type="MixingClassType" use="required">
+					<xs:annotation>
+						<xs:documentation>Indicator of whether amplitude or amplitude squared is given</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="OrbitalAngularMomentumType">
+		<xs:annotation>
+			<xs:documentation>non-negative integer (and a symbol)</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="Value" type="xs:nonNegativeInteger">
+				<xs:annotation>
+					<xs:documentation>Value of the orbital angular momentum</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Symbol" type="OrbitalAngularMomentumSymbolType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Symbol of the orbital angular momentum</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="TermType">
+		<xs:annotation>
+			<xs:documentation>Complex term for atomic term in different couplings (e.g., LS or jj).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LS" type="LSCouplingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Term in LS-coupling</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jj" type="jjCouplingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Term in jj-coupling</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="J1J2" type="jjCouplingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Term in J1J2-coupling</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jK" type="jKCouplingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Term in jK-coupling</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LK" type="LKCouplingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Term in LK-coupling</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TermLabel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Arbitrary term label</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PrincipalQuantumNumberType">
+		<xs:annotation>
+			<xs:documentation>Principal quantum number (positive integer)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:positiveInteger"/>
+	</xs:simpleType>
+	<xs:simpleType name="OrbitalAngularMomentumSymbolType">
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+			<xs:pattern value="\w"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MixingClassType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="squared"/>
+			<xs:enumeration value="signed"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

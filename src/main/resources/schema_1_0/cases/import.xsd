@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+elementFormDefault="qualified" attributeFormDefault="unqualified"
+xmlns="http://vamdc.org/xml/xsams/1.0"
+targetNamespace="http://vamdc.org/xml/xsams/1.0">
+
+	<xs:annotation>
+		<xs:documentation>Schema to be included from xsams.xsd, imports all case namespaces for validation</xs:documentation>
+	</xs:annotation>
+	
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/asymcs" schemaLocation="./asymcs.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/asymos" schemaLocation="./asymos.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/dcs" schemaLocation="./dcs.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/gen" schemaLocation="./gen.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/hunda" schemaLocation="./hunda.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/hundb" schemaLocation="./hundb.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/lpcs" schemaLocation="./lpcs.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/lpos" schemaLocation="./lpos.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/ltcs" schemaLocation="./ltcs.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/ltos" schemaLocation="./ltos.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/nltcs" schemaLocation="./nltcs.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/nltos" schemaLocation="./nltos.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/sphcs" schemaLocation="./sphcs.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/sphos" schemaLocation="./sphos.xsd"/>
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/stcs" schemaLocation="./stcs.xsd"/>
+</xs:schema>

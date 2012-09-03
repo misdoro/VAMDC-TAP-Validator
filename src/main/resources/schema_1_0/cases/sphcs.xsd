@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:sphcs="http://vamdc.org/xml/xsams/1.0/cases/sphcs"
+	xmlns:ctypes="http://vamdc.org/xml/xsams/1.0/cases/commonTypes"
+    targetNamespace="http://vamdc.org/xml/xsams/1.0/cases/sphcs"
+    elementFormDefault="qualified">
+	<xs:import namespace="http://vamdc.org/xml/xsams/1.0/cases/commonTypes"
+				schemaLocation="commonTypes.xsd"/>
+    <xs:annotation>
+        <xs:documentation>Schema for specifying the quantum numbers of closed-shell spherical top molecules</xs:documentation>
+    </xs:annotation>
+    
+    <!--=== QNs will be the root element ===-->
+    <xs:element name="QNs" type="sphcs:QNsType">
+        <xs:annotation>
+            <xs:documentation>A list of quantum numbers for closed-shell spherical top molecules</xs:documentation>
+        </xs:annotation>
+		<!-- the name attribute to r must be unique within each state -->
+		<xs:unique name="r-name">
+			<xs:selector xpath="sphcs:r"/>
+			<xs:field xpath="@name"/>
+		</xs:unique>
+        <!-- the name attribute to sym must be unique within each state -->
+        <xs:unique name="sym-name">
+            <xs:selector xpath="sphcs:sym"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+		<!-- the mode index of Vi and li must be unique within each state -->
+		<xs:unique name="vi-mode">
+			<xs:selector xpath="sphcs:vi"/>
+			<xs:field xpath="@mode"/>
+		</xs:unique>
+		<xs:unique name="li-mode">
+			<xs:selector xpath="sphcs:li"/>
+			<xs:field xpath="@mode"/>
+		</xs:unique>
+		<!-- the spin ref of Fj must be unique within each state -->
+		<xs:unique name="Fj-spinref">
+			<xs:selector xpath="sphcs:Fj"/>
+			<xs:field xpath="@nuclearSpinRef"/>
+		</xs:unique>
+        <!-- the j of Fj must be unique within each state -->
+        <xs:unique name="Fj-ref">
+            <xs:selector xpath="sphcs:Fj"/>
+            <xs:field xpath="@j"/>
+        </xs:unique>
+    </xs:element>
+	<!--Following two types are used to link case to base schema-->
+	<xs:complexType name="ThisCase" abstract="true">
+		<xs:complexContent>
+			<xs:restriction base="ctypes:BaseCase">
+				<xs:attribute name="caseID" type="xs:string" use="required" fixed="sphcs"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="Case">
+		<xs:complexContent>
+			<xs:extension base="sphcs:ThisCase">
+				<xs:sequence>
+					<xs:element ref="sphcs:QNs" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--Definition of quantum numbers set-->
+    <xs:complexType name="QNsType">
+        <xs:sequence>
+            
+            <!-- ElecStateLabel -->
+            <xs:element name="ElecStateLabel" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The label of the electronic state: X, a, A, b, etc...</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- vi -->
+            <xs:element name="vi" type="ctypes:VibrationalQNType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>A vibrational quantum number, v_i</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- li -->
+            <xs:element name="li" type="ctypes:VibrationalAMQNType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>A quantum number, l_i, associated with the vibrational angular momentum of the nu_i normal mode</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- vibSym -->
+            <xs:element name="vibSym" type="ctypes:SymmetrySpeciesType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Symmetry species of the vibrational wavefunction, in some appropriate symmetry group</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- J -->
+            <xs:element name="J" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The rotational quantum number, J, associated with the total angular momentum excluding nuclear spin</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- rotSym -->
+            <xs:element name="rotSym" type="ctypes:SymmetrySpeciesType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Symmetry species of the rotational wavefunction, in some appropriate symmetry group</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- rovibSym -->
+            <xs:element name="rovibSym" type="ctypes:SymmetrySpeciesType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Symmetry species of the rovibrational wavefunction, rotSym x vibSym, in some appropriate symmetry group</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- I -->
+            <xs:element name="I" type="ctypes:CoupledNuclearSpinAMType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The quantum number associated with the total nuclear spin angular momentum resulting from the coupling of two or more individual nuclear spin angular momenta: I = I1 + I2 + ...</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- Fj -->
+            <xs:element name="Fj" type="ctypes:NuclearSpinIntermediateAMType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The quantum number, F_j, associated with the intermediate angular momentum due to coupling the rotational angular momentum with one nuclear spin (F_j may not be a good quantum number)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- F -->
+            <xs:element name="F" type="ctypes:NuclearSpinAMType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The quantum number, F, associated with the total angular momentum including nuclear spin</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- r -->
+            <xs:element name="r" type="ctypes:RankingType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>A named ranking index for states of the same symmetry that can't be or haven't been differentiated any other way: r=1,2,... It is possible to have more than one r defining a state, but their name attributes have to be unique.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- sym -->
+            <xs:element name="sym" type="ctypes:SymType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                   <xs:documentation>A named symmetry label</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+            <!-- parity -->
+            <xs:element name="parity" type="ctypes:PMParityType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Total parity with respect to inversion through the molecular centre of mass in the laboratory coordinate system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>

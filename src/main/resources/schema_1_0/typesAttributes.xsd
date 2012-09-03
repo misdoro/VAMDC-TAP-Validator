@@ -1,0 +1,1061 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/1.0"
+	xmlns:xsams="http://vamdc.org/xml/xsams/1.0"
+	targetNamespace="http://vamdc.org/xml/xsams/1.0">
+	
+	<xs:annotation>
+		<xs:documentation>Contains general data types and attributes used in several subschemas</xs:documentation>
+	</xs:annotation>
+	<!--=== general attributes and types ===-->
+	<xs:complexType name="PrimaryType">
+		<xs:sequence>
+			<xs:element name="Comments" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Arbitrary comments</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SourceRef" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>One or more source references - these entries should match the sourceID attributes of the Sources</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:IDREF">
+						<xs:pattern value="B.+"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="methodRef" type="MethodRefType"/>
+	</xs:complexType>
+	
+	<xs:complexType name="ChemicalElementType">
+		<xs:annotation>
+			<xs:documentation>Description of a chemical element</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="NuclearCharge" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>Nuclear charge in units of electron charge</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ElementSymbol" type="ElementSymbolType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Standard symbol of a chemical element (e.g., H or Ta)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<!--===  types related to numerical data ===-->
+	
+	<xs:complexType name="DataType">
+		<xs:annotation>
+			<xs:documentation>Description of physical data - a Value/Accuracy pair</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Value" type="ValueType">
+						<xs:annotation>
+							<xs:documentation>Value of a particular quantity</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Evaluation" type="EvaluationType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Data evaluation and recommendation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Accuracy" type="AccuracyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Description of the accuracy</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="NamedDataType">
+		<xs:annotation>
+			<xs:documentation>Named description of physical data. Used, for example, in function's parameters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DataType">
+				<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Name of the function parameter, example:a</xs:documentation>
+				</xs:annotation>
+		</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>	
+	</xs:complexType>
+	
+	<xs:complexType name="DataFuncType">
+		<xs:annotation>
+			<xs:documentation>Description of physical data - either a Value/Accuracy pair or a FitParametersType</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:choice>
+					<xs:sequence>
+						<xs:element name="Value" type="ValueType">
+							<xs:annotation>
+								<xs:documentation>Value of a particular quantity</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Evaluation" type="EvaluationType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Data evaluation and recommendation</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Accuracy" type="AccuracyType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Description of the accuracy</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:element name="FitParameters" type="FitParametersType" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:choice>
+				<xs:attribute name="name" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="EvaluationType">
+		<xs:annotation>
+			<xs:documentation>Evaluation of numerical data</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				
+				<xs:sequence>
+					<xs:element name="Quality" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Arbitrary quality description</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="recommended" type="xs:boolean" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="AccuracyType">
+		<xs:annotation>
+			<xs:documentation>Data accuracy information</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="confidenceInterval">
+					<xs:annotation>
+						<xs:documentation>Statistical error confidence interval, in range of 0 to 1</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:double">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="type" type="AccuracyTypes" default="arbitrary">
+					<xs:annotation>
+						<xs:documentation>Error nature</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="relative" type="xs:boolean" default="false">
+					<xs:annotation>
+						<xs:documentation>true if the error value is relative, 
+							accuracy value should be in range of (0,1) in this case</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="AccuracyTypes">
+		<xs:annotation>
+			<xs:documentation>Describes the nature of error - arbitrary, estimated, systematic, statistical</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="arbitrary"/>
+			<xs:enumeration value="estimated"/>
+			<xs:enumeration value="systematic"/>
+			<xs:enumeration value="statistical"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="FitParametersType">
+		<xs:annotation>
+			<xs:documentation>A list of fit parameters and arguments. The function referred to takes arguments
+							  (independent variables at which the function is calculated; a range of acceptable
+							  values can be specified) and parameters (the 'constants' for a particular function
+							  which define the fit to that particular model)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FitArgument" type="ArgumentType"  minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="FitParameter" type="NamedDataType"  minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="functionRef" type="FunctionRefType" use="optional"/>
+	</xs:complexType>
+	
+	<xs:complexType name="ArgumentType">
+		<xs:sequence>
+			<xs:element name="Description" minOccurs="0" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Verbose description of argument</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LowerLimit" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Lower limit of argument value. Units are derived from ArgumentType</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UpperLimit" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Upper limit of argument value. Units are derived from ArgumentType</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Name of the argument, matching that defined in the function definition. Example: a</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="units" type="UnitsType" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="DataSetType">
+		<xs:annotation>
+			<xs:documentation>Gives the actual data either (or both) with numerical tabulated data or (and) fitted data </xs:documentation>
+		</xs:annotation>
+				<xs:sequence>
+					<xs:element name="FitData" type="FitDataType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Fits of data</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TabulatedData" type="TabulatedDataType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Tables of data</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="dataDescription" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>Descriptor for the type of quantity described by the dataset or fit.
+							Look in schema documentation for possible/recommended values</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DataSetsType">
+		<xs:sequence>
+			<xs:element name="DataSet" type="DataSetType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of datasets of different nature (cross sections, rate coefficients, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="TabulatedDataType">
+		<xs:complexContent>
+			<xs:extension base="SimpleDataTableType">
+				<xs:sequence>
+					<xs:element name="ReferenceFrame" type="ReferenceFrameType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference frame in which is given the energy, velocity...</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ProductionDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="Evaluation" type="EvaluationType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Data evaluation and recommendation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FitDataType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="FitParameters" type="FitParametersType">
+						<xs:annotation>
+							<xs:documentation>Fitting parameters</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="FitAccuracy" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Description of fit accuracy</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ProductionDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Fit production date</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Evaluation" type="EvaluationType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Data evaluation and recommendation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="ExpressionType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="computerLanguage" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>Programming language for the function expression. Example: Fortran2003.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="ReferenceFrameType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CenterOfMass"/>
+			<xs:enumeration value="LaboratoryFrame"/>
+			<xs:enumeration value="TargetFrame"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="ValueType">
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="units" type="UnitsType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="UnitsType">
+		<xs:annotation>
+			<xs:documentation>Description of physical units. Use "unitless" for dimensionless quantities.</xs:documentation>
+		</xs:annotation>
+			<xs:restriction base="xs:token">
+				<xs:enumeration value="undef"/>
+				<xs:enumeration value="eV/amu"/>
+				<xs:enumeration value="keV/amu"/>
+				<xs:enumeration value="MeV/amu"/>
+				<xs:enumeration value="eV"/>
+				<xs:enumeration value="keV"/>
+				<xs:enumeration value="MeV"/>
+				<xs:enumeration value="au"/>
+				<xs:enumeration value="1/cm"/>
+				<xs:enumeration value="J"/>
+				<xs:enumeration value="Ry"/>
+				<xs:enumeration value="unitless"/>
+				<xs:enumeration value="kJ/mol"/>
+				<xs:enumeration value="kcal/mol"/>
+				<xs:enumeration value="K"/>
+				<xs:enumeration value="Hz"/>
+				<xs:enumeration value="kHz"/>
+				<xs:enumeration value="MHz"/>
+				<xs:enumeration value="m"/>
+				<xs:enumeration value="cm"/>
+				<xs:enumeration value="A"/>
+				<xs:enumeration value="nm"/>
+				<xs:enumeration value="deg"/>
+				<xs:enumeration value="rad"/>
+				<xs:enumeration value="srad"/>
+				<xs:enumeration value="s"/>
+				<xs:enumeration value="m3/s"/>
+				<xs:enumeration value="cm3/s"/>
+				<xs:enumeration value="cm6/s"/>
+				<xs:enumeration value="m2"/>
+				<xs:enumeration value="cm2"/>
+				<xs:enumeration value="b"/>
+				<xs:enumeration value="Mb"/>
+				<xs:enumeration value="1/s"/>
+				<xs:enumeration value="C.m"/>
+				<xs:enumeration value="J/T"/>
+				<xs:enumeration value="C.m2"/>
+				<xs:enumeration value="m/s"/>
+				<xs:enumeration value="cm/s"/>
+				<xs:enumeration value="C"/>
+				<xs:enumeration value="electron"/>
+				<xs:enumeration value="g"/>
+				<xs:enumeration value="amu"/>
+				<xs:enumeration value="kg"/>
+				<xs:enumeration value="1/m2/s"/>
+				<xs:enumeration value="1/cm2/s"/>
+				<xs:enumeration value="J/m2/s"/>
+				<xs:enumeration value="J/cm2/s"/>
+				<xs:enumeration value="1/m2"/>
+				<xs:enumeration value="1/cm2"/>
+				<xs:enumeration value="1/m3"/>
+				<xs:enumeration value="1/cm3"/>
+				<xs:enumeration value="J/m2"/>
+				<xs:enumeration value="J/cm2"/>
+				<xs:enumeration value="W/m2"/>
+				<xs:enumeration value="W/cm2"/>
+				<xs:enumeration value="W"/>
+				<xs:enumeration value="atm"/>
+				<xs:enumeration value="km/mol"/>
+				<xs:enumeration value="1/cm2/atm"/>
+				<xs:enumeration value="1/cm/atm"/>
+				<xs:enumeration value="cm5"/>
+				<xs:enumeration value="Torr"/>
+			</xs:restriction>
+	</xs:simpleType>
+	
+	<!--=== types and attributes common to states ===-->
+	<xs:complexType name="LifeTimeType">
+		<xs:annotation>
+			<xs:documentation>Lifetime, with state decay mechanism: total, radiative, non-radiative</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DataType">
+				<xs:attribute name="decay" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:token">
+							<xs:enumeration value="total"/>
+							<xs:enumeration value="totalRadiative"/>
+							<xs:enumeration value="totalNonRadiative"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="AngularMomentumProjectionType">
+		<xs:restriction base="xs:decimal">
+			<xs:pattern value="(\+|-)?\d+(\.(0|5)?)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AngularMomentumType">
+		<xs:annotation>
+			<xs:documentation>non-negative integer or half-integer number (e.g., 2.5).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:pattern value="\d+(\.(0|5)?)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ParityType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="even"/>
+			<xs:enumeration value="odd"/>
+			<xs:enumeration value="undefined"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!--=== types common to collisions, radiative and autoionisation ===-->
+	<xs:complexType name="SpeciesStateRefType">
+		<xs:annotation>
+			<xs:documentation>Choice of either species or specific state or both</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="SpeciesRef" type="SpeciesRefType"/>
+				<xs:element name="StateRef" type="StateRefType" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element name="StateRef" type="StateRefType"/>
+		</xs:choice>
+	</xs:complexType>
+	
+	<!-- VectorsType container for one or more Vector elements-->
+	<xs:complexType name="VectorsType">
+		<xs:annotation>
+			<xs:documentation>A container for a collection of Vectors</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Vector" type="VectorType" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="units" type="UnitsType" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="VectorType">
+		<xs:complexContent>
+			<xs:annotation>
+				<xs:documentation>A vector in 3-D space defined by its x,y,z components, and a reference string giving context</xs:documentation>
+			</xs:annotation>
+			<xs:extension base="PrimaryType">
+				<xs:attribute name="ref" type="xs:string"/>
+				<xs:attribute name="x3" type="xs:double"/>
+				<xs:attribute name="y3" type="xs:double"/>
+				<xs:attribute name="z3" type="xs:double"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- A matrix -->
+	<xs:complexType name="MatrixType">
+		<xs:annotation>
+			<xs:documentation>A nrows x ncols matrix. RowRefs is a whitespace separated list of row names, ColRefs is the same for
+							  columns. The attribute 'form' identifies the type of matrix ('symmetric', 'diagonal', etc.), and the
+							  attribute 'values' is 'real', 'imaginary', or 'complex'. The matrix itself is a whitespace separated
+							  list of values. For an arbitrary matrix, it has nrows*ncols entries. For a diagonal matrix there are
+							  nrows=ncols entries. For a symmetric matrix there are nrows(nrows+1)/2 entries etc.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="RowRefs" type="StringListType"/>
+					<xs:element name="ColRefs" type="StringListType"/>
+					<xs:element name="Matrix" type="StringListType" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+				<xs:attribute name="units" type="UnitsType" use="required"/>
+				<xs:attribute name="nrows" type="xs:integer" use="required"/>
+				<xs:attribute name="ncols" type="xs:integer" use="required"/>
+				<xs:attribute name="form" type="xs:string" use="required"/>
+				<xs:attribute name="values" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:token">
+							<xs:enumeration value="binary"/>
+							<xs:enumeration value="integer"/>
+							<xs:enumeration value="real"/>
+							<xs:enumeration value="imaginary"/>
+							<xs:enumeration value="complex"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+
+	<xs:simpleType name="DoubleListType">
+		<xs:annotation>
+			<xs:documentation>List of double, base for other types</xs:documentation>
+		</xs:annotation>
+		<xs:list itemType="xs:double"/>
+	</xs:simpleType>
+	
+	<xs:simpleType name="StringListType">
+		<xs:annotation>
+			<xs:documentation>List of strings, base for other types</xs:documentation>
+		</xs:annotation>
+		<xs:list itemType="xs:string"/>
+	</xs:simpleType>
+	
+	<!-- It doesn't need sources and comments, because it always appears inside
+		another element which provides them -->
+	<xs:complexType name="DataListType">
+		<xs:annotation>
+			<xs:documentation>Whitespace-delimited list of numbers, with optional items count</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="DoubleListType">
+				<xs:attribute name="count" type="xs:positiveInteger">
+					<xs:annotation>
+						<xs:documentation>List elements count</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>    
+	</xs:complexType>
+	
+	<xs:complexType name="LinearSequenceType">
+		<xs:annotation>
+			<xs:documentation>describes arithmetic progressions of the form 
+				a0 a0+a1 a0+2a1 a0+3a1 ... a0+(n-1)a1</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="count" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="initial" type="xs:double" use="required"/>
+		<xs:attribute name="increment" type="xs:double" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="DataSeriesAccuracyType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:choice>
+					<xs:element name="ErrorList" type="DataListType"/>
+					<xs:element name="ErrorFile" type="xs:string"/>
+					<xs:element name="ErrorValue" type="xs:double"/>
+				</xs:choice>	
+				<xs:attribute name="type" type="AccuracyTypes" default="arbitrary">
+					<xs:annotation>
+						<xs:documentation>Error nature</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="relative" type="xs:boolean" default="false">
+					<xs:annotation>
+						<xs:documentation>true if the error value is relative, 
+							accuracy value should be in range of (0,1) in this case</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+		
+	
+	<!-- A data series type -->
+	<xs:complexType name="DataSeriesType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Description" type="xs:string" minOccurs="0">
+						<xs:annotation>
+						<xs:documentation>Additional description of the data list</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice>
+						<xs:element name="DataList" type="DataListType"/>
+						<xs:element name="LinearSequence" type="LinearSequenceType"/>
+						<xs:element name="DataFile" type="xs:string"/>
+					</xs:choice>
+					<xs:element name="Accuracy" type="DataSeriesAccuracyType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+						<xs:documentation>Accuracy description for the column values</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="parameter" type="xs:string"/>
+				<xs:attribute name="units" type="UnitsType"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="SimpleDataTableType">
+		<xs:annotation>
+			<xs:documentation>Gives the structure of data tables (several X - abcissa(e); independent variable(s) are allowed)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+					<xs:element name="X" type="DataSeriesType" maxOccurs="unbounded">
+						<xs:annotation><xs:documentation>Parameters(independent variables) values</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="Y" type="DataSeriesType">
+						<xs:annotation><xs:documentation>Data values</xs:documentation></xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="TransitionType">
+		<xs:annotation>
+			<xs:documentation>Describes the transition type, excitation or deexcitation</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="excitation"/>
+			<xs:enumeration value="deexcitation"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	<!-- ID types definitions-->
+	<xs:simpleType name="EnvironmentIDType">
+		<xs:annotation>
+			<xs:documentation>ID for environments.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="E.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="FunctionIDType">
+		<xs:annotation>
+			<xs:documentation>ID for a specific function</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="F.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="MethodIDType">
+		<xs:annotation>
+			<xs:documentation>ID for a specific method</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="M.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="SourceIDType">
+		<xs:annotation>
+			<xs:documentation>Reference to specific bibliographic items.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="B.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="SpeciesIDType">
+		<xs:annotation>
+			<xs:documentation>ID for a species. 
+					Is used to speed-up location of species information from processes.
+					May be used instead of stateID if exact state is not known or irrelevant.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="X.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="StateIDType">
+		<xs:annotation>
+			<xs:documentation>ID for a specific atomic/molecular state, particle or solid.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="S.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+        
+        <xs:simpleType name="BasisStateIDType">
+                <xs:annotation>
+                        <xs:documentation>ID for a specific atomic/molecular state, particle or solid.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:ID">
+                        <xs:pattern value="SB.+"/>
+                </xs:restriction>
+        </xs:simpleType>
+	
+	<xs:simpleType name="NormalModeIDType">
+		<xs:annotation>
+			<xs:documentation>ID for a normal vibrational mode of complex molecule.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="V.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="ProcessIDType">
+		<xs:annotation>
+			<xs:documentation>ID for a specific process record. Can be used to refer to 
+				a specific XML process block in external programs/schemas.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="P.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- References types definition. All IDREF's should be here.-->
+	<xs:simpleType name="MethodRefType">
+		<xs:annotation>
+			<xs:documentation>Reference to a specific method.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:IDREF">
+			<xs:pattern value="M.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="FunctionRefType">
+		<xs:annotation>
+			<xs:documentation>Reference to a specific function</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:IDREF">
+			<xs:pattern value="F.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="SpeciesRefType">
+		<xs:annotation>
+			<xs:documentation>Reference to a species. 
+				References atomic ion or molecule.
+				Particles and solids are always referred by stateID
+				</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:IDREF">
+			<xs:pattern value="X.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="EnvironmentRefType">
+		<xs:annotation>
+			<xs:documentation>Reference to environment.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:IDREF">
+			<xs:pattern value="E.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="StateRefType">
+		<xs:annotation>
+			<xs:documentation>Reference to state: atomic, molecular, particle or solid one.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:IDREF">
+			<xs:pattern value="S.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+        
+        <xs:simpleType name="BasisStateRefType">
+                <xs:annotation>
+                        <xs:documentation>Reference to a basis state of molecule from state expansion</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:IDREF">
+                        <xs:pattern value="SB.+"/>
+                </xs:restriction>
+        </xs:simpleType>
+	
+	<xs:simpleType name="NormalModeRefType">
+		<xs:annotation>
+			<xs:documentation>Reference to a normal vibrational mode of complex molecule.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:IDREF">
+			<xs:pattern value="V.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="ElementSymbolType">
+		<xs:annotation>
+			<xs:documentation>Symbol for a chemical element</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="H"/>
+			<xs:enumeration value="He"/>
+			<xs:enumeration value="Li"/>
+			<xs:enumeration value="Be"/>
+			<xs:enumeration value="B"/>
+			<xs:enumeration value="C"/>
+			<xs:enumeration value="N"/>
+			<xs:enumeration value="O"/>
+			<xs:enumeration value="F"/>
+			<xs:enumeration value="Ne"/>
+			<xs:enumeration value="Na"/>
+			<xs:enumeration value="Mg"/>
+			<xs:enumeration value="Al"/>
+			<xs:enumeration value="Si"/>
+			<xs:enumeration value="P"/>
+			<xs:enumeration value="S"/>
+			<xs:enumeration value="Cl"/>
+			<xs:enumeration value="Ar"/>
+			<xs:enumeration value="K"/>
+			<xs:enumeration value="Ca"/>
+			<xs:enumeration value="Sc"/>
+			<xs:enumeration value="Ti"/>
+			<xs:enumeration value="V"/>
+			<xs:enumeration value="Cr"/>
+			<xs:enumeration value="Mn"/>
+			<xs:enumeration value="Fe"/>
+			<xs:enumeration value="Co"/>
+			<xs:enumeration value="Ni"/>
+			<xs:enumeration value="Cu"/>
+			<xs:enumeration value="Zn"/>
+			<xs:enumeration value="Ga"/>
+			<xs:enumeration value="Ge"/>
+			<xs:enumeration value="As"/>
+			<xs:enumeration value="Se"/>
+			<xs:enumeration value="Br"/>
+			<xs:enumeration value="Kr"/>
+			<xs:enumeration value="Rb"/>
+			<xs:enumeration value="Sr"/>
+			<xs:enumeration value="Y"/>
+			<xs:enumeration value="Zr"/>
+			<xs:enumeration value="Nb"/>
+			<xs:enumeration value="Mo"/>
+			<xs:enumeration value="Tc"/>
+			<xs:enumeration value="Ru"/>
+			<xs:enumeration value="Rh"/>
+			<xs:enumeration value="Pd"/>
+			<xs:enumeration value="Ag"/>
+			<xs:enumeration value="Cd"/>
+			<xs:enumeration value="In"/>
+			<xs:enumeration value="Sn"/>
+			<xs:enumeration value="Sb"/>
+			<xs:enumeration value="Te"/>
+			<xs:enumeration value="I"/>
+			<xs:enumeration value="Xe"/>
+			<xs:enumeration value="Cs"/>
+			<xs:enumeration value="Ba"/>
+			<xs:enumeration value="La"/>
+			<xs:enumeration value="Ce"/>
+			<xs:enumeration value="Pr"/>
+			<xs:enumeration value="Nd"/>
+			<xs:enumeration value="Pm"/>
+			<xs:enumeration value="Sm"/>
+			<xs:enumeration value="Eu"/>
+			<xs:enumeration value="Gd"/>
+			<xs:enumeration value="Tb"/>
+			<xs:enumeration value="Dy"/>
+			<xs:enumeration value="Ho"/>
+			<xs:enumeration value="Er"/>
+			<xs:enumeration value="Tm"/>
+			<xs:enumeration value="Yb"/>
+			<xs:enumeration value="Lu"/>
+			<xs:enumeration value="Hf"/>
+			<xs:enumeration value="Ta"/>
+			<xs:enumeration value="W"/>
+			<xs:enumeration value="Re"/>
+			<xs:enumeration value="Os"/>
+			<xs:enumeration value="Ir"/>
+			<xs:enumeration value="Pt"/>
+			<xs:enumeration value="Au"/>
+			<xs:enumeration value="Hg"/>
+			<xs:enumeration value="Tl"/>
+			<xs:enumeration value="Pb"/>
+			<xs:enumeration value="Bi"/>
+			<xs:enumeration value="Po"/>
+			<xs:enumeration value="At"/>
+			<xs:enumeration value="Rn"/>
+			<xs:enumeration value="Fr"/>
+			<xs:enumeration value="Ra"/>
+			<xs:enumeration value="Ac"/>
+			<xs:enumeration value="Th"/>
+			<xs:enumeration value="Pa"/>
+			<xs:enumeration value="U"/>
+			<xs:enumeration value="Np"/>
+			<xs:enumeration value="Pu"/>
+			<xs:enumeration value="Am"/>
+			<xs:enumeration value="Cm"/>
+			<xs:enumeration value="Bk"/>
+			<xs:enumeration value="Cf"/>
+			<xs:enumeration value="Es"/>
+			<xs:enumeration value="Fm"/>
+			<xs:enumeration value="Md"/>
+			<xs:enumeration value="No"/>
+			<xs:enumeration value="Lr"/>
+			<xs:enumeration value="Rf"/>
+			<xs:enumeration value="Db"/>
+			<xs:enumeration value="Sg"/>
+			<xs:enumeration value="Bh"/>
+			<xs:enumeration value="Hs"/>
+			<xs:enumeration value="Mt"/>
+			<xs:enumeration value="Ds"/>
+			<xs:enumeration value="Rg"/>
+			<xs:enumeration value="Cn"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+		<xs:complexType name="ProcessClassType">
+		<xs:sequence>
+			<xs:element name="UserDefinition" minOccurs="0" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Description of the process</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Code" type="CodeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A 4-letter code describing various processes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IAEACode" type="IAEACodeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>From the "IAEA Classification of Processes", October 2003</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IAEACodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="EGN"/>
+			<xs:enumeration value="EAS"/>
+			<xs:enumeration value="EBS"/>
+			<xs:enumeration value="EDX"/>
+			<xs:enumeration value="EEL"/>
+			<xs:enumeration value="ELB"/>
+			<xs:enumeration value="ETS"/>
+			<xs:enumeration value="EDT"/>
+			<xs:enumeration value="EFL"/>
+			<xs:enumeration value="EEX"/>
+			<xs:enumeration value="EIN"/>
+			<xs:enumeration value="EMI"/>
+			<xs:enumeration value="ENI"/>
+			<xs:enumeration value="EMT"/>
+			<xs:enumeration value="EUP"/>
+			<xs:enumeration value="EDP"/>
+			<xs:enumeration value="EIP"/>
+			<xs:enumeration value="ERC"/>
+			<xs:enumeration value="ERR"/>
+			<xs:enumeration value="ERD"/>
+			<xs:enumeration value="ERT"/>
+			<xs:enumeration value="ERO"/>
+			<xs:enumeration value="EDC"/>
+			<xs:enumeration value="EDS"/>
+			<xs:enumeration value="EDR"/>
+			<xs:enumeration value="EDA"/>
+			<xs:enumeration value="EDE"/>
+			<xs:enumeration value="EDI"/>
+			<xs:enumeration value="PGN"/>
+			<xs:enumeration value="PTS"/>
+			<xs:enumeration value="PDS"/>
+			<xs:enumeration value="PES"/>
+			<xs:enumeration value="PMA"/>
+			<xs:enumeration value="PDT"/>
+			<xs:enumeration value="PFL"/>
+			<xs:enumeration value="PEX"/>
+			<xs:enumeration value="PIN"/>
+			<xs:enumeration value="PFF"/>
+			<xs:enumeration value="PEA"/>
+			<xs:enumeration value="PTA"/>
+			<xs:enumeration value="PAD"/>
+			<xs:enumeration value="PED"/>
+			<xs:enumeration value="PNL"/>
+			<xs:enumeration value="PZE"/>
+			<xs:enumeration value="PSE"/>
+			<xs:enumeration value="PGF"/>
+			<xs:enumeration value="PTF"/>
+			<xs:enumeration value="HGN"/>
+			<xs:enumeration value="HAS"/>
+			<xs:enumeration value="HLB"/>
+			<xs:enumeration value="HDS"/>
+			<xs:enumeration value="HDX"/>
+			<xs:enumeration value="HES"/>
+			<xs:enumeration value="HCX"/>
+			<xs:enumeration value="HUP"/>
+			<xs:enumeration value="HAS"/>
+			<xs:enumeration value="HIR"/>
+			<xs:enumeration value="HEL"/>
+			<xs:enumeration value="HET"/>
+			<xs:enumeration value="HIP"/>
+			<xs:enumeration value="HRC"/>
+			<xs:enumeration value="HTS"/>
+			<xs:enumeration value="HDT"/>
+			<xs:enumeration value="HFL"/>
+			<xs:enumeration value="HEX"/>
+			<xs:enumeration value="HIN"/>
+			<xs:enumeration value="HPN"/>
+			<xs:enumeration value="HST"/>
+			<xs:enumeration value="HAT"/>
+			<xs:enumeration value="HAI"/>
+			<xs:enumeration value="HDI"/>
+			<xs:enumeration value="HDC"/>
+			<xs:enumeration value="HMN"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="phem"/>
+			<xs:enumeration value="phab"/>
+			<xs:enumeration value="phsc"/>
+			<xs:enumeration value="elas"/>
+			<xs:enumeration value="inel"/>
+			<xs:enumeration value="exci"/>
+			<xs:enumeration value="deex"/>
+			<xs:enumeration value="ioni"/>
+			<xs:enumeration value="tran"/>
+			<xs:enumeration value="exch"/>
+			<xs:enumeration value="reco"/>
+			<xs:enumeration value="elat"/>
+			<xs:enumeration value="eldt"/>
+			<xs:enumeration value="asso"/>
+			<xs:enumeration value="diss"/>
+			<xs:enumeration value="intr"/>
+			<xs:enumeration value="chem"/>
+			<xs:enumeration value="sore"/>
+			<xs:enumeration value="soem"/>
+			<xs:enumeration value="sodp"/>
+			<xs:enumeration value="soch"/>
+			<xs:enumeration value="sope"/>
+			<xs:enumeration value="rota"/>
+			<xs:enumeration value="vibr"/>
+			<xs:enumeration value="rvib"/>
+			<xs:enumeration value="hype"/>
+			<xs:enumeration value="hyp1"/>
+			<xs:enumeration value="hyp2"/>
+			<xs:enumeration value="hyp3"/>
+			<xs:enumeration value="hyp4"/>
+			<xs:enumeration value="hyp5"/>
+			<xs:enumeration value="hyp6"/>
+			<xs:enumeration value="hyp7"/>
+			<xs:enumeration value="hyp8"/>
+			<xs:enumeration value="hyp9"/>
+			<xs:enumeration value="fine"/>
+			<xs:enumeration value="tors"/>
+			<xs:enumeration value="rtor"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

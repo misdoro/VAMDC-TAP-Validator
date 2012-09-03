@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/1.0"
+	xmlns:xsams="http://vamdc.org/xml/xsams/1.0"
+	targetNamespace="http://vamdc.org/xml/xsams/1.0">
+	
+	<xs:include schemaLocation="./typesAttributes.xsd"/>
+	<xs:element name="Collisions" type="CollisionsType">
+		<xs:annotation>
+			<xs:documentation>List of collisional processes</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CollisionsType">
+		<xs:sequence>
+			<xs:element name="CollisionalTransition" type="CollisionalTransitionType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A specific collisional transition</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CollisionalTransitionType">
+		<xs:complexContent>
+			<xs:extension base="PrimaryType">
+				<xs:sequence>
+					<xs:element name="ProcessClass" type="ProcessClassType">
+						<xs:annotation>
+							<xs:documentation>Collisional process</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Reactant" type="SpeciesStateRefType" minOccurs="2" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>List of reacting systems</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntermediateState" type="SpeciesStateRefType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>List of intermediate state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Product" type="SpeciesStateRefType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>List of final states</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Threshold" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reaction threshold</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BranchingRatio" type="DataType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reaction channel branching ratio</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DataSets" type="DataSetsType"/>
+				</xs:sequence>
+				<xs:attribute name="id" type="ProcessIDType" use="required"/>
+				<xs:attribute name="groupLabel" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

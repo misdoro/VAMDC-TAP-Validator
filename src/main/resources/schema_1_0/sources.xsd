@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://vamdc.org/xml/xsams/1.0"
+	xmlns:xsams="http://vamdc.org/xml/xsams/1.0"
+	targetNamespace="http://vamdc.org/xml/xsams/1.0">
+	
+	<xs:include schemaLocation="typesAttributes.xsd"/>
+	
+	<xs:element name="Sources" type="SourcesType">
+		<xs:annotation>
+			<xs:documentation>All relevant references to data sources</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AuthorType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Author's name. Example: A. Einstein</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Address" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Author's address. Example: AMD Unit, IAEA, Vienna, Austria</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourcesType">
+		<xs:sequence>
+			<xs:element name="Source" type="SourceType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A bibliography (bibreference) entry</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceType">
+		<xs:annotation>
+			<xs:documentation>Description of bibliography (references). Word "reference" is avoided</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="Category" type="SourceCategoryType">
+				<xs:annotation>
+					<xs:documentation>Bibliographic reference type. Example: journal</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SourceName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Bibliographic reference name. Example: Physical Review</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Year" type="xs:gYear">
+				<xs:annotation>
+					<xs:documentation>Year of the bibliographic reference. Example: 2008</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Authors" type="AuthorsType"/>
+			<xs:element name="Title" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Title</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Volume" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Volume of the bibliographic reference. Example: 72A</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DigitalObjectIdentifier" type="xs:token" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Digital Object Identifier. Example: doi:10.1016/j.adt.2007.11.003</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ArticleNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Article number, journal-specific article identifier, may contain any string</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PageBegin" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Initial page of a bibliographic reference. Example: 22</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PageEnd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Final page of a bibliographic reference. Example: 23</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UniformResourceIdentifier" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A Uniform Resource Identifier of a bibliographic reference. Example: http://www.iop.org/EJ/abstract/0953-4075/41/10/105002</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Publisher" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Publisher of a bibliographic reference. Example: IOP Publishing Ltd</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>City of publication. Example: Bristol.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Editors" type="EditorsType" minOccurs="0"/>
+			<xs:element name="ProductionDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date of the reference</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Version" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Version of a database, code, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="BibTeX" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>BibTeX representation of reference, for those who already have it in database</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="sourceID" type="SourceIDType" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="AuthorsType">
+		<xs:sequence>
+			<xs:element name="Author" type="AuthorType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Author of bibliographic reference.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EditorsType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Name of an editor</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SourceCategoryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="book"/>
+			<xs:enumeration value="database"/>
+			<xs:enumeration value="journal"/>
+			<xs:enumeration value="preprint"/>
+			<xs:enumeration value="private communication"/>
+			<xs:enumeration value="proceedings"/>
+			<xs:enumeration value="report"/>
+			<xs:enumeration value="thesis"/>
+			<xs:enumeration value="vamdc node"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
