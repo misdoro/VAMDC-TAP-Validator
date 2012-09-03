@@ -15,7 +15,7 @@ public enum Setting {
 	PluginLimitStates("pluginmaxstates",1000),
 	PluginLimitProcesses("pluginmaxproc",1000),
 	ServiceTAPURL("tapurl","http://host.name:8080/tap/"),
-	ServiceTAPSuffix("tapsuffix","sync?LANG=VSS1&REQUEST=doQuery&FORMAT=XSAMS&QUERY="),
+	ServiceTAPSuffix("tapsuffix","sync?LANG=VSS2&REQUEST=doQuery&FORMAT=XSAMS&QUERY="),
 	ServiceVOSIURL("vosiurl","http://host.name:8080/tap/capabilities"),
 
 	RegistryURL("registryURL","http://registry.vamdc.eu/registry-11.12/"),
