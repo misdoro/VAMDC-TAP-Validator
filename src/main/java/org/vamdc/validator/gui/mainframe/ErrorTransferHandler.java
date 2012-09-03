@@ -76,9 +76,6 @@ public class ErrorTransferHandler extends TransferHandler{
 					}
 				}
 				result.append(prevLine).append(eol);
-				//if (prevLine!=null && prevLine.length()>=error.getElement().getLastCol()){
-				//	result.append(prevLine.substring(0, error.getElement().getLastCol())).append(eol);
-				//}
 				return result.toString();
 			}else{
 				throw new UnsupportedFlavorException(flavor);

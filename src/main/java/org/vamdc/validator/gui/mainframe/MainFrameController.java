@@ -267,6 +267,8 @@ public class MainFrameController implements ActionListener {
 		//Save query
 		final String query = frame.getQuery();
 		System.out.println("Performing query "+query);
+		if (isPreview)
+			System.out.println("in preview mode");
 		if (inputThread==null){
 			//Create separate thread for query execution
 			inputThread = new Thread( new Runnable(){
@@ -313,12 +315,14 @@ public class MainFrameController implements ActionListener {
 			if (filename.exists() && filename.canRead()&& inputThread==null){
 				//Save new file path
 				Setting.GUIFileOpenPath.saveValue(filename.getPath());
+				
 				asyncLoadFile(filename);
 			}
 		}
 	}
 
 	public void asyncLoadFile(final File filename) {
+		System.out.println("Loading file "+filename);
 		//Create a thread processing file
 		inputThread = new Thread( new Runnable(){
 			@Override
@@ -360,6 +364,7 @@ public class MainFrameController implements ActionListener {
 	}
 
 	public void asyncLoadURL(final URL fileUrl) {
+		System.out.println("Loading URL "+fileUrl);
 		inputThread = new Thread( new Runnable(){
 			@Override
 			public void run() {
@@ -386,8 +391,9 @@ public class MainFrameController implements ActionListener {
 			//Tell storage to save file
 			try{
 				doc.saveFile(filename);
-				JOptionPane.showMessageDialog(frame, "File "+filename.getAbsolutePath()+" written successfully.","Save",JOptionPane.INFORMATION_MESSAGE);
+				System.out.println("File "+filename.getAbsolutePath()+" written successfully.");
 			}catch (Exception ex){
+				ex.printStackTrace();
 				JOptionPane.showMessageDialog(frame, "Exception during save: "+ex.getMessage(),"Save",JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -441,12 +447,15 @@ public class MainFrameController implements ActionListener {
 	}
 
 
+	
 	private void initCloseEvent() {
 		frame.addWindowListener(
 				new WindowAdapter(){
 					@Override
 					public void windowClosing(WindowEvent e){
 						logPanel.saveDimensions();
+						searchFrame.saveDimensions();
+						settingsDialog.saveDimensions();
 					}
 				}
 				);

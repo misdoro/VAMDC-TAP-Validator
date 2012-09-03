@@ -45,17 +45,24 @@ public class StatusBar extends JLabel implements ComponentUpdateInterface{
 	public void updateFromModel(boolean isFinal) {
 		if (model!=null){
 			if (model.getErrorInfo()==null || model.getErrorInfo().equals("")){
-				String statusText = "File size: "+model.getSize()+"; "+
-				"Lines count: "+model.getLineCount()+"; ";
+				StringBuilder status=new StringBuilder();
+				status.append("File size: "+model.getSize()+"; ")
+				.append("Lines count: "+model.getLineCount()+"; ");
 				DocumentElementsLocator loc = model.getElementsLocator();
 				if (loc !=null){
-					statusText+="Errors: "+loc.getErrors().size()+"; ";
-					statusText+="Sources: "+loc.getElements(ElementTypes.Source).size()+"; ";
-					statusText+="States: "+(loc.getElements(ElementTypes.AtomicState).size()+loc.getElements(ElementTypes.MolecularState).size())+"; ";
-					statusText+="Collisions: "+loc.getElements(ElementTypes.CollisionalTransition).size()+"; ";
-					statusText+="Transitions: "+loc.getElements(ElementTypes.RadiativeTransition).size()+"; ";
+					status.append("Errors: "+loc.getErrors().size()+"; ");
+					status.append("Sources: "+loc.getElements(ElementTypes.Source).size()+"; ");
+					status.append("States: "+(loc.getElements(ElementTypes.AtomicState).size()+loc.getElements(ElementTypes.MolecularState).size())+"; ");
+					status.append("Collisions: "+loc.getElements(ElementTypes.CollisionalTransition).size()+"; ");
+					status.append("Transitions: "+loc.getElements(ElementTypes.RadiativeTransition).size()+"; ");
 				}
+				String statusText = status.toString();
+				
 				this.setText(statusText);
+				
+				if (isFinal)
+					System.out.println(statusText);
+				
 			}else if (model.getErrorInfo()!=null)
 				this.setText(model.getErrorInfo());
 		}else this.setText("Model not initialized");

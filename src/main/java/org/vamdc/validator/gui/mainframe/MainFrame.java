@@ -222,6 +222,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	
 	@Override
 	public void done(final long documentLines, final String query) {
+		System.out.println("Loaded document, "+documentLines+" lines.");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				frame.updateFromModel(true);
