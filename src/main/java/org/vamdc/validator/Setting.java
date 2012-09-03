@@ -10,6 +10,7 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 public enum Setting {
+	SettingsVersion("settingsVersion",12070),
 	PluginClass("pluginclass","org.vamdc.database.plugin.OutputBuilder"),
 	PluginIDPrefix("pluginidprefix","DBNAME"),
 	PluginLimitStates("pluginmaxstates",1000),
@@ -50,9 +51,9 @@ public enum Setting {
 	;
 
 	public static String getSchemaLoc(){
-		return "http://vamdc.org/xml/xsams/0.2" +
+		return "http://vamdc.org/xml/xsams/1.0" +
 				" " +
-				Setting.class.getResource("/schema_0_2/xsams.xsd").toString()+
+				Setting.class.getResource("/schema_1_0/xsams.xsd").toString()+
 				" " +
 				"http://vamdc.org/xml/xsams/0.3" +
 				" " +
@@ -101,8 +102,9 @@ public enum Setting {
 		Preferences prefs = getPrefs();
 		for (Setting node:Setting.values()){
 			node.setValue(prefs.get(node.preferenceName, node.defValue));
-
 		}
+		MigrateSettings.call(prefs.getInt(Setting.SettingsVersion.preferenceName, 0));
+		
 	}
 
 	public static void save(){
@@ -112,6 +114,8 @@ public enum Setting {
 		}
 		savePrefs(prefs);
 	}
+	
+
 
 	public void saveObject(Object object){
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
