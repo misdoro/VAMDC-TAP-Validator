@@ -266,12 +266,10 @@ public class ElementHandler implements ContentHandler,ErrorHandler, DocumentElem
 	}
 	@Override
 	public void fatalError(SAXParseException exception) throws SAXException {
-		System.out.print("Fatal");
 		error(exception);
 	}
 	@Override
 	public void warning(SAXParseException exception) throws SAXException {
-		System.out.print("Warning");
 		error(exception);
 	}
 
