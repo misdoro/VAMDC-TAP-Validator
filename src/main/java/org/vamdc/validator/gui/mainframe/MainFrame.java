@@ -46,6 +46,8 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public MainFrameController controller;
 
 	private LocatorPanel locatorPanel;
+
+	private JSplitPane xsamsPane;
 	
 	public MainFrame(XSAMSIOModel doc){
 		super("VAMDC-TAP service validation GUI");
@@ -127,7 +129,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	}
 	
 	private Component getCenterPanel(){
-		JSplitPane xsamsPane = new JSplitPane();
+		xsamsPane = new JSplitPane();
 		xsamsPane.setResizeWeight(1);
 		xsamsPane.setLeftComponent(xsamsPanel);
 		childComponents.add(xsamsPanel);
@@ -218,6 +220,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 				if (frame.progress.getValue()>=100)
 					frame.progress.setValue(1);
 				frame.progress.setValue(frame.progress.getValue()+1);
+				xsamsPane.resetToPreferredSizes();
 			}}
 		);
 	}
@@ -230,7 +233,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 				frame.updateFromModel(true);
 				frame.progress.setIndeterminate(false);
 				frame.progress.setValue(100);
-				
+				xsamsPane.resetToPreferredSizes();
 			}}
 		);
 	}
