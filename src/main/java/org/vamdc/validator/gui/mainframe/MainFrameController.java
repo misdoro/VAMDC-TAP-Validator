@@ -219,9 +219,7 @@ public class MainFrameController implements ActionListener {
 	public void showLogPanel() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-
 				logPanel.setVisible(true);
-
 			}}
 				);
 	}
@@ -263,7 +261,6 @@ public class MainFrameController implements ActionListener {
 	 * Handle query action
 	 */
 	private void handleDoQuery(final boolean isPreview){
-		logPanel.clear();
 		//Save query
 		final String query = frame.getQuery();
 		System.out.println("Performing query "+query);
@@ -303,7 +300,9 @@ public class MainFrameController implements ActionListener {
 			message.append(metric.name().replace("_", "-")).append(":");
 			message.append(previewQuery.get(metric)).append("\n");
 		}
-		JOptionPane.showMessageDialog(frame,message.toString());
+		String result = message.toString();
+		System.out.println(result);
+		JOptionPane.showMessageDialog(frame,result);
 	}
 
 	/**
