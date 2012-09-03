@@ -68,8 +68,4 @@ public class SearchPanel extends PositionMemoryDialog implements ActionListener{
 		return searchData;
 	}
 
-	@Override
-	protected void closeEvent() {
-	}
-
 }

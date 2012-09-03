@@ -17,9 +17,4 @@ public class SettingsDialog extends PositionMemoryDialog{
 		wph.loadDimensions();
 	}
 
-	@Override
-	protected void closeEvent() {
-	}
-	
-
 }
