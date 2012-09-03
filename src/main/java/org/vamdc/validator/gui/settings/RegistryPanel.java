@@ -2,7 +2,6 @@ package org.vamdc.validator.gui.settings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.util.Collection;
 
 import javax.swing.BoxLayout;
@@ -14,6 +13,7 @@ import org.vamdc.registry.client.Registry;
 import org.vamdc.registry.client.Registry.Service;
 import org.vamdc.registry.client.RegistryCommunicationException;
 import org.vamdc.registry.client.RegistryFactory;
+import org.vamdc.registry.client.VamdcTapService;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.gui.settings.FieldVerifier.Type;
 
@@ -46,6 +46,7 @@ public class RegistryPanel extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		caps.removeAllItems();
 		String reg = regURL.getText();
 		if (reg!=null && reg.length()>0){
 			try {
@@ -54,8 +55,9 @@ public class RegistryPanel extends JPanel implements ActionListener{
 				if (registry!=null){
 					Collection<String> ivoaIDs=registry.getIVOAIDs(Service.VAMDC_TAP);
 					for (String id:ivoaIDs){
-						URL capsURL = registry.getCapabilitiesURL(id);
-						caps.addItem(capsURL.toString());
+						for (VamdcTapService mirror:registry.getMirrors(id)){
+							caps.addItem(mirror.CapabilitiesEndpoint.toString());
+						}
 					}
 				}
 			} catch (RegistryCommunicationException e1) {
