@@ -20,7 +20,6 @@ public class Validator{
 
 	public Validator(String schemaLocation, String namespaces) throws XSAMSValidatorException{
 		parser = new SAXParser();
-		System.out.println("Started");
 		setFeature("http://xml.org/sax/features/validation",true);
 		setFeature("http://apache.org/xml/features/validation/schema",true); 
 		setFeature("http://apache.org/xml/features/validation/schema-full-checking",false);
@@ -32,6 +31,8 @@ public class Validator{
 		if (namespaces!=null && namespaces.length()>0 && (namespaces.split(" ").length%2 == 0))
 			setProperty("http://apache.org/xml/properties/schema/external-schemaLocation",
 				namespaces);
+
+		System.out.println("Initialized validator module");
 	}
 	
 	public DocumentElementsLocator getElements(){
