@@ -189,8 +189,10 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 
 	@Override
 	public void setModel(XSAMSIOModel data) {
-		for(ComponentUpdateInterface comp:childComponents)
+		for(ComponentUpdateInterface comp:childComponents){
 			comp.setModel(data);
+			comp.resetComponent();
+		}
 	}
 
 	@Override

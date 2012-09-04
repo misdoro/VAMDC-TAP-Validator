@@ -25,7 +25,7 @@ public class SettingsPanelController implements ActionListener{
 			panel.saveSettings();
 			panel.loadSettings();
 			//reconfigure model
-			main.reloadDocument();
+			main.reloadComponents();
 		}else if (command == SettingsPanel.CMD_RESET){
 			//Reload settings (clear changes)
 			if (JOptionPane.showConfirmDialog(panel, "Revert all changes?", "Settings", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){	

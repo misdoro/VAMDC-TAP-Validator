@@ -436,11 +436,11 @@ public class MainFrameController implements ActionListener {
 	/**
 	 * Update child components, reload settings.
 	 */
-	public void reloadDocument(){
+	public void reloadComponents(){
 		try{
 			doc.reconfigure();
 			settingsDialog.hideDialog();
-			frame.updateFromModel(true);
+			frame.resetComponent();
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(settingsDialog, "Exception while applying new settings: "+e.getMessage(),"Settings",JOptionPane.ERROR_MESSAGE);
 		}
