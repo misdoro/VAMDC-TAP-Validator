@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -59,9 +58,6 @@ public final class LocatorRow implements ChangeListener,ActionListener,MouseWhee
 		data.group.add(isActive);
 		isActive.addActionListener(this);
 		
-		//Some blank space
-		data.panel.add(new JPanel(),constr);
-		constr.gridx++;
 		//Spinner with index
 		model = new SpinnerNumberModel();
 		
@@ -108,6 +104,7 @@ public final class LocatorRow implements ChangeListener,ActionListener,MouseWhee
 	 * @param count
 	 */
 	public void setMaximum(int count){
+		SpinnerNumberModel model = (SpinnerNumberModel) spinner.getModel();
 		//Set minimum to correct value
 		if (count>0 && model.getMinimum().equals(0)){
 			model.setMinimum(1);
@@ -117,18 +114,8 @@ public final class LocatorRow implements ChangeListener,ActionListener,MouseWhee
 			model.setValue(0);
 		}
 		model.setMaximum(count);
+		
 		maximum.setText(String.valueOf(count));
-	}
-	
-	/**
-	 * Set current value, accepts values in range 0<=value<maximum,
-	 * displays value+1
-	 * @param value value to set.
-	 */
-	public void setValue(int value){
-		value = Math.min(value,(Integer)model.getMaximum()-1);
-		value = Math.max(value,(Integer)model.getMinimum()-1);
-		spinner.setValue(value+1);
 	}
 	
 	/**
@@ -136,6 +123,7 @@ public final class LocatorRow implements ChangeListener,ActionListener,MouseWhee
 	 */
 	public void reset(){
 		this.setMaximum(0);
+		this.setValue(0);
 		this.setActionListener(null);
 	}
 	
@@ -156,6 +144,17 @@ public final class LocatorRow implements ChangeListener,ActionListener,MouseWhee
 	}
 	
 	/**
+	 * Set current value, accepts values in range 0<=value<maximum,
+	 * displays value+1
+	 * @param value value to set.
+	 */
+	public void setValue(int value){
+		value = Math.min(value,(Integer)model.getMaximum()-1);
+		value = Math.max(value,(Integer)model.getMinimum()-1);
+		spinner.setValue(value+1);
+	}
+	
+	/**
 	 * Get current index, returns displayed value-1
 	 * so return value is in range of 0<=getValue()<maximum
 	 * @return index of current location in array
@@ -164,8 +163,8 @@ public final class LocatorRow implements ChangeListener,ActionListener,MouseWhee
 		return (Integer)spinner.getValue()-1;
 	}
 	
-	private void increment(int change){
-		int newValue = this.getValue()+change;
+	private void increment(int delta){
+		int newValue = this.getValue()+delta;
 		setValue(newValue);
 	}
 	
