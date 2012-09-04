@@ -1,9 +1,11 @@
 package org.vamdc.validator.gui;
 
+import org.vamdc.validator.Setting;
+
 public class HistoryComboBoxImpl extends HistoryComboBox{
 
 	public HistoryComboBoxImpl(String separator, int historyDepth) {
-		super(separator, historyDepth);
+		super(Setting.GUIVOSIHistory,separator, historyDepth);
 		savedString=separator;
 	}
 

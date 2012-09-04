@@ -46,7 +46,7 @@ public class RegistryPanel extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		caps.removeAllItems();
+		caps.load();
 		String reg = regURL.getText();
 		if (reg!=null && reg.length()>0){
 			try {

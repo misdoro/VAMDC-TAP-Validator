@@ -14,7 +14,7 @@ public class QueryField extends HistoryComboBox implements ComponentUpdateInterf
 	private XSAMSIOModel data;
 	
 	public QueryField(){
-		super(";",10);
+		super(Setting.GUIQueryHistory,";",10);
 		
 	}
 
@@ -83,15 +83,4 @@ public class QueryField extends HistoryComboBox implements ComponentUpdateInterf
 			
 		}
 	}
-
-	@Override
-	protected String getSavedString() {
-		return Setting.GUIQueryHistory.getValue();
-	}
-
-	@Override
-	protected void saveString(String value) {
-		Setting.GUIQueryHistory.saveValue(value);
-	}
-
 }

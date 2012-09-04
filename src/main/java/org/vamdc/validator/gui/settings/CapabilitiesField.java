@@ -8,27 +8,19 @@ public class CapabilitiesField extends HistoryComboBox implements SettingControl
 	private static final long serialVersionUID = 7778562723435344834L;
 
 	public CapabilitiesField(){
-		super("#",10);	
-	}
-
-	@Override
-	protected String getSavedString() {
-		return Setting.GUICapsURLHistory.getValue();
-	}
-
-	@Override
-	protected void saveString(String value) {
-		Setting.GUICapsURLHistory.saveValue(value);
+		super(Setting.GUICapsURLHistory,"#",10);	
 	}
 
 	@Override
 	public void load() {
+		super.loadValues();
 		this.setText(Setting.ServiceVOSIURL.getValue());
 	}
 
 	@Override
 	public void save() {
 		Setting.ServiceVOSIURL.setValue(this.getText());
+		super.saveValue(this.getText());
 	}
 	
 	
