@@ -20,6 +20,7 @@ import org.vamdc.validator.Setting;
 import org.vamdc.validator.gui.WindowPositionHandler;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
+import org.vamdc.validator.iocontroller.XSAMSDocument;
 
 /**
  * Main frame of TAPValidator
@@ -49,14 +50,16 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 
 	private JSplitPane xsamsPane;
 	
-	public MainFrame(XSAMSIOModel doc){
+	public MainFrame(){
 		super("VAMDC-TAP service validation GUI");
-		this.document = doc;
+		this.document = new XSAMSDocument();
 		
 		//Set controller
 		this.controller = new MainFrameController(document,this);
 		
+		
 		this.xsamsPanel.setTransferHandler(new XsamsTransferHandler(controller));
+		childComponents.add(xsamsPanel);
 		//Set monitor
 		this.document.setProgressMonitor(this);
 		
@@ -66,7 +69,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		this.setContentPane(initGUI());
 		
 		//Set model for all child components that need it
-		this.setModel(doc);
+		this.setModel(document);
 		//Reset all child components
 		this.resetComponent();
 		
@@ -132,7 +135,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		xsamsPane = new JSplitPane();
 		xsamsPane.setResizeWeight(1);
 		xsamsPane.setLeftComponent(xsamsPanel);
-		childComponents.add(xsamsPanel);
+		
 		xsamsPane.setRightComponent(getRightPanel());
 		return xsamsPane;
 	}

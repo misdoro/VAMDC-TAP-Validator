@@ -1,15 +1,12 @@
 package org.vamdc.validator;
 
 import java.io.File;
-import java.io.IOException;
 
 import jargs.gnu.CmdLineParser;
 
 import org.vamdc.validator.cli.CLIProcess;
 import org.vamdc.validator.cli.OptionsParser;
 import org.vamdc.validator.gui.mainframe.MainFrame;
-import org.vamdc.validator.interfaces.XSAMSIOModel;
-import org.vamdc.validator.iocontroller.XSAMSDocument;
 
 
 
@@ -59,17 +56,12 @@ public class ValidatorMain{
 			System.out.println("Starting GUI");
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					XSAMSIOModel doc = new XSAMSDocument();
-					MainFrame frame = new MainFrame(doc);
+					MainFrame frame = new MainFrame();
 					frame.setVisible(true);
 					if (Setting.GUILogConsole.getBool())
 						frame.controller.showLogPanel();
 					if (remainder!=null && remainder.length>0)
-						try {
-							doc.loadFile(new File(remainder[0]));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						frame.controller.asyncLoadFile(new File(remainder[0]));
 				}
 			});
 		}
