@@ -29,6 +29,7 @@ public class ConsolePanel extends PositionMemoryDialog{
 		initDialog();
 		initLayout();
 		initStreams();
+		initCloseEvent();
 		wph.loadDimensions();
 	}
 
