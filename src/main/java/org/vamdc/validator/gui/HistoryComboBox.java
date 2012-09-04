@@ -45,6 +45,9 @@ public class HistoryComboBox extends JComboBox{
 		}
 	}
 	
+	/**
+	 * Verify if an object is not yet in the list of elements
+	 */
 	@Override
 	public void addItem(Object anObject) {
 		for (Object item:items){

@@ -1,6 +1,9 @@
 package org.vamdc.validator.source.http;
 
 import java.io.IOException;
+
+import net.ivoa.xml.votable.v1.Info;
+import net.ivoa.xml.votable.v1.VOTABLE;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -15,6 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.zip.GZIPInputStream;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.Setting;
@@ -151,8 +158,10 @@ public class HttpXSAMSSource implements XSAMSSource {
 			conn.setRequestMethod("HEAD");
 			conn.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
 			conn.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
-			if (conn.getResponseCode()!=200)
+			if (conn.getResponseCode()!=HttpURLConnection.HTTP_OK){
+				handleErrorCondition(conn);
 				throw new XSAMSSourceException("Response code "+conn.getResponseCode()+" for "+requestURL.toString());
+			}
 			return processHeaders(conn.getHeaderFields());
 		} catch (IOException e) {
 			transformException(requestURL,e);
@@ -160,13 +169,42 @@ public class HttpXSAMSSource implements XSAMSSource {
 		}
 	}
 	
+	private void handleErrorCondition(HttpURLConnection conn) throws XSAMSSourceException {
+		try {
+			switch(conn.getResponseCode()){
+				case HttpURLConnection.HTTP_NO_CONTENT:
+					throw new XSAMSSourceException("Node contains no data for query "+conn.getURL());
+				case HttpURLConnection.HTTP_BAD_REQUEST:
+					JAXBContext votc = JAXBContext.newInstance(VOTABLE.class);
+					Unmarshaller um = votc.createUnmarshaller();
+					Object vot = um.unmarshal(conn.getErrorStream());
+					System.out.println(vot.getClass());
+					if (VOTABLE.class.isAssignableFrom(vot.getClass())){
+						VOTABLE votable = (VOTABLE) vot;
+						StringBuilder result = new StringBuilder();
+						for (Info info:votable.getRESOURCE().get(0).getINFO()){
+							result.append(info.getValue()).append("\n");
+						}
+						throw new XSAMSSourceException("Node returned errors: \n"+result.toString());
+					}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Open URL connection, with timeouts set
 	 * @param address connection URL
 	 * @return Stream of data
 	 * @throws IOException 
+	 * @throws XSAMSSourceException 
 	 */
-	private InputStream openConnection(URL adress) throws IOException{
+	private InputStream openConnection(URL adress) throws IOException, XSAMSSourceException{
 		URLConnection conn = adress.openConnection();
 		//Allow gzip encoding
 		if (IOSettings.compress.getIntValue()==1){
@@ -202,11 +240,13 @@ public class HttpXSAMSSource implements XSAMSSource {
 	}
 
 	private void checkHttpResultCode(URL adress, URLConnection conn)
-			throws IOException {
+			throws IOException,XSAMSSourceException {
 		if (adress.getProtocol().equals("http")|| adress.getProtocol().equals("https")){
 			HttpURLConnection httpc= (HttpURLConnection) conn;
-			if (httpc.getResponseCode()!=200)
+			if (httpc.getResponseCode()!=200){
+				handleErrorCondition(httpc);
 				throw new IOException("Server responded with code "+httpc.getResponseCode());
+			}
 		}
 	}
 
