@@ -26,10 +26,40 @@ public class WindowPositionHandler {
 	
 	public void loadDimensions(){
 		Object pos = dimensionOption.loadObject();
+		slaveWindow.pack();
 		if (pos instanceof Rectangle){
-			slaveWindow.setBounds((Rectangle) pos);
-		}else{
-			slaveWindow.pack();
+			Rectangle position = fitInScreen((Rectangle) pos,slaveWindow.getBounds());
+			
+			slaveWindow.setBounds(position);
+			slaveWindow.validate();
+		}
+	}
+
+	private Rectangle fitInScreen(Rectangle position, Rectangle naturalPos) {
+		Rectangle screen = new Rectangle(slaveWindow.getToolkit().getScreenSize());
+		fitSize(position, screen);
+		if (screen.contains(position)){//window fits the screen, do nothing
+			return position;
+		}else if (screen.intersects(position)){//window intersects the border of the screen
+			Rectangle is = screen.intersection(position);
+			int dx=position.width-is.width;
+			if (position.x>0)
+				dx=-dx;
+			int dy=position.height-is.height;
+			if(position.y>0)
+				dy=-dy;
+			System.out.println(position+"intersection "+is+" and translate "+dx+" "+dy);
+			position.translate(dx, dy);
+			return position;
+		}else
+			return naturalPos;
+	}
+
+	private void fitSize(Rectangle position, Rectangle screen) {
+		if (position.width>screen.width ||position.height>screen.height){
+			//window is bigger than the screen
+			position.width=Math.min(position.width, screen.width);
+			position.height=Math.min(position.height, screen.height);
 		}
 	}
 	
