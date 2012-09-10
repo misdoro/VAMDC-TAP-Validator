@@ -1,4 +1,4 @@
-package org.vamdc.validator.iocontroller;
+package org.vamdc.validator.io;
 
 import java.io.BufferedInputStream;
 import java.io.File;

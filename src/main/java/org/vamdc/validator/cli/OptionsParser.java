@@ -26,11 +26,6 @@ public class OptionsParser extends CommandOptions{
 				"	Only first specified service will be used.");
 		
 		
-		fileName = this.addHelp(this.addStringOption('l',"load"), 
-				"XSAMS file location to validate, file path or url.\n"+
-				"   File copy and validation report will be saved at the output_dir");
-		
-		
 		servicePrettyOut = this.addHelp(this.addBooleanOption('p', "prettyprint"),
 				"Re-format input XML");	
 		
@@ -73,11 +68,6 @@ public class OptionsParser extends CommandOptions{
 	 * Tap service VOSI capabilities endpoint URL
 	 */
 	public final Option serviceCaps;
-	
-	/**
-	 * Filename or url to validate
-	 */
-	public final Option fileName;
 	
 	/**
 	 * Whether do pretty-printing of input XML or not

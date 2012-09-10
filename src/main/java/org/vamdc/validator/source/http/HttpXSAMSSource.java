@@ -23,6 +23,7 @@ import javax.xml.bind.Unmarshaller;
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
+import org.vamdc.validator.io.Input;
 import org.vamdc.validator.source.XSAMSSource;
 import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.xsams.io.PrettyPrint;
@@ -67,7 +68,7 @@ public class HttpXSAMSSource implements XSAMSSource {
 		}
 		URL requestURL = prepareRequestURL(query);
 		try {
-			HttpURLConnection conn = Tool.openConnection(requestURL);
+			HttpURLConnection conn = Input.openConnection(requestURL);
 			conn.setRequestMethod("HEAD");
 			
 			handleStatusCode(conn);
@@ -168,7 +169,7 @@ public class HttpXSAMSSource implements XSAMSSource {
 	 * @throws XSAMSSourceException 
 	 */
 	private InputStream openConnection(URL adress) throws IOException, XSAMSSourceException{
-		HttpURLConnection conn = Tool.openConnection(adress);
+		HttpURLConnection conn = Input.openConnection(adress);
 		handleStatusCode(conn);
 		extractFilename(conn);
 		

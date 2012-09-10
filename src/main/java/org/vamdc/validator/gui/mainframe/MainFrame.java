@@ -20,7 +20,7 @@ import org.vamdc.validator.Setting;
 import org.vamdc.validator.gui.WindowPositionHandler;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
-import org.vamdc.validator.iocontroller.XSAMSDocument;
+import org.vamdc.validator.io.XSAMSDocument;
 
 /**
  * Main frame of TAPValidator

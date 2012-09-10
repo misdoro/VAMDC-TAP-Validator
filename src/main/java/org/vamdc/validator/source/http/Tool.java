@@ -1,7 +1,5 @@
 package org.vamdc.validator.source.http;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -25,18 +23,6 @@ public class Tool {
 		} catch (MalformedURLException e) {
 			throw new XSAMSSourceException("Service base URL '"+url+"' is malformed \r\n");
 		}
-	}
-
-	public static HttpURLConnection openConnection(URL requestURL) throws IOException{
-		HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
-		conn.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
-		conn.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
-		//Allow gzip encoding
-		if (Setting.UseGzip.getBool()){
-			conn.setRequestProperty("Accept-Encoding", "gzip");
-		}
-		return conn;
-
 	}
 
 }

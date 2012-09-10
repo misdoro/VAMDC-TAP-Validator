@@ -28,6 +28,7 @@ import org.vamdc.validator.gui.settings.SettingsDialog;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.DocumentError.Type;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
+import org.vamdc.validator.io.Input;
 import org.vamdc.validator.report.XMLReport;
 import org.vamdc.validator.source.XSAMSSourceException;
 
@@ -374,7 +375,7 @@ public class MainFrameController implements ActionListener {
 			@Override
 			public void run() {
 				try{
-					doc.loadStream(fileUrl.openStream());
+					doc.loadStream(Input.openStream(fileUrl));
 					doc.setFilename(fileUrl.toString());
 				}catch (Exception ex){
 					showError("Exception during open: "+ex.getMessage(),"Open");

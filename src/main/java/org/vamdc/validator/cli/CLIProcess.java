@@ -3,18 +3,16 @@ package org.vamdc.validator.cli;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.zip.GZIPInputStream;
 
 import org.vamdc.validator.OperationModes;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
-import org.vamdc.validator.iocontroller.XSAMSDocument;
+import org.vamdc.validator.io.Input;
+import org.vamdc.validator.io.XSAMSDocument;
 import org.vamdc.validator.report.XMLReport;
-import org.vamdc.validator.source.http.Tool;
 import org.vamdc.validator.validator.XSAMSValidatorException;
 
 /**
@@ -56,7 +54,7 @@ public class CLIProcess {
 				XSAMSIOModel doc = new XSAMSDocument();
 
 				try{
-					loadFiles(doc);
+					if (loadFiles(doc)==0);
 
 					executeQueries(doc);
 				}catch (IOException e){
@@ -76,7 +74,7 @@ public class CLIProcess {
 		}
 	}
 
-	private void loadFiles(XSAMSIOModel doc) throws IOException {
+	private int loadFiles(XSAMSIOModel doc) throws IOException {
 		final String[] remainder = parser.getRemainingArgs();
 		if (remainder.length>0){
 			for (String fileName:remainder){
@@ -85,32 +83,16 @@ public class CLIProcess {
 					doc.loadFile(file);
 				}else{
 					URL loc = new URL(fileName);
-					InputStream stream = openStream(loc);
+					InputStream stream = Input.openStream(loc);
 					doc.loadStream(stream);
 				}
 				status+=saveOutput(doc, fileCounter++);
-
-
 			}
 		}
+		return fileCounter;
 	}
 
-	private InputStream openStream(URL loc)
-			throws IOException {
-		if (loc.getProtocol().toLowerCase().startsWith("http")){
-			HttpURLConnection conn = Tool.openConnection(loc);
-			if (conn.getResponseCode()==HttpURLConnection.HTTP_OK){
-				if (conn.getContentEncoding().equalsIgnoreCase("gzip"))
-					return new GZIPInputStream(conn.getInputStream());
-				else
-					return conn.getInputStream();
-			}
-			else 
-				throw new IOException("Status "+conn.getResponseCode()+conn.getResponseMessage());
-		}
-		return loc.openStream();
 
-	}
 
 	private void executeQueries(XSAMSIOModel doc) throws IOException, XSAMSValidatorException {
 		Collection<String> queries = getQueries(parser, doc);
