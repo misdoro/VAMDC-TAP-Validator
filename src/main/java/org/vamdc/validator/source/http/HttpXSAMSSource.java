@@ -2,16 +2,13 @@ package org.vamdc.validator.source.http;
 
 import java.io.IOException;
 
-import net.ivoa.xml.votable.v1.Info;
 import net.ivoa.xml.votable.v1.VOTABLE;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +25,6 @@ import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.source.XSAMSSource;
 import org.vamdc.validator.source.XSAMSSourceException;
-import org.vamdc.xsams.io.IOSettings;
 import org.vamdc.xsams.io.PrettyPrint;
 
 public class HttpXSAMSSource implements XSAMSSource {
@@ -36,10 +32,7 @@ public class HttpXSAMSSource implements XSAMSSource {
 	private String baseURLStr = "";
 	private String filename = "";
 
-	//Default connect and read timeouts for http connections
-
 	private CapabilitiesClient caps;
-	private AvailabilityClient avail;
 
 	private PrettyPrint prettyprinter = new PrettyPrint(); 
 
@@ -48,50 +41,66 @@ public class HttpXSAMSSource implements XSAMSSource {
 		String tapURL = Setting.ServiceTAPURL.getValue();
 		if (vosiURL!=null && vosiURL.length()>0){
 			caps = new CapabilitiesClient(vosiURL);
-			if (caps!=null){
-				baseURLStr = caps.getTapEndpoint();
-			}
+			baseURLStr = caps.getTapEndpoint();
 		}else{
+			caps = CapabilitiesClient.empty();
 			baseURLStr = tapURL;
 		}
 		baseURLStr+=Setting.ServiceTAPSuffix.getValue();
-		try {
-			new URL(baseURLStr);
-		} catch (MalformedURLException e) {
-			throw new XSAMSSourceException("Service base URL '"+baseURLStr+"' is malformed \r\n");
-		}
+		
+		Tool.getURL(baseURLStr);
 	}
 
 	@Override
 	public InputStream getXsamsStream(String query,XSAMSIOModel document) throws XSAMSSourceException {
-		if (baseURLStr==null)
-			throw new XSAMSSourceException("base URL is null :(");
-		if (caps!=null){
-			if ( caps.getAvailabilityEndpoint().equals(""))
-				throw new XSAMSSourceException("availability endpoint is not defined");
-			avail = new AvailabilityClient(caps.getAvailabilityEndpoint());
-
-			if (!avail.isAvailable()){
-				throw new XSAMSSourceException("Service not available: "+avail.getMessage());
-			}else{
-				return doQuery(query,document);
-			}
-		}else{
-			return doQuery(query,document);
+		if (caps.getAvailabilityEndpoint()!=null){
+			checkAvailability();
+		}
+		return doQuery(query,document);
+	}
+	
+	@Override
+	public Map<HeaderMetrics, String> getMetrics(String query)
+			throws XSAMSSourceException {
+		if (caps.getAvailabilityEndpoint()!=null){
+			checkAvailability();
+		}
+		URL requestURL = prepareRequestURL(query);
+		try {
+			HttpURLConnection conn = Tool.openConnection(requestURL);
+			conn.setRequestMethod("HEAD");
+			
+			handleStatusCode(conn);
+			
+			return processHeaders(conn.getHeaderFields());
+		} catch (IOException e) {
+			transformException(requestURL,e);
+			return Collections.emptyMap();
 		}
 	}
 
-	/**
-	 * Perform query
-	 * @param query
-	 * @param document 
-	 * @return
-	 * @throws XSAMSSourceException
-	 */
-	public InputStream doQuery(String query, XSAMSIOModel document) throws XSAMSSourceException{
+	@Override
+	public Collection<String> getRestrictables() {
+		return caps.getRestrictables();
+	}
+
+	@Override
+	public Collection<String> getSampleQueries() {
+		return caps.getSampleQueries();
+	}
+
+
+	
+	private void checkAvailability() throws XSAMSSourceException {
+		AvailabilityClient avail = new AvailabilityClient(caps.getAvailabilityEndpoint());
+		if (!avail.isAvailable())
+			throw new XSAMSSourceException("Service not available: "+avail.getMessage());
+	}
+
+
+	private InputStream doQuery(String query, XSAMSIOModel document) throws XSAMSSourceException{
 		URL requestURL = prepareRequestURL(query);
 
-		transferConnectionSettings();
 		InputStream result=null;
 		try{
 			result = openConnection(requestURL);
@@ -111,90 +120,44 @@ public class HttpXSAMSSource implements XSAMSSource {
 		throw new XSAMSSourceException("IO exception while opening http connection:"+e.getMessage()+" for query "+requestURL.toString());
 	}
 
-	private void transferConnectionSettings() {
-		IOSettings.httpConnectTimeout.setIntValue(Setting.HTTP_CONNECT_TIMEOUT.getInt());
-		IOSettings.httpDataTimeout.setIntValue(Setting.HTTP_DATA_TIMEOUT.getInt());
-
-		int compress = 0;
-		if (Setting.UseGzip.getBool())
-			compress=1;
-		IOSettings.compress.setIntValue(compress);
-	}
-
-	private URL prepareRequestURL(String query)
-			throws XSAMSSourceException {
-		URL result=null;
-		String encodedQuery="";
+	private URL prepareRequestURL(String query) throws XSAMSSourceException {
 		try {
-			encodedQuery = URLEncoder.encode(query,"UTF-8");
-			result = new URL(baseURLStr+encodedQuery);
-
-		}catch (MalformedURLException e) {
-			throw new XSAMSSourceException("Service base URL '"+baseURLStr+encodedQuery+"' is malformed \r\n");
+			String encodedUrl = baseURLStr+URLEncoder.encode(query,"UTF-8");
+			return Tool.getURL(encodedUrl);
 		}catch (UnsupportedEncodingException e1) {}
-		return result;
-	}
-
-	@Override
-	public Collection<String> getRestrictables() {
-		if (caps!=null)
-			return caps.getRestrictables();
-		else return new ArrayList<String>();
-	}
-
-	@Override
-	public Collection<String> getSampleQueries() {
-		if (caps!=null)
-			return caps.getSampleQueries();
-		else return new ArrayList<String>();
-	}
-
-	@Override
-	public Map<HeaderMetrics, String> getMetrics(String query)
-			throws XSAMSSourceException {
-		URL requestURL = prepareRequestURL(query);
-		try {
-			HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
-			conn.setRequestMethod("HEAD");
-			conn.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
-			conn.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
-			if (conn.getResponseCode()!=HttpURLConnection.HTTP_OK){
-				handleErrorCondition(conn);
-				throw new XSAMSSourceException("Response code "+conn.getResponseCode()+" for "+requestURL.toString());
-			}
-			return processHeaders(conn.getHeaderFields());
-		} catch (IOException e) {
-			transformException(requestURL,e);
-			return Collections.emptyMap();
-		}
+		return null;
 	}
 	
-	private void handleErrorCondition(HttpURLConnection conn) throws XSAMSSourceException {
+	private void handleStatusCode(HttpURLConnection connection) throws XSAMSSourceException {
 		try {
-			switch(conn.getResponseCode()){
+			switch(connection.getResponseCode()){
+				case HttpURLConnection.HTTP_OK:
+					return;
 				case HttpURLConnection.HTTP_NO_CONTENT:
-					throw new XSAMSSourceException("Node contains no data for query "+conn.getURL());
+					throw new XSAMSSourceException("Node contains no data for query "+connection.getURL());
 				case HttpURLConnection.HTTP_BAD_REQUEST:
-					JAXBContext votc = JAXBContext.newInstance(VOTABLE.class);
-					Unmarshaller um = votc.createUnmarshaller();
-					Object vot = um.unmarshal(conn.getErrorStream());
-					System.out.println(vot.getClass());
-					if (VOTABLE.class.isAssignableFrom(vot.getClass())){
-						VOTABLE votable = (VOTABLE) vot;
-						StringBuilder result = new StringBuilder();
-						for (Info info:votable.getRESOURCE().get(0).getINFO()){
-							result.append(info.getValue()).append("\n");
-						}
-						throw new XSAMSSourceException("Node returned errors: \n"+result.toString());
-					}
+					InputStream es = connection.getErrorStream();
+					if (es!=null)
+						throw new XSAMSSourceException(unmarshalVotable(es));
+				default:
+					throw new XSAMSSourceException("Response code "+connection.getResponseCode()+" for "+connection.getURL());
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException e) {e.printStackTrace();
+		} catch (JAXBException e) {e.printStackTrace();
 		}
+	}
+
+	private VOTABLE unmarshalVotable(InputStream eStream)
+			throws JAXBException, XSAMSSourceException {
+		if (eStream==null)
+			return null;
+		JAXBContext votc = JAXBContext.newInstance(VOTABLE.class);
+		Unmarshaller um = votc.createUnmarshaller();
+		Object vot = um.unmarshal(eStream);
+
+		if (VOTABLE.class.isAssignableFrom(vot.getClass()))
+			return (VOTABLE) vot;
+		return null;
 	}
 
 	/**
@@ -205,22 +168,12 @@ public class HttpXSAMSSource implements XSAMSSource {
 	 * @throws XSAMSSourceException 
 	 */
 	private InputStream openConnection(URL adress) throws IOException, XSAMSSourceException{
-		URLConnection conn = adress.openConnection();
-		//Allow gzip encoding
-		if (IOSettings.compress.getIntValue()==1){
-			conn.setRequestProperty("Accept-Encoding", "gzip");
-		}
-		//Set timeouts
-		conn.setConnectTimeout(IOSettings.httpConnectTimeout.getIntValue());
-		conn.setReadTimeout(IOSettings.httpDataTimeout.getIntValue());
-
-		checkHttpResultCode(adress, conn);
-		
+		HttpURLConnection conn = Tool.openConnection(adress);
+		handleStatusCode(conn);
 		extractFilename(conn);
 		
 		InputStream responseStream = conn.getInputStream();
-		String contentEncoding = conn.getContentEncoding();
-		if ("gzip".equalsIgnoreCase(contentEncoding)) {
+		if ("gzip".equalsIgnoreCase(conn.getContentEncoding())) {
 			responseStream = new GZIPInputStream(responseStream);
 		}else{
 			if (Setting.UseGzip.getBool())
@@ -237,17 +190,6 @@ public class HttpXSAMSSource implements XSAMSSource {
 			this.filename=disposition.substring(pos).trim();
 		}else 
 			this.filename=null;
-	}
-
-	private void checkHttpResultCode(URL adress, URLConnection conn)
-			throws IOException,XSAMSSourceException {
-		if (adress.getProtocol().equals("http")|| adress.getProtocol().equals("https")){
-			HttpURLConnection httpc= (HttpURLConnection) conn;
-			if (httpc.getResponseCode()!=200){
-				handleErrorCondition(httpc);
-				throw new IOException("Server responded with code "+httpc.getResponseCode());
-			}
-		}
 	}
 
 	private Map<HeaderMetrics, String> processHeaders(

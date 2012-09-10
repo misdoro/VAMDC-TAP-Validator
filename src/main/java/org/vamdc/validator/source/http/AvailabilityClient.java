@@ -1,21 +1,16 @@
 package org.vamdc.validator.source.http;
 
-import org.vamdc.validator.Setting;
-
 import net.ivoa.xml.vosiavailability.v1.Availability;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-
+/**
+ * Availability client and wrapper
+ */
 public class AvailabilityClient {
 
-	private Availability avail=null;
+	private final Availability avail;
+	
 	public AvailabilityClient(String endpointURL){
-		Client client = Client.create();
-		client.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
-		client.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
-		WebResource availResource = client.resource(endpointURL);
-		avail = availResource.get(Availability.class);
+		avail = Tool.getJerseyClient().resource(endpointURL).get(Availability.class);
 	}
 	
 	public String getMessage(){
