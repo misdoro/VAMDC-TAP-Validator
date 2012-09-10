@@ -1,5 +1,7 @@
 package org.vamdc.validator.source;
 
+import java.io.IOException;
+
 import net.ivoa.xml.votable.v1.Info;
 import net.ivoa.xml.votable.v1.VOTABLE;
 
@@ -8,7 +10,7 @@ import net.ivoa.xml.votable.v1.VOTABLE;
  * @author Misha Doronin
  *
  */
-public class XSAMSSourceException extends Exception{
+public class XSAMSSourceException extends IOException{
 	public XSAMSSourceException(String string) {
 		super(string);
 	}

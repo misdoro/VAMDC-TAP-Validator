@@ -25,7 +25,7 @@ public class CommandOptions extends CmdLineParser{
 	}
 	
 	public void printUsage() {
-        System.err.println("Usage: prog [options]");
+        System.err.println("Usage: prog [options] [filename1.xsams]...[filenameN.xsams]");
         System.err.println("Available options:");
         for (String row:optionHelpStrings) {
         	System.err.println(row);

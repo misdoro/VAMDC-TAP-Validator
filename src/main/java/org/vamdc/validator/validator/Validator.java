@@ -3,7 +3,6 @@ package org.vamdc.validator.validator;
 
 import org.apache.xerces.parsers.SAXParser;
 import org.vamdc.validator.interfaces.DocumentElementsLocator;
-import org.vamdc.validator.interfaces.XSAMSValidatorException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException; 

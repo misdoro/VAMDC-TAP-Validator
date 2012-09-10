@@ -16,13 +16,13 @@ import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.DocumentElementsLocator;
 import org.vamdc.validator.interfaces.ProgressMonitor;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
-import org.vamdc.validator.interfaces.XSAMSValidatorException;
 import org.vamdc.validator.source.XSAMSSource;
 import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.validator.source.http.HttpXSAMSSource;
 import org.vamdc.validator.source.plugin.PluginXSAMSSource;
 import org.vamdc.validator.storage.RawStorage;
 import org.vamdc.validator.validator.Validator;
+import org.vamdc.validator.validator.XSAMSValidatorException;
 import org.vamdc.xsams.io.PrettyPrint;
 
 public class XSAMSDocument implements XSAMSIOModel{
@@ -69,7 +69,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 		return loadStream(new FileInputStream(xsamsDocument));
 		
 	}
-	
+		
 	@Override
 	public long loadStream(InputStream stream) throws IOException {
 		xsamsStream = new BufferedInputStream(stream,4096);

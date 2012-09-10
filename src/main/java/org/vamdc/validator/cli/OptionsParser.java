@@ -25,6 +25,12 @@ public class OptionsParser extends CommandOptions{
 				"	or -c \"http://service:port/tap/capabilities/\"\n" +
 				"	Only first specified service will be used.");
 		
+		
+		fileName = this.addHelp(this.addStringOption('l',"load"), 
+				"XSAMS file location to validate, file path or url.\n"+
+				"   File copy and validation report will be saved at the output_dir");
+		
+		
 		servicePrettyOut = this.addHelp(this.addBooleanOption('p', "prettyprint"),
 				"Re-format input XML");	
 		
@@ -43,7 +49,7 @@ public class OptionsParser extends CommandOptions{
 		queryString = this.addHelp(this.addStringOption('q',"query"), 
 				" VSS1/VSS2 Query to send to service. \n" +
 				"	Can be specified multiple times to do multiple queries on the same tapservice");
-		
+	
 		outputPath = this.addHelp(this.addStringOption('o', "output_dir"),
 				"Folder where to save result files. \n" +
 				"	Needs to be specified to initiate command-line mode");
@@ -67,6 +73,11 @@ public class OptionsParser extends CommandOptions{
 	 * Tap service VOSI capabilities endpoint URL
 	 */
 	public final Option serviceCaps;
+	
+	/**
+	 * Filename or url to validate
+	 */
+	public final Option fileName;
 	
 	/**
 	 * Whether do pretty-printing of input XML or not
@@ -97,7 +108,6 @@ public class OptionsParser extends CommandOptions{
 	 * Output data path
 	 */
 	public final Option outputPath;
-	
 	
 	
 	/**

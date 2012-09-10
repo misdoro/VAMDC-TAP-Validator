@@ -18,7 +18,7 @@ public class Tool {
 		client.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
 		return client;
 	}
-	
+
 	static URL getURL(String url) throws XSAMSSourceException{
 		try {
 			return new URL(url);
@@ -26,20 +26,17 @@ public class Tool {
 			throw new XSAMSSourceException("Service base URL '"+url+"' is malformed \r\n");
 		}
 	}
-	
-	static HttpURLConnection openConnection(URL requestURL) throws XSAMSSourceException{
-		try {
-			HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
-			conn.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
-			conn.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
-			//Allow gzip encoding
-			if (Setting.UseGzip.getBool()){
-				conn.setRequestProperty("Accept-Encoding", "gzip");
-			}
-			return conn;
-		} catch (IOException e) {
-			throw new XSAMSSourceException(e.getMessage());
+
+	public static HttpURLConnection openConnection(URL requestURL) throws IOException{
+		HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
+		conn.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
+		conn.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
+		//Allow gzip encoding
+		if (Setting.UseGzip.getBool()){
+			conn.setRequestProperty("Accept-Encoding", "gzip");
 		}
+		return conn;
+
 	}
-	
+
 }

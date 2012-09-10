@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.source.XSAMSSourceException;
+import org.vamdc.validator.validator.XSAMSValidatorException;
 
 public interface XSAMSIOModel{
 	
