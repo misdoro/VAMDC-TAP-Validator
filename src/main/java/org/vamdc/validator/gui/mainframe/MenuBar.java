@@ -19,6 +19,7 @@ public class MenuBar extends JMenuBar{
 	 * Commands definition
 	 */
 	public final static String CMD_OPEN		="MenuOpen";
+	public final static String CMD_OPENURL  ="MenuOpenUrl";
 	public final static String CMD_RELOAD	="MenuReload";
 	public final static String CMD_SAVE		="MenuSave";
 	public final static String CMD_REPORT	="MenuSaveReport";
@@ -45,6 +46,7 @@ public class MenuBar extends JMenuBar{
 		this.controller=controller;
 		
 		this.addJMenuItem('F', menuFile, "Open", CMD_OPEN, "Open a new File", KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK);
+		this.addJMenuItem('F', menuFile, "Open URL", CMD_OPENURL, "Open URL location", KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK);
 		this.addJMenuItem('F', menuFile, "Reload", CMD_RELOAD, "Reload File", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
 		this.addJMenuItem('F', menuFile, "Save", CMD_SAVE, "Save XSAMS document", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
 		this.addJMenuItem('F', menuFile, "Save report", CMD_REPORT, "Save document validation report", -1,0);

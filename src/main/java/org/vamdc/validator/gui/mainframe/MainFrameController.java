@@ -207,6 +207,8 @@ public class MainFrameController implements ActionListener {
 			showLogPanel();
 		}else if (command == MenuBar.CMD_OPEN){
 			handleFileOpen();
+		}else if (command == MenuBar.CMD_OPENURL){
+			handleUrlLoad();
 		}else if (command == MenuBar.CMD_RELOAD){
 			handleFileReload();
 		}else if (command == MenuBar.CMD_SAVE){
@@ -327,6 +329,17 @@ public class MainFrameController implements ActionListener {
 		}
 	}
 
+	private void handleUrlLoad(){
+		String url = JOptionPane.showInputDialog(frame, "Enter URL", "Open", JOptionPane.DEFAULT_OPTION);
+		if (url==null)
+			return;
+		try {
+			asyncLoadURL(new URL(url));
+		} catch (MalformedURLException e) {
+			showError("Malformed url\n"+e.getMessage(), "Open URL");
+		}
+	}
+
 	public void asyncLoadFile(final File filename) {
 		System.out.println("Loading file "+filename);
 		//Create a thread processing file
@@ -400,7 +413,7 @@ public class MainFrameController implements ActionListener {
 				System.out.println("File "+filename.getAbsolutePath()+" written successfully.");
 			}catch (Exception ex){
 				ex.printStackTrace();
-				
+
 			}
 		}
 
@@ -413,7 +426,7 @@ public class MainFrameController implements ActionListener {
 			}
 		});
 	}
-	
+
 	private File pickFilename(String nameSuggestion) {
 		File filename=null;
 		saveChooser.setSelectedFile(new File(nameSuggestion));
@@ -450,9 +463,9 @@ public class MainFrameController implements ActionListener {
 	 * Update child components, reload settings.
 	 */
 	public void reloadComponents() throws Exception{
-			doc.reconfigure();
-			settingsDialog.hideDialog();
-			frame.resetComponent();
+		doc.reconfigure();
+		settingsDialog.hideDialog();
+		frame.resetComponent();
 	}
 
 
