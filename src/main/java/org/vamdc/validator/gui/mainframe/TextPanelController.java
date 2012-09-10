@@ -17,8 +17,18 @@ public abstract class TextPanelController implements ComponentListener,Adjustmen
 	protected TextPanel panel;
 	private int oldWindowRows=0;//Old rows count, update text only if it doesn't match current.
 	
+	/**
+	 * It is called when we had double click on certain line of document
+	 * @param lineNum
+	 */
+	public abstract void clickedLine(int lineNum);
+	
 	public TextPanelController(TextPanel model){
 		this.panel = model;
+		setupEventListeners();
+	}
+
+	private void setupEventListeners() {
 		panel.getIndexArea().addMouseWheelListener(this);
 		panel.getIndexArea().addComponentListener(this);
 		if (panel.getScroll().getMouseWheelListeners() != null)
@@ -76,11 +86,7 @@ public abstract class TextPanelController implements ComponentListener,Adjustmen
 		panel.setDocPosition(pos);
 	}
 
-	/**
-	 * It is called when we had double click on certain line of document
-	 * @param lineNum
-	 */
-	public abstract void clickedLine(int lineNum);
+
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -88,8 +94,7 @@ public abstract class TextPanelController implements ComponentListener,Adjustmen
 			try {
 				JTextArea text = panel.getTextArea();
 				int caretPos = text.getCaretPosition();
-				int lineNum;
-				lineNum = text.getLineOfOffset(caretPos);
+				int lineNum = text.getLineOfOffset(caretPos);
 				String panelText = text.getText();
 				if(panelText.length()>caretPos && panelText.charAt(caretPos-1) == '\n')
 					lineNum--;

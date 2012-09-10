@@ -29,6 +29,7 @@ import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.DocumentError.Type;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.report.XMLReport;
+import org.vamdc.validator.source.XSAMSSourceException;
 
 
 public class MainFrameController implements ActionListener {
@@ -250,7 +251,7 @@ public class MainFrameController implements ActionListener {
 					}
 		}
 		if (foundLine==-1){
-			JOptionPane.showMessageDialog(frame, "String "+searchText+" not found.","Search",JOptionPane.INFORMATION_MESSAGE);
+			showError("String "+searchText+" not found.","Search");
 			return -1;
 		}
 
@@ -280,11 +281,14 @@ public class MainFrameController implements ActionListener {
 						else{
 							doc.doQuery(query);
 						}
+					}catch (XSAMSSourceException e){
+						showError(e.getMessage(),"Query");
+						System.out.println(e.getMessage());
 					}catch (Exception e){
-						JOptionPane.showMessageDialog(frame, "Exception during query: "+e.getMessage(),"Query",JOptionPane.ERROR_MESSAGE);
-						frame.progress.setIndeterminate(false);
+						showError(e.getMessage(),"Query");
 						e.printStackTrace();
 					}finally{
+						frame.progress.setIndeterminate(false);
 						inputThread = null;
 					}
 				}
@@ -331,7 +335,7 @@ public class MainFrameController implements ActionListener {
 				try{
 					doc.loadFile(filename);
 				}catch (Exception ex){
-					JOptionPane.showMessageDialog(frame, "Exception during open: "+ex.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
+					showError("Exception during open: "+ex.getMessage(),"Open");
 					ex.printStackTrace();
 				}finally{
 					inputThread=null;
@@ -355,12 +359,12 @@ public class MainFrameController implements ActionListener {
 					asyncLoadURL(fileUrl);
 					return;
 				}catch (MalformedURLException e){
-					JOptionPane.showMessageDialog(frame, "Exception during open: "+e.getMessage(),"Reload",JOptionPane.ERROR_MESSAGE);
+					showError("Exception during open: "+e.getMessage(),"Reload");
 				};
 			}
-			JOptionPane.showMessageDialog(frame, "Unable to reload file "+doc.getFilename(),"Reload",JOptionPane.ERROR_MESSAGE);
+			showError("Unable to reload file "+doc.getFilename(),"Reload");
 		}else{
-			JOptionPane.showMessageDialog(frame, "No file was loaded","Reload",JOptionPane.ERROR_MESSAGE);
+			showError("No file was loaded","Reload");
 		}
 	}
 
@@ -373,7 +377,7 @@ public class MainFrameController implements ActionListener {
 					doc.loadStream(fileUrl.openStream());
 					doc.setFilename(fileUrl.toString());
 				}catch (Exception ex){
-					JOptionPane.showMessageDialog(frame, "Exception during open: "+ex.getMessage(),"Open",JOptionPane.ERROR_MESSAGE);
+					showError("Exception during open: "+ex.getMessage(),"Open");
 					ex.printStackTrace();
 				}finally{
 					inputThread=null;
@@ -395,12 +399,20 @@ public class MainFrameController implements ActionListener {
 				System.out.println("File "+filename.getAbsolutePath()+" written successfully.");
 			}catch (Exception ex){
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(frame, "Exception during save: "+ex.getMessage(),"Save",JOptionPane.ERROR_MESSAGE);
+				
 			}
 		}
 
 	}
 
+	private void showError(final String message,final String title){
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				JOptionPane.showMessageDialog(frame, message,title,JOptionPane.ERROR_MESSAGE);
+			}
+		});
+	}
+	
 	private File pickFilename(String nameSuggestion) {
 		File filename=null;
 		saveChooser.setSelectedFile(new File(nameSuggestion));
@@ -436,15 +448,10 @@ public class MainFrameController implements ActionListener {
 	/**
 	 * Update child components, reload settings.
 	 */
-	public void reloadComponents(){
-		try{
+	public void reloadComponents() throws Exception{
 			doc.reconfigure();
 			settingsDialog.hideDialog();
 			frame.resetComponent();
-		}catch (Exception e){
-			JOptionPane.showMessageDialog(settingsDialog, "Exception while applying new settings: "+e.getMessage(),"Settings",JOptionPane.ERROR_MESSAGE);
-		}
-
 	}
 
 

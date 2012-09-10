@@ -25,7 +25,12 @@ public class SettingsPanelController implements ActionListener{
 			panel.saveSettings();
 			panel.loadSettings();
 			//reconfigure model
-			main.reloadComponents();
+			try{
+				main.reloadComponents();
+			}catch(Exception ex){
+				JOptionPane.showMessageDialog(panel,"Exception while applying new settings: "+ex.getMessage(), "Settings",JOptionPane.ERROR_MESSAGE);
+				System.out.println("Exception while applying new settings: "+ex.getMessage());
+			}
 		}else if (command == SettingsPanel.CMD_RESET){
 			//Reload settings (clear changes)
 			if (JOptionPane.showConfirmDialog(panel, "Revert all changes?", "Settings", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){	
