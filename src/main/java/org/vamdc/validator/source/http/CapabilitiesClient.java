@@ -29,8 +29,12 @@ public class CapabilitiesClient {
 	private Collection<String> sampleQueries;
 	
 	public CapabilitiesClient(String endpointURL) throws XSAMSSourceException{
-		Capabilities caps=Tool.getJerseyClient().resource(endpointURL).get(Capabilities.class);
-		
+		Capabilities caps;
+		try{
+			caps=Tool.getJerseyClient().resource(endpointURL).get(Capabilities.class);
+		}catch (Exception e){
+			throw new XSAMSSourceException(e.getMessage());
+		}
 		restrictables=new ArrayList<String>();
 		sampleQueries=new ArrayList<String>();
 		
