@@ -2,7 +2,6 @@ package org.vamdc.validator.gui.mainframe;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.HashMap;
@@ -54,7 +53,7 @@ public abstract class TextPanel extends JPanel  {
 		/**
 		 * Displayable lines count
 		 */
-		private int maxLines = 10;
+		private int maxLines = 7;
 		/**
 		 * Start line
 		 */
@@ -120,14 +119,6 @@ public abstract class TextPanel extends JPanel  {
 		 */
 		public boolean blockIsDisplayed(long firstLine, long lastLine){
 			return (lastLine>=(startLine)&&firstLine<startLine+maxLines);
-		}
-
-		/**
-		 * Get line height
-		 * @return line height in pixels
-		 */
-		public int getLineHeight() {
-			return this.lineHeight;
 		}
 
 		@Override
@@ -356,17 +347,7 @@ public abstract class TextPanel extends JPanel  {
 	}
 
 
-	/**
-	 * Set minimum size so at least count lines could be displayed.
-	 * @param count
-	 */
-	public void setDisplayableLines(int count){
-		int lineHeight = lineidx.getLineHeight();
-		if (lineHeight>0){
-			int minHeight = lineHeight*(count+1)+scrollBar.getPreferredSize().width;//Width since scrollbar is vertical and we need height of scrollpane's scrollbar.
-			this.setMinimumSize(new Dimension(100,minHeight));
-		}
-	}
+
 	
 	/**
 	 * Redraw text, for example, if window if resized

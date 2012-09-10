@@ -70,13 +70,10 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		
 		//Set model for all child components that need it
 		this.setModel(document);
-		//Reset all child components
-		this.resetComponent();
 		
 		this.setPreferredSize(new Dimension(800, 600));
 		wph.loadDimensions();
 		this.setVisible(true);
-		
 		
 	}
 	
@@ -194,7 +191,6 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public void setModel(XSAMSIOModel data) {
 		for(ComponentUpdateInterface comp:childComponents){
 			comp.setModel(data);
-			comp.resetComponent();
 		}
 	}
 

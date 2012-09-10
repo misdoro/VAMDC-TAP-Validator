@@ -71,7 +71,7 @@ public class RestrictsPanel extends TextPanel implements ComponentUpdateInterfac
 	 * @return String containing restrictable name
 	 */
 	public String getRestrictable (int line){
-		if (restricts!=null)
+		if (restricts!=null&& restricts.size()>line)
 			return restricts.get(line);
 		else 
 			return "";

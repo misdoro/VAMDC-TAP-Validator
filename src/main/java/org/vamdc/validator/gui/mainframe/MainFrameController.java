@@ -474,6 +474,10 @@ public class MainFrameController implements ActionListener {
 		frame.addWindowListener(
 				new WindowAdapter(){
 					@Override
+					public void windowActivated(WindowEvent arg0) {
+						frame.updateFromModel(false);//Needed for correct line count in restrictables
+					}
+					@Override
 					public void windowClosing(WindowEvent e){
 						logPanel.hideDialog();
 						searchFrame.hideDialog();

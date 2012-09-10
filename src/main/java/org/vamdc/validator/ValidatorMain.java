@@ -57,7 +57,7 @@ public class ValidatorMain{
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					MainFrame frame = new MainFrame();
-					frame.setVisible(true);
+					
 					if (Setting.GUILogConsole.getBool())
 						frame.controller.showLogPanel();
 					if (remainder!=null && remainder.length>0)

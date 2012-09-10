@@ -21,8 +21,9 @@ public class Validator{
 		parser = new SAXParser();
 		setFeature("http://xml.org/sax/features/validation",true);
 		setFeature("http://apache.org/xml/features/validation/schema",true); 
-		setFeature("http://apache.org/xml/features/validation/schema-full-checking",false);
+		setFeature("http://apache.org/xml/features/validation/schema-full-checking",true);
 		setFeature("http://apache.org/xml/features/validation/dynamic",true);
+		setFeature("http://apache.org/xml/features/validation/warn-on-undeclared-elemdef",true);
 		setFeature("http://apache.org/xml/features/continue-after-fatal-error",true);
 		if (schemaLocation!=null && schemaLocation.length()>0)
 			setProperty("http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",
