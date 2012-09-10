@@ -13,6 +13,7 @@ import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.io.Input;
 import org.vamdc.validator.io.XSAMSDocument;
 import org.vamdc.validator.report.XMLReport;
+import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.validator.validator.XSAMSValidatorException;
 
 /**
@@ -54,13 +55,12 @@ public class CLIProcess {
 				XSAMSIOModel doc = new XSAMSDocument();
 
 				try{
-					if (loadFiles(doc)==0);
-
-					executeQueries(doc);
-				}catch (IOException e){
+					if (loadFiles(doc)==0)
+	
+						executeQueries(doc);
+				}catch (Exception e){
 					e.printStackTrace();
 					status = STATUS_ERROR;
-
 				}finally{
 					doc.close();
 					if (status>0){
@@ -94,7 +94,7 @@ public class CLIProcess {
 
 
 
-	private void executeQueries(XSAMSIOModel doc) throws IOException, XSAMSValidatorException {
+	private void executeQueries(XSAMSIOModel doc) throws IOException, XSAMSSourceException, XSAMSValidatorException {
 		Collection<String> queries = getQueries(parser, doc);
 		//For each query execute it, validate output and save both document and errors in output path.
 		for (String query:queries){

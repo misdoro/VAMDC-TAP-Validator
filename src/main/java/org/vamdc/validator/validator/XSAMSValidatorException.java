@@ -1,13 +1,11 @@
 package org.vamdc.validator.validator;
 
-import java.io.IOException;
-
 /**
  * This exception is thrown by XSAMSSource class during initialization or query if something went wrong.
  * @author Misha Doronin
  *
  */
-public class XSAMSValidatorException extends IOException{
+public class XSAMSValidatorException extends Exception{
 	public XSAMSValidatorException(String string) {
 		super(string);
 	}

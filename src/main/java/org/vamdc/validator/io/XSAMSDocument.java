@@ -31,7 +31,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 	public long doQuery(String query) throws XSAMSSourceException {
 		//Save query string
 		this.query = query;
-		
+
 		if (source==null)
 			throw new XSAMSSourceException("XSAMS source is not available");
 		//Setup xsams source
@@ -67,9 +67,9 @@ public class XSAMSDocument implements XSAMSIOModel{
 	public long loadFile(File xsamsDocument) throws IOException {
 		this.setFilename(xsamsDocument.getAbsolutePath());
 		return loadStream(new FileInputStream(xsamsDocument));
-		
+
 	}
-		
+
 	@Override
 	public long loadStream(InputStream stream) throws IOException {
 		xsamsStream = new BufferedInputStream(stream,4096);
@@ -148,12 +148,12 @@ public class XSAMSDocument implements XSAMSIOModel{
 			monitor.done(0,query);
 			return 0;
 		}
-			
+
 		//Reset errors
 		errorMsg=null;
 		//Create new storage
 		storage = new RawStorage(monitor);
-		
+
 		//Setup copying stream
 		InputStream copied = new TeeInputStream(XSAMSStream,storage);
 		//Parse stream to find block positions and errors
@@ -173,17 +173,17 @@ public class XSAMSDocument implements XSAMSIOModel{
 				} catch (IOException e) {
 				}
 
-				if (storage!=null)
-					try {
-						storage.flush();
-					} catch (IOException e) {
-					}
+			if (storage!=null)
+				try {
+					storage.flush();
+				} catch (IOException e) {
+				}
 		}
 
 		//Return document size in lines
 		return storage.getLineCount();
 	}
-	
+
 	private XSAMSSource setupSource() throws XSAMSSourceException{
 		XSAMSSource src = null;
 		switch( OperationModes.valueOf(Setting.OperationMode.getValue())){
@@ -210,7 +210,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 	@Override
 	public void close() {
-		
+
 	}
 
 	@Override
@@ -229,15 +229,15 @@ public class XSAMSDocument implements XSAMSIOModel{
 		//Remove source&validator
 		source = null;
 		validator=null;
-		
+
 		//Setup XSAMS validator
 		validator = new Validator(
 				Setting.SchemaFile.getValue(),
 				Setting.SchemaLocations.getValue());
-		
+
 		//Setup XSAMS source
 		source = setupSource();
-		
+
 	}
 
 	@Override
@@ -247,7 +247,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 			restrict.addAll(source.getRestrictables());
 		return restrict;
 	}
-	
+
 	@Override
 	public Collection<String> getSampleQueries() {
 		Collection<String> queries = new ArrayList<String>();
@@ -255,7 +255,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 			queries.addAll(source.getSampleQueries());
 		return queries;
 	}
-	
+
 	@Override
 	public String getQuery() {
 		return query;
@@ -268,7 +268,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 		if (source==null)
 			throw new XSAMSSourceException("XSAMS source is not available");
-		
+
 		return source.getMetrics(query);
 	}
 
@@ -282,7 +282,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 		this.filename = filename;
 	}
 
-	
+
 
 
 
