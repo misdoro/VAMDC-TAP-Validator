@@ -45,7 +45,7 @@ public class ErrorTransferHandler extends TransferHandler{
 
 		@Override
 		public DataFlavor[] getTransferDataFlavors() {
-			return flavors;
+			return flavors.clone();
 		}
 
 		@Override

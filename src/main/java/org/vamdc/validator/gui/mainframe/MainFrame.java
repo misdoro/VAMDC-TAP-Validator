@@ -40,7 +40,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public final WindowPositionHandler wph = new WindowPositionHandler(this,Setting.GUIMainDim);
 	
 	private final QueryField query = new QueryField();
-	private XSAMSIOModel document;
+	private transient XSAMSIOModel document;
 	public final JProgressBar progress = new JProgressBar();
 	private StatusBar status = new StatusBar();
 	

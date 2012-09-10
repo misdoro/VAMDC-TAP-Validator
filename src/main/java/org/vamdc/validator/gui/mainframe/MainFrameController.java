@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -303,9 +304,9 @@ public class MainFrameController implements ActionListener {
 	}
 	protected void processHeaders(Map<HeaderMetrics, String> previewQuery) {
 		StringBuilder message=new StringBuilder();
-		for (HeaderMetrics metric:previewQuery.keySet()){
-			message.append(metric.name().replace("_", "-")).append(":");
-			message.append(previewQuery.get(metric)).append("\n");
+		for (Entry<HeaderMetrics,String> metric:previewQuery.entrySet()){
+			message.append(metric.getKey().name().replace("_", "-")).append(":");
+			message.append(metric.getValue()).append("\n");
 		}
 		String result = message.toString();
 		System.out.println(result);

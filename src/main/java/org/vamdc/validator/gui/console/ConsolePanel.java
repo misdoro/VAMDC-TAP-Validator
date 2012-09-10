@@ -53,7 +53,7 @@ public class ConsolePanel extends PositionMemoryDialog{
 		panel.setPreferredSize(new Dimension(640,480));
 	}
 
-	private class TextPrinter extends FilterOutputStream{
+	private static class TextPrinter extends FilterOutputStream{
 		private JTextArea textArea;
 
 		TextPrinter(JTextArea text){
