@@ -48,7 +48,6 @@ public class WindowPositionHandler {
 			int dy=position.height-is.height;
 			if(position.y>0)
 				dy=-dy;
-			System.out.println(position+"intersection "+is+" and translate "+dx+" "+dy);
 			position.translate(dx, dy);
 			return position;
 		}else
