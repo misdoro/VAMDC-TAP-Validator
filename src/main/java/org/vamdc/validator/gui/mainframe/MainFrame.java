@@ -5,9 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,6 +25,7 @@ import org.vamdc.validator.interfaces.ProgressMonitor;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.io.XSAMSDocument;
 
+
 /**
  * Main frame of TAPValidator
  * @author doronin
@@ -32,6 +36,8 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public final static String PRE_QUERY = "Preview";
 	public final static String DO_QUERY = "Query";
 	public final static String STOP_QUERY = "Stop";
+
+	private static final String ICON_PATH = "/tapvalidator.png";
 		
 	public final XSAMSPanel xsamsPanel = new XSAMSPanel();
 	public final ValidationPanel valPanel = new ValidationPanel();
@@ -72,6 +78,8 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		this.setModel(document);
 		
 		this.setPreferredSize(new Dimension(800, 600));
+		
+		this.setIconImage(getIcoImage());
 		wph.loadDimensions();
 		this.setVisible(true);
 		
@@ -90,7 +98,14 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	}
 	
 	
-	
+    private static Image getIcoImage() {
+        URL imgURL = MainFrame.class.getResource(ICON_PATH);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL).getImage();
+        } else {
+            return null;
+        }
+    }
 	
 	private JPanel getQueryPanel(){
 		JPanel queryPanel = new JPanel();
