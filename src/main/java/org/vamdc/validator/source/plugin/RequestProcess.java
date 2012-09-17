@@ -47,8 +47,9 @@ public class RequestProcess implements RequestInterface {
 		this.context = context;
 		this.query = queryParser;
 		this.valid = false;
-		if (query!=null && query.getRestrictsList()!=null)
-			this.valid = query.getRestrictsList().size()>0;
+		if (query != null && query.getRestrictsList() != null)
+			this.valid = (query.getRestrictsList().size() > 0) 
+			|| query.getQuery().trim().toLowerCase().startsWith("select species");
 
 			logger = LoggerFactory.getLogger("org.vamdc.tapservice");
 			reqstart = new Date();
