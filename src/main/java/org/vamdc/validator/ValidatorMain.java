@@ -24,6 +24,9 @@ public class ValidatorMain{
 		"support@vamdc.org\n"+
 		"Consacré a Rim-Itto"
 		;
+	
+	public final static String VERSION = "12.07";
+	
 	/**
 	 * @param args
 	 */

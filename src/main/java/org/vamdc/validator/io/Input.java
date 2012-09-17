@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
 import org.vamdc.validator.Setting;
+import org.vamdc.validator.ValidatorMain;
 import org.vamdc.xsams.io.PrettyPrint;
 
 public class Input {
@@ -15,6 +16,7 @@ public class Input {
 		HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
 		conn.setConnectTimeout(Setting.HTTP_CONNECT_TIMEOUT.getInt());
 		conn.setReadTimeout(Setting.HTTP_DATA_TIMEOUT.getInt());
+		conn.setRequestProperty("User-Agent", "VAMDC-TAP Validator/"+ValidatorMain.VERSION);
 		//Allow gzip encoding
 		if (Setting.UseGzip.getBool()){
 			conn.setRequestProperty("Accept-Encoding", "gzip");
