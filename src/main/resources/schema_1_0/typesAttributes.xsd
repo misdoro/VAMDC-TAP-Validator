@@ -395,6 +395,8 @@
 				<xs:enumeration value="J/cm2"/>
 				<xs:enumeration value="W/m2"/>
 				<xs:enumeration value="W/cm2"/>
+				<xs:enumeration value="1/m3/s"/>
+				<xs:enumeration value="1/cm3/s"/>
 				<xs:enumeration value="W"/>
 				<xs:enumeration value="atm"/>
 				<xs:enumeration value="km/mol"/>
