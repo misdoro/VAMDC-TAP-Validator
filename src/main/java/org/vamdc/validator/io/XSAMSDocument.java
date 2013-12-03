@@ -30,16 +30,27 @@ public class XSAMSDocument implements XSAMSIOModel{
 	@Override
 	public long doQuery(String query) throws XSAMSSourceException {
 		//Save query string
-		this.query = query;
+		this.query = query.trim().replaceAll(";", "");
 
 		if (source==null)
 			throw new XSAMSSourceException("XSAMS source is not available");
 		//Setup xsams source
-		xsamsStream = source.getXsamsStream(query,this);
+		xsamsStream = source.getXsamsStream(this.query,this);
 		//Process it
-		return processStream(xsamsStream, query);
+		return processStream(xsamsStream, this.query);
 	}
 
+	@Override
+	public Map<HeaderMetrics, String> previewQuery(String query)
+			throws XSAMSSourceException {
+		this.query = query.trim().replaceAll(";", "");
+
+		if (source==null)
+			throw new XSAMSSourceException("XSAMS source is not available");
+
+		return source.getMetrics(this.query);
+	}
+	
 	@Override
 	public String getBlock(long lineIndex, int lineCount) {
 		if (storage!=null)
@@ -259,17 +270,6 @@ public class XSAMSDocument implements XSAMSIOModel{
 	@Override
 	public String getQuery() {
 		return query;
-	}
-
-	@Override
-	public Map<HeaderMetrics, String> previewQuery(String query)
-			throws XSAMSSourceException {
-		this.query = query;
-
-		if (source==null)
-			throw new XSAMSSourceException("XSAMS source is not available");
-
-		return source.getMetrics(query);
 	}
 
 	@Override
