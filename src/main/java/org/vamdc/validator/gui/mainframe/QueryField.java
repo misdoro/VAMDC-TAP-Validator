@@ -23,9 +23,12 @@ public class QueryField extends HistoryComboBox implements ComponentUpdateInterf
 		super.loadValues();
 		if (data!=null && data.getSampleQueries()!=null)
 			for (String query:data.getSampleQueries()){
-				if (query.length()>1){
-					validateQuery(query);
-					this.addItem(query+";");
+				String trq=query.trim();
+				if (trq.length()>1){
+					validateQuery(trq);
+					if (!trq.endsWith(";"))
+						trq=trq+";";
+					this.addItem(trq);
 				}
 			}
 		
