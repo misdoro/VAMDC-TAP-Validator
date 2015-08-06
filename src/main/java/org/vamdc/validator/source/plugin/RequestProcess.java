@@ -38,7 +38,7 @@ public class RequestProcess implements RequestInterface {
 
 	
 	public RequestProcess (String query, Collection<Restrictable> collection){
-		ServerRuntime cayenneRuntime = new ServerRuntime("cayenne.xml");
+		ServerRuntime cayenneRuntime = new ServerRuntime("cayenne-DBNode.xml");
         ObjectContext context = cayenneRuntime.getContext();
         
 		initRequest(
