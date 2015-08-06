@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.access.DataContext;
+import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vamdc.tapservice.vss2.LogicNode;
@@ -35,10 +36,14 @@ public class RequestProcess implements RequestInterface {
 		initRequest(xsamsroot,context,queryParser);
 	}
 
+	
 	public RequestProcess (String query, Collection<Restrictable> collection){
+		ServerRuntime cayenneRuntime = new ServerRuntime("cayenne.xml");
+        ObjectContext context = cayenneRuntime.getContext();
+        
 		initRequest(
 				new XSAMSManagerImpl(),
-				DataContext.createDataContext(),
+				context,
 				new QueryImpl(query,collection));
 	}
 
