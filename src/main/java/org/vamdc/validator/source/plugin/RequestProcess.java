@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.cayenne.ObjectContext;
-import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +13,7 @@ import org.vamdc.tapservice.vss2.Query;
 import org.vamdc.tapservice.vss2.RestrictExpression;
 import org.vamdc.tapservice.vss2.impl.QueryImpl;
 import org.vamdc.tapservice.api.RequestInterface;
+import org.vamdc.validator.Setting;
 import org.vamdc.dictionary.Requestable;
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.xsams.XSAMSManager;
@@ -38,13 +38,26 @@ public class RequestProcess implements RequestInterface {
 
 	
 	public RequestProcess (String query, Collection<Restrictable> collection){
-		ServerRuntime cayenneRuntime = new ServerRuntime("cayenne-DBNode.xml");
-        ObjectContext context = cayenneRuntime.getContext();
-        
 		initRequest(
 				new XSAMSManagerImpl(),
-				context,
+				initCayenneContext(),
 				new QueryImpl(query,collection));
+	}
+
+
+	private ObjectContext initCayenneContext() {
+		String cayenneSuffix=Setting.PluginCayenneSuffix.getValue();
+		String cayenneXML;
+		
+		if (cayenneSuffix!=null && cayenneSuffix.length()>0){
+			cayenneXML="cayenne-"+cayenneSuffix+".xml";
+		}else{
+			cayenneXML="cayenne-DBNode.xml";
+		}
+		
+		ServerRuntime cayenneRuntime = new ServerRuntime(cayenneXML);
+        ObjectContext context = cayenneRuntime.getContext();
+		return context;
 	}
 
 	private void initRequest(XSAMSManager xsamsroot,ObjectContext context,Query queryParser){

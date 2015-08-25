@@ -50,6 +50,8 @@ public class RegistryPanel extends JPanel implements ActionListener{
 		String reg = regURL.getText();
 		if (reg!=null && reg.length()>0){
 			try {
+				if (!reg.endsWith("/"))
+					reg+="/";
 				this.registry = RegistryFactory.getClient(reg+registrySuffix);
 			
 				if (registry!=null){

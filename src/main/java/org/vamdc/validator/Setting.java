@@ -10,16 +10,19 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 public enum Setting {
-	SettingsVersion("settingsVersion",12070),
+	SettingsVersion("settingsVersion",12071),
 	PluginClass("pluginclass","org.vamdc.database.plugin.OutputBuilder"),
 	PluginIDPrefix("pluginidprefix","DBNAME"),
-	PluginLimitStates("pluginmaxstates",1000),
-	PluginLimitProcesses("pluginmaxproc",1000),
+	PluginCayenneSuffix("cayenneSuffix","Suffix"),
+	PluginLimitStates("pluginmaxstates",10000),
+	PluginLimitProcesses("pluginmaxproc",10000),
+	
+	
 	ServiceTAPURL("tapurl","http://host.name:8080/tap/"),
 	ServiceTAPSuffix("tapsuffix","sync?LANG=VSS2&REQUEST=doQuery&FORMAT=XSAMS&QUERY="),
 	ServiceVOSIURL("vosiurl","http://host.name:8080/tap/capabilities"),
 
-	RegistryURL("registryURL","http://registry.vamdc.eu/registry-11.12/"),
+	RegistryURL("registryURL","http://registry.vamdc.eu/registry-12.07/"),
 	GUICapsURLHistory("capabilityURLHistory",""),
 
 	HTTP_CONNECT_TIMEOUT("http_conn_timeout",2000),
