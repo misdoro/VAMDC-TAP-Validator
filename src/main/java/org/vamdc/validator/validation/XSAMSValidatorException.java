@@ -1,4 +1,4 @@
-package org.vamdc.validator.validator;
+package org.vamdc.validator.validation;
 
 /**
  * This exception is thrown by XSAMSSource class during initialization or query if something went wrong.

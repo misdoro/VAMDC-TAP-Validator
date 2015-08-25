@@ -1,4 +1,4 @@
-package org.vamdc.validator.validator;
+package org.vamdc.validator.validation;
 
 
 import org.apache.xerces.parsers.SAXParser;

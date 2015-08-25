@@ -1,4 +1,4 @@
-package org.vamdc.validator.validator;
+package org.vamdc.validator.validation;
 
 import java.util.ArrayList;
 import java.util.HashMap;

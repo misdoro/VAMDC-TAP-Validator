@@ -21,8 +21,8 @@ import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.validator.source.http.HttpXSAMSSource;
 import org.vamdc.validator.source.plugin.PluginXSAMSSource;
 import org.vamdc.validator.storage.RawStorage;
-import org.vamdc.validator.validator.Validator;
-import org.vamdc.validator.validator.XSAMSValidatorException;
+import org.vamdc.validator.validation.Validator;
+import org.vamdc.validator.validation.XSAMSValidatorException;
 import org.vamdc.xsams.io.PrettyPrint;
 
 public class XSAMSDocument implements XSAMSIOModel{

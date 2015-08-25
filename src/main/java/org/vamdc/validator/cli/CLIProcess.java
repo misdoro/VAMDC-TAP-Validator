@@ -14,7 +14,7 @@ import org.vamdc.validator.io.Input;
 import org.vamdc.validator.io.XSAMSDocument;
 import org.vamdc.validator.report.XMLReport;
 import org.vamdc.validator.source.XSAMSSourceException;
-import org.vamdc.validator.validator.XSAMSValidatorException;
+import org.vamdc.validator.validation.XSAMSValidatorException;
 
 /**
  * Command-line interface process.
