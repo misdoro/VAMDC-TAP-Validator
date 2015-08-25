@@ -64,7 +64,7 @@ public class FieldVerifier extends InputVerifier{
 				try{
 					URL http = new URL(text);
 					error="Protocol should be HTTP";
-					return http.getProtocol().equalsIgnoreCase("http");
+					return http.getProtocol().toLowerCase().startsWith("http");
 				}catch(MalformedURLException e){
 					error=e.getMessage();
 					return false;
