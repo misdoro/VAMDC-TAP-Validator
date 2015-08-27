@@ -1,0 +1,103 @@
+Disclaimer
+
+1. General Disclaimer
+
+  The VAMDC Consortium and its activities are based upon a high trust model within an academic environment. 
+  In case of an (alleged) infringement of any right of third parties, the Consortium should be contacted in writing in order to discuss the issue. 
+  In order to minimize the risks it should be clarified that the Consortium shall not provide any guarantee and/or warranty with respect 
+  to a fitness-for-purpose and furthermore that the Consortium shall not identify any party for any (alleged) infringement of any rights of third parties 
+  (including but not limited to intellectual and industrial property rights and/or rights of confidentiality).
+
+
+2. Disclaimer for parties providing data, databases, services via the VAMDC infrastructure 
+(it may includes full and associated members of third-parties wishing to share their data and/or algorithms/processing through the VAMDC infrastructure)
+
+
+  By joining the VAMDC infrastructure the party accepts that this infrastructure may be used only :
+      - for sharing data or providing algorithms/processing
+        - which are already public or
+        - of which the party holds the intellectual property and/or the diffusion rights.
+        
+    
+  The party is fully responsible for the diffusion of the data and/or algorithms/processing he/she puts into the infrastructure and accept 
+  that VAMDC cannot be held responsible for the publication through its infrastructure of private/protected data and/or algorithms/processing.
+
+3. Disclaimer for all parties using software released by VAMDC 
+(this could be consortium members using the consortium common libraries or final users running the software distributed by VAMDC 
+for accessing and/or processing the data contained into the infrastructure)
+
+
+  - For GPL3 software (we just cite the related disclaimer)
+      
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+    See the GNU General Public License for more details.
+    
+  - For Software distributed with other licenses, and without a business/commercial goal.
+      
+    This software is provided free of charge by VAMDC. In no event shall VAMDC be liable to any party for direct, indirect, special, incidental, 
+    or consequential damages, including lost profits, arising out of the use of this software and its documentation, 
+    even if VAMDC has been advised of the possibility of such damage.
+        
+      
+    
+
+4. Disclaimer for final users accessing the data and or running online services/processing 
+(this disclaimer should be applied to all the web services provided by VAMDC in any form (TAP services, online code, etc))
+
+    
+  - Services « AS IS » :       
+        
+    VAMDC strives to provide high quality Services, but there are certain things that we can’t guarantee. 
+    TO THE FULLEST EXTENT PERMITTED BY LAW, VAMDC MAKES NO WARRANTIES, EITHER EXPRESS OR IMPLIED, ABOUT THE SERVICES. 
+    THE SERVICES ARE PROVIDED « AS IS. » WE ALSO DISCLAIM ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-­INFRINGEMENT.
+   
+  - Limitation of Liability :      
+        
+    TO THE FULLEST EXTENT PERMITTED BY LAW, IN NO EVENT WILL VAMDC BE LIABLE FOR ANY INDIRECT, SPECIAL, INCIDENTAL, PUNITIVE, EXEMPLARY 
+    OR CONSEQUENTAL DAMAGES OR ANY LOSS OF USE, DATA, BUSINESS, OR PROFITS, REGARDLESS OF LEGAL THEORY, WHETHER OR NOT VAMDC HAS BEEN WARNED 
+    OF THE POSSIBILITY OF SUCH DAMAGES, AND EVEN IF A REMEDY FAILS OF ITS ESSENTIAL PURPOSE.
+      
+  - Termination :       
+        
+    You are free to stop using our Services at any time. We also reserve the right to suspend or end the Services at any time at our discretion and without notice. 
+    For example, we may suspend or terminate your use of the Services if you are not complying with these Terms, 
+    or use the Services in a manner that would cause us legal liability, disrupt the Services or disrupt others’ use of the Services.
+          
+  - Resolving Disputes :      
+            
+    Let’s try to sort things out first. We want to address your concerns without needing a formal legal case. 
+    Before filing a claim against VAMDC, you agree to try to resolve the dispute informally by contacting support@vamdc.eu. 
+    We’ll try to resolve the dispute informally by contacting you via email. If a dispute is not resolved within 15 days of submission, you or VAMDC may bring a formal proceeding.
+    We both agree to use mediation. You and VAMDC agree to resolve any claims relating to these Terms or 
+    the Services with mediation through the VAMDC Consortium « Legal Committee ».
+        
+  - Entire Agreement :      
+        
+    These Terms constitute the entire agreement between you and VAMDC with respect to the subject matter of these Terms, 
+    and supersede and replace any other prior agreements, or terms and conditions applicable to the subject matter of these Terms. 
+    These Terms create no third party beneficiary rights. By continuing to use or access the Services after the revisions come into effect, 
+    you agree to be bound by the revised Terms.
+        
+  - Waiver, Severability & Assignment :      
+        
+    VAMDC failure to enforce a provision is not a waiver of its right to do so later. 
+    If a provision is found unenforceable, the remaining provisions of the Terms will remain in full effect and an enforceable term will be 
+    substituted reflecting our intent as closely as possible. You may not assign any of your rights under these Terms, and any such attempt will be void. 
+    VAMDC may assign its rights to any of its affiliates or subsidiaries, or to any successor in interest of any business associated with the Services.
+    
+  - Modifications :     
+        
+    We may revise these Terms from time to time, and will always post the most current version on our website. 
+    By continuing to use or access the Services after the revisions come into effect, you agree to be bound by the revised Terms.
+           
+
+5. Disclaimer for using the VAMDC Brand
+
+  Members of the VAMDC Consortium are not liable for the activities and the results resulting from the use of the « VAMDC brand ».
+
+6. Disclaimer for users retrieving data from the e-infrastructure
+
+  The VAMDC Consortium is not liable for users of data or databases not applying our Citation Policy.
+
+

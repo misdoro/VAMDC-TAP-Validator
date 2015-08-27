@@ -9,8 +9,12 @@ import java.io.ObjectOutputStream;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
+import org.vamdc.validator.gui.LicenseAgreement;
+
 public enum Setting {
-	SettingsVersion("settingsVersion",12071),
+	SettingsVersion("settingsVersion",MigrateSettings.LATESTVERSION),
+	LicenseVersion("licenseVersion",LicenseAgreement.LicenseVersion),
+	
 	PluginClass("pluginclass","org.vamdc.database.plugin.OutputBuilder"),
 	PluginIDPrefix("pluginidprefix","DBNAME"),
 	PluginCayenneSuffix("cayenneSuffix","Suffix"),

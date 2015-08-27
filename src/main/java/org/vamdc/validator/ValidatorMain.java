@@ -6,6 +6,7 @@ import jargs.gnu.CmdLineParser;
 
 import org.vamdc.validator.cli.CLIProcess;
 import org.vamdc.validator.cli.OptionsParser;
+import org.vamdc.validator.gui.LicenseAgreement;
 import org.vamdc.validator.gui.mainframe.MainFrame;
 
 
@@ -59,6 +60,9 @@ public class ValidatorMain{
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					MainFrame frame = new MainFrame();
+					
+					if (!LicenseAgreement.verify(frame))
+						System.exit(0);
 					
 					if (Setting.GUILogConsole.getBool())
 						frame.controller.showLogPanel();
