@@ -26,7 +26,6 @@ import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.io.Input;
 import org.vamdc.validator.source.XSAMSSource;
 import org.vamdc.validator.source.XSAMSSourceException;
-import org.vamdc.xsams.io.PrettyPrint;
 
 public class HttpXSAMSSource implements XSAMSSource {
 
@@ -34,8 +33,6 @@ public class HttpXSAMSSource implements XSAMSSource {
 	private String filename = "";
 
 	private CapabilitiesClient caps;
-
-	private PrettyPrint prettyprinter = new PrettyPrint(); 
 
 	public HttpXSAMSSource() throws XSAMSSourceException{
 		String vosiURL = Setting.ServiceVOSIURL.getValue();
@@ -107,9 +104,6 @@ public class HttpXSAMSSource implements XSAMSSource {
 			result = openConnection(requestURL);
 			//From here we must know the filename
 			document.setFilename(filename);
-			
-			if (Setting.PrettyPrint.getBool())
-				result=prettyprinter.transform(result);
 		}  catch (IOException e) {
 			transformException(requestURL, e);
 		}

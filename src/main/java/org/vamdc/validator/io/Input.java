@@ -8,7 +8,6 @@ import java.util.zip.GZIPInputStream;
 
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
-import org.vamdc.xsams.io.PrettyPrint;
 
 public class Input {
 
@@ -28,8 +27,6 @@ public class Input {
 		InputStream result = conn.getInputStream();
 		if ("gzip".equalsIgnoreCase(conn.getContentEncoding()))
 			result= new GZIPInputStream(result);
-		if (Setting.PrettyPrint.getBool())
-			result=new PrettyPrint().transform(result);
 		return result;
 	}
 	

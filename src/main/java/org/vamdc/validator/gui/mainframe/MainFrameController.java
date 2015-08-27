@@ -353,6 +353,8 @@ public class MainFrameController implements ActionListener {
 					showError("Exception during open: "+ex.getMessage(),"Open");
 					ex.printStackTrace();
 				}finally{
+					if (doc.getErrorInfo()!=null && !doc.getErrorInfo().isEmpty())
+						showError("There was a problem reading the file \n"+doc.getErrorInfo(),"Open");
 					inputThread=null;
 				}
 			}

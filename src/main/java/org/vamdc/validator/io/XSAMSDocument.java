@@ -84,10 +84,20 @@ public class XSAMSDocument implements XSAMSIOModel{
 	@Override
 	public long loadStream(InputStream stream) throws IOException {
 		xsamsStream = new BufferedInputStream(stream,4096);
-		if (Setting.PrettyPrint.getBool())
-			xsamsStream = PrettyPrint.transformStatic(xsamsStream);
-		//Process it
-		return processStream(xsamsStream, "");
+		if (Setting.PrettyPrint.getBool()){
+			pretty=new PrettyPrint();
+			xsamsStream = pretty.transform(xsamsStream);
+		}else{
+			pretty=null;
+		}
+		//Process the stream
+		long ret= processStream(xsamsStream, "");
+		
+		if (pretty.getTransformException()!=null){
+			//If there were exceptions in the prettyprinter, make them pop up
+			throw new IOException(pretty.getTransformException());
+		}
+		return ret;
 	}
 
 	@Override
@@ -145,6 +155,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 	private InputStream xsamsStream;
 	private String query;
 	private String filename;
+	private PrettyPrint pretty;
 
 	/**
 	 * Process xsams stream: copy to temp storage, validate
@@ -174,6 +185,8 @@ public class XSAMSDocument implements XSAMSIOModel{
 			if (monitor!=null)
 				monitor.done(storage.getLineCount(),query);
 		}catch (IOException e){
+			System.out.println("Got IOException");
+			e.printStackTrace();
 			if (monitor!=null)
 				monitor.done(-1,query);
 			errorMsg = e.getMessage();
