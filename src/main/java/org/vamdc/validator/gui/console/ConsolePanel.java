@@ -38,6 +38,7 @@ public class ConsolePanel extends PositionMemoryDialog{
 	}
 
 	private void initStreams() {
+		System.out.println("Switching output to GUI Console (ctrl-t to show)");
 		PrintStream printer = new PrintStream(new TextPrinter(text),true);
 		System.setOut(printer);
 		System.setErr(printer);

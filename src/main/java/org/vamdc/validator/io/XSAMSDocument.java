@@ -35,9 +35,13 @@ public class XSAMSDocument implements XSAMSIOModel{
 		if (source==null)
 			throw new XSAMSSourceException("XSAMS source is not available");
 		//Setup xsams source
-		xsamsStream = source.getXsamsStream(this.query,this);
+		InputStream stream = source.getXsamsStream(this.query,this);
 		//Process it
-		return processStream(xsamsStream, this.query);
+		try {
+			return processStream(stream, this.query);
+		} catch (IOException e) {
+			throw new XSAMSSourceException(e);
+		}
 	}
 
 	@Override
@@ -83,21 +87,9 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 	@Override
 	public long loadStream(InputStream stream) throws IOException {
-		xsamsStream = new BufferedInputStream(stream,4096);
-		if (Setting.PrettyPrint.getBool()){
-			pretty=new PrettyPrint();
-			xsamsStream = pretty.transform(xsamsStream);
-		}else{
-			pretty=null;
-		}
 		//Process the stream
-		long ret= processStream(xsamsStream, "");
+		return processStream(stream, "");
 		
-		if (pretty.getTransformException()!=null){
-			//If there were exceptions in the prettyprinter, make them pop up
-			throw new IOException(pretty.getTransformException());
-		}
-		return ret;
 	}
 
 	@Override
@@ -151,36 +143,48 @@ public class XSAMSDocument implements XSAMSIOModel{
 	private RawStorage storage;
 	private Validator validator;
 	private ProgressMonitor monitor;
-	private String errorMsg;
 	private InputStream xsamsStream;
+	private String errorMsg;
 	private String query;
 	private String filename;
-	private PrettyPrint pretty;
-
+	
+	
 	/**
 	 * Process xsams stream: copy to temp storage, validate
 	 * @param XSAMSStream stream containing XSAMS data
 	 * @return
+	 * @throws IOException 
 	 */
-	private long processStream(InputStream XSAMSStream,String query){
-		//Process query, copy stream into storage
-		if (XSAMSStream==null){
-			storage = new RawStorage(monitor);
-			monitor.tick();
-			monitor.done(0,query);
-			return 0;
-		}
-
+	private long processStream(InputStream incomingStream,String query) throws IOException{
+		//Always reset the storage
+		storage = new RawStorage(monitor);
 		//Reset errors
 		errorMsg=null;
-		//Create new storage
-		storage = new RawStorage(monitor);
+		
+		//Check if we have an input stream
+		if (incomingStream==null){
+			monitor.tick();
+			monitor.done(0,query);
+			errorMsg="Incoming stream is null, please report a bug.";
+			xsamsStream = null;
+			return 0;
+		}
+		
+		xsamsStream = new BufferedInputStream(incomingStream,4096);
+		
+		//Pretty-print the stream
+		PrettyPrint pretty=null;
+		if (Setting.PrettyPrint.getBool()){
+			pretty=new PrettyPrint();
+			xsamsStream = pretty.transform(xsamsStream);
+		}
 
-		//Setup copying stream
-		InputStream copied = new TeeInputStream(XSAMSStream,storage);
+		//Setup a copying stream to save the document for future navigation
+		xsamsStream = new TeeInputStream(xsamsStream,storage);
+		
 		//Parse stream to find block positions and errors
 		try{
-			validator.parse(copied);
+			validator.parse(xsamsStream);
 			//Parsing is complete, say that we're done.
 			if (monitor!=null)
 				monitor.done(storage.getLineCount(),query);
@@ -191,19 +195,19 @@ public class XSAMSDocument implements XSAMSIOModel{
 				monitor.done(-1,query);
 			errorMsg = e.getMessage();
 		}finally{
-			if (copied!=null)
-				try {	
-					copied.close();
-				} catch (IOException e) {
-				}
+			if (xsamsStream!=null){
+				xsamsStream.close();
+				xsamsStream=null;
+			}
 
 			if (storage!=null)
-				try {
-					storage.flush();
-				} catch (IOException e) {
-				}
+				storage.flush();
 		}
 
+		if (pretty.getTransformException()!=null){
+			//If there were exceptions in the prettyprinter, make them pop up
+			throw new IOException(pretty.getTransformException());
+		}
 		//Return document size in lines
 		return storage.getLineCount();
 	}

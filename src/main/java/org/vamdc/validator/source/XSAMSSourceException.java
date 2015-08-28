@@ -13,6 +13,10 @@ public class XSAMSSourceException extends Exception{
 	public XSAMSSourceException(String string) {
 		super(string);
 	}
+	
+	public XSAMSSourceException(Throwable e){
+		super(e);
+	}
 
 	public XSAMSSourceException(VOTABLE errorInfo){
 		super(convertVOTABLE(errorInfo));
