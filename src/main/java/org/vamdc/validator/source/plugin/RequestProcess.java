@@ -2,7 +2,6 @@ package org.vamdc.validator.source.plugin;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
@@ -11,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.Query;
 import org.vamdc.tapservice.vss2.RestrictExpression;
-import org.vamdc.tapservice.vss2.impl.QueryImpl;
+import org.vamdc.tapservice.vss2.VSSParser;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.validator.Setting;
 import org.vamdc.dictionary.Requestable;
@@ -41,7 +40,7 @@ public class RequestProcess implements RequestInterface {
 		initRequest(
 				new XSAMSManagerImpl(),
 				initCayenneContext(),
-				new QueryImpl(query,collection));
+				VSSParser.parse(query,collection));
 	}
 
 
@@ -99,13 +98,14 @@ public class RequestProcess implements RequestInterface {
 		return context;
 	}
 
+	
 	@Override
-	public List<RestrictExpression> getRestricts() {
+	public Collection<RestrictExpression> getQueryKeywords() {
 		return query.getRestrictsList();
 	}
 
 	@Override
-	public LogicNode getRestrictsTree(){
+	public LogicNode getQueryTree(){
 		return query.getRestrictsTree();
 	}
 
@@ -124,12 +124,6 @@ public class RequestProcess implements RequestInterface {
 		return query.getQuery();
 	}
 
-	@Override
-	public Logger getLogger(Class<?> className){
-		if (className == null)
-			return logger;
-		return LoggerFactory.getLogger(className);
-	}
 
 	public String toString(){
 		return "Request query "+query.toString();
@@ -142,8 +136,6 @@ public class RequestProcess implements RequestInterface {
 
 	@Override
 	public void setLastModified(Date date) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
