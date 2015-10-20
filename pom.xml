@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vamdc</groupId>
 	<artifactId>TAPValidator</artifactId>
-	<version>12.07r1-SNAPSHOT</version>
+	<version>12.07r2-SNAPSHOT</version>
 
 	<organization>
 		<name>VAMDC</name>
@@ -10,6 +10,7 @@
 	</organization>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<VAMDC.release.version>12.07r2-SNAPSHOT</VAMDC.release.version>
 	</properties>
 
 	<name>VAMDC-TAP service validator and Java node software plugin tester</name>
@@ -38,27 +39,27 @@
 		<dependency>
 			<groupId>org.vamdc.tap</groupId>
 			<artifactId>vamdctap-interfaces</artifactId>
-			<version>12.07</version>
+			<version>${VAMDC.release.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.vamdc</groupId>
 			<artifactId>registry-client-light</artifactId>
-			<version>12.07r1-SNAPSHOT</version>
+			<version>${VAMDC.release.version}</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.18</version>
+			<version>5.1.37</version>
 			<type>jar</type>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.2</version>
+			<version>2.4</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -72,7 +73,7 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>1.11</version>
+			<version>1.19</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf</groupId>
@@ -82,21 +83,21 @@
 		<dependency>
 			<groupId>org.vamdc.xml</groupId>
 			<artifactId>xsams-io</artifactId>
-			<version>12.07r2-SNAPSHOT</version>
+			<version>${VAMDC.release.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.vamdc.tap</groupId>
 			<artifactId>vamdctap-querymapper</artifactId>
-			<version>12.07</version>
+			<version>${VAMDC.release.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.ivoa</groupId>
 			<artifactId>mappings</artifactId>
-			<version>12.07r2-SNAPSHOT</version>
+			<version>${VAMDC.release.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
