@@ -126,13 +126,13 @@ public class SettingsPanel extends JPanel{
 		netPanel.add(caps,grid);
 		fields.add(caps);
 
-		addLabel(netPanel,grid,"VAMDC-TAP sync endpoint");
+		/*addLabel(netPanel,grid,"VAMDC-TAP sync endpoint");
 		gridItem(grid);
 		netPanel.add(getTextField(Setting.ServiceTAPURL,Type.HTTPURL,fields),grid);
 		
 		addLabel(netPanel,grid,"TAP url suffix (EXPERT OPTION! :) )");
 		gridItem(grid);
-		netPanel.add(getTextField(Setting.ServiceTAPSuffix,Type.STRING,fields),grid);
+		netPanel.add(getTextField(Setting.ServiceTAPSuffix,Type.STRING,fields),grid);*/
 
 		addLabel(netPanel,grid,"HTTP CONNECT timeout");
 		gridItem(grid);
