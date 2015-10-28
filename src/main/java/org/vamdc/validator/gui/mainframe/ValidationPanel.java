@@ -2,6 +2,7 @@ package org.vamdc.validator.gui.mainframe;
 
 import java.util.List;
 
+import org.vamdc.validator.gui.textpanel.TextPanel;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 
@@ -27,7 +28,6 @@ public class ValidationPanel extends TextPanel implements ComponentUpdateInterfa
 	@Override
 	public void resetComponent() {
 		this.setDocEnd(1);
-		this.resetHighlight();
 		this.setText("Validation errors");		
 	}
 

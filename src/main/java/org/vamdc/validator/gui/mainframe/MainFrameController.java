@@ -23,9 +23,9 @@ import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
 import org.vamdc.validator.gui.PositionMemoryDialog;
 import org.vamdc.validator.gui.console.ConsolePanel;
-import org.vamdc.validator.gui.search.SearchData;
-import org.vamdc.validator.gui.search.SearchPanel;
 import org.vamdc.validator.gui.settings.SettingsDialog;
+import org.vamdc.validator.gui.textpanel.TextPanel;
+import org.vamdc.validator.gui.textpanel.TextPanelController;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.DocumentError.Type;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -52,11 +52,11 @@ public class MainFrameController implements ActionListener {
 	public class ValidationPanelController extends TextPanelController{
 
 		private XSAMSIOModel xsamsdoc;
-		private TextPanel xsamsPanel;
+		private XSAMSPanel xsamsPanel;
 		private ErrorTransferHandler eth;
 
 		public ValidationPanelController(TextPanel valPanel,
-				XSAMSIOModel document, TextPanel xsamsPanel) {
+				XSAMSIOModel document, XSAMSPanel xsamsPanel) {
 			super(valPanel);
 			this.xsamsdoc = document;
 			this.xsamsPanel = xsamsPanel;
@@ -77,8 +77,8 @@ public class MainFrameController implements ActionListener {
 				eth.exportToClipboard(panel, panel.getToolkit().getSystemClipboard(),
 						TransferHandler.COPY);
 			}else if (clickedError.getType()==Type.search){
-				search.setData(clickedError.getSearchString(), false);
-				xsamsPanel.centerLine(searchNext(1));
+				xsamsPanel.searchString(clickedError.getSearchString(), false);
+				xsamsPanel.searchNext();
 			}
 
 		}
@@ -137,8 +137,7 @@ public class MainFrameController implements ActionListener {
 
 	public final LocatorPanelController locController; 
 	private ConsolePanel logPanel;
-	private PositionMemoryDialog settingsDialog,searchFrame;
-	private SearchData search;
+	private PositionMemoryDialog settingsDialog;
 	private final JFileChooser saveChooser;
 	private final JFileChooser loadChooser;
 
@@ -150,7 +149,6 @@ public class MainFrameController implements ActionListener {
 		initLog(frame);
 		if (Setting.GUILogConsole.getBool())
 			showLogPanel();
-		initSearch(frame);
 
 		initCloseEvent();
 
@@ -177,12 +175,6 @@ public class MainFrameController implements ActionListener {
 		logPanel=new ConsolePanel(frame);
 	}
 
-	private void initSearch(MainFrame frame) {
-		searchFrame = new SearchPanel(frame,this);
-		search = ((SearchPanel)searchFrame).getSearch();
-		frame.xsamsPanel.setSearch(search);
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String command = event.getActionCommand();
@@ -194,13 +186,11 @@ public class MainFrameController implements ActionListener {
 			if (inputThread!=null){
 				doc.stopQuery();
 			}
-		}else if (command == MenuBar.CMD_FIND){
-			searchFrame.setVisible(true);
 		}else if (command == MenuBar.CMD_EXIT){
 			if (JOptionPane.showConfirmDialog(frame, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
 				System.exit(0);
 		}else if (command == MenuBar.CMD_FINDNEXT){
-			search();
+			frame.xsamsPanel.searchNext();
 		}else if (command == MenuBar.CMD_CONFIG){
 			settingsDialog.setVisible(true);
 		}else if (command == MenuBar.CMD_LOG){
@@ -229,14 +219,14 @@ public class MainFrameController implements ActionListener {
 				);
 	}
 
-	public void search() {
-		frame.xsamsPanel.centerLine(searchNext(frame.xsamsPanel.getDocCenter()));
-	}
+	//public void search() {
+	//	frame.xsamsPanel.centerLine(searchNext(frame.xsamsPanel.getDocCenter()));
+	//}
 
 	/**
 	 * Handle search
 	 */
-	public int searchNext(int startLine){
+	/*public int searchNext(int startLine){
 		String searchText = search.getSearchText();
 		if (searchText==null || searchText.equals("")) return -1;
 		int foundLine = doc.searchString(searchText, startLine,search.ignoreCase());
@@ -260,7 +250,7 @@ public class MainFrameController implements ActionListener {
 		}
 
 		return foundLine;
-	}
+	}*/
 
 	/**
 	 * Handle query action
@@ -483,7 +473,6 @@ public class MainFrameController implements ActionListener {
 					@Override
 					public void windowClosing(WindowEvent e){
 						logPanel.hideDialog();
-						searchFrame.hideDialog();
 						settingsDialog.hideDialog();
 						frame.wph.saveDimensions();
 					}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.vamdc.dictionary.Restrictable;
+import org.vamdc.validator.gui.textpanel.TextPanel;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 
 public class RestrictsPanel extends TextPanel implements ComponentUpdateInterface{

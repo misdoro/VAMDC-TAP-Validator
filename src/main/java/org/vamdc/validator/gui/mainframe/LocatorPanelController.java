@@ -12,9 +12,9 @@ import org.vamdc.validator.interfaces.DocumentElement.ElementTypes;
 
 public class LocatorPanelController implements ActionListener{
 	private XSAMSIOModel doc;
-	private TextPanel xsamsPanel;
+	private XSAMSPanel xsamsPanel;
 
-	public LocatorPanelController(XSAMSIOModel doc, TextPanel xsamsPanel){
+	public LocatorPanelController(XSAMSIOModel doc, XSAMSPanel xsamsPanel){
 		this.doc = doc;
 		this.xsamsPanel = xsamsPanel;
 
@@ -33,7 +33,7 @@ public class LocatorPanelController implements ActionListener{
 				List<DocumentElement> elements = loc.getElements(el);
 				switch(command){
 				case LocatorRow.SEARCH_NEXT:
-					int location = findNextElement(elements,xsamsPanel.getDocCenter());
+					int location = findNextElement(elements,xsamsPanel.getCenterLine());
 					if (location>=0){
 						row.setValue(location);
 						selectElement(elements.get(location));

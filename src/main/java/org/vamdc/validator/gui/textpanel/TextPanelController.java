@@ -1,4 +1,4 @@
-package org.vamdc.validator.gui.mainframe;
+package org.vamdc.validator.gui.textpanel;
 
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;

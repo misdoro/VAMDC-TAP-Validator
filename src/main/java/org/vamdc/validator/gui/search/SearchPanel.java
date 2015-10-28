@@ -9,63 +9,35 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.vamdc.validator.Setting;
-import org.vamdc.validator.gui.PositionMemoryDialog;
-import org.vamdc.validator.gui.mainframe.MainFrame;
-import org.vamdc.validator.gui.mainframe.MainFrameController;
-
-public class SearchPanel extends PositionMemoryDialog implements ActionListener{
-	private static final long serialVersionUID = 2147287084424028910L;
+public class SearchPanel extends JPanel implements ActionListener{
 	
+	private static final long serialVersionUID = 4894504594389348097L;
+
 	private JTextField search = new JTextField();
 	private JCheckBox ignoreCase = new JCheckBox("Ignore case");
-	private JButton ok = new JButton("OK"),cancel = new JButton("cancel");
-	private SearchData searchData=new SearchData();
-	private MainFrameController control;
+	private JButton doSearch = new JButton("Search"),doClear = new JButton("Clear");
+	private SearchInterface searcher;
 	
-	public SearchPanel(MainFrame frame,MainFrameController control) {
-		super("Search Panel",frame,Setting.GUISearchDim);
-		init();
-		wph.loadDimensions();
-		this.control = control;
-	}
-	
-	private void init(){
-		this.setModal(true);
-		this.setContentPane(initLayout());
-		this.setResizable(false);
-		ok.addActionListener(this);
-		cancel.addActionListener(this);
+	public SearchPanel(SearchInterface searcher){
+		super();
+		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+		this.add(search);
+		this.add(ignoreCase);
+		this.add(doSearch);
+		this.add(doClear);
+		this.searcher=searcher;
+		doSearch.addActionListener(this);
+		doClear.addActionListener(this);
 	}
 
-	private JPanel initLayout() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-		panel.add(search);
-		panel.add(ignoreCase);
-		panel.add(getButtonsPanel());
-		return panel;
-	}
-	
-	private JPanel getButtonsPanel(){
-		JPanel result = new JPanel();
-		result.setLayout(new BoxLayout(result,BoxLayout.X_AXIS));
-		result.add(ok);
-		result.add(cancel);
-		return result;
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.hideDialog();
-		if (e.getSource()==ok){
-			searchData.setData(search.getText(), ignoreCase.isSelected());
-			control.search();
+		if (e.getSource()==doSearch){
+			searcher.searchString(search.getText(), ignoreCase.isSelected());
+		}else if (e.getSource()==doClear){
+			searcher.searchString("", ignoreCase.isSelected());
 		}
-	}
-
-	public SearchData getSearch() {
-		return searchData;
 	}
 
 }

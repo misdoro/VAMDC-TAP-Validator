@@ -24,7 +24,6 @@ public class MenuBar extends JMenuBar{
 	public final static String CMD_SAVE		="MenuSave";
 	public final static String CMD_REPORT	="MenuSaveReport";
 	public final static String CMD_EXIT		="MenuExit";
-	public final static String CMD_FIND		="MenuFind";
 	public final static String CMD_FINDNEXT	="MenuFindNext";
 	public final static String CMD_CONFIG	="MenuConfigure";
 	public final static String CMD_ABOUT	="MenuAbout";
@@ -55,8 +54,7 @@ public class MenuBar extends JMenuBar{
 		this.add(menuFile);
 
 		// ---------- EDIT MENU
-		this.addJMenuItem('E', menuEdit, "Find", CMD_FIND, "Find text", KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
-		this.addJMenuItem(menuEdit, "Find Next", CMD_FINDNEXT, "Find next item", KeyEvent.VK_F3, 0);
+		this.addJMenuItem('E',menuEdit, "Find Next", CMD_FINDNEXT, "Find next item", KeyEvent.VK_F3, 0);
 		this.add(menuEdit);
 
 		// ---------- OPTIONS MENU

@@ -1,10 +1,9 @@
-package org.vamdc.validator.gui.mainframe;
+package org.vamdc.validator.gui.textpanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.util.HashMap;
 
 import javax.swing.BoundedRangeModel;
 import javax.swing.JPanel;
@@ -19,7 +18,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
-import org.vamdc.validator.interfaces.DocumentElement;
 
 
 /**
@@ -40,8 +38,7 @@ public abstract class TextPanel extends JPanel  {
 	private JIndexTextArea lineidx;
 	protected Highlighter hl;
 
-	//Elements to highlight
-	private HashMap<DocumentElement,Color> highlight;
+
 
 
 	private static class JIndexTextArea extends JTextArea implements ChangeListener{
@@ -111,16 +108,6 @@ public abstract class TextPanel extends JPanel  {
 			return (lineNumber >= startLine && (lineNumber < startLine+maxLines) && lineNumber<=docEndLine);
 		}
 		
-		/**
-		 * Check if any of the text block's lines is displayed
-		 * @param firstLine
-		 * @param lastLine
-		 * @return true if any of the lines between the first and the last is in the display area.
-		 */
-		public boolean blockIsDisplayed(long firstLine, long lastLine){
-			return (lastLine>=(startLine)&&firstLine<startLine+maxLines);
-		}
-
 		@Override
 		public void stateChanged(ChangeEvent e) {
 			//ScrollBar state has changed
@@ -136,7 +123,6 @@ public abstract class TextPanel extends JPanel  {
 		buildPanel();
 
 		hl = textArea.getHighlighter();
-		highlight = new HashMap<DocumentElement,Color>();
 	}
 
 	public void setText(String text) {
@@ -175,6 +161,7 @@ public abstract class TextPanel extends JPanel  {
 		long startLine = lineIndex - this.getWindowRows()/2;
 		if (startLine<=0) startLine=1;
 		this.setDocPosition(startLine);
+		
 	}
 
 	/**
@@ -189,7 +176,7 @@ public abstract class TextPanel extends JPanel  {
 	 * Get view center line (or last doc line)
 	 * @return index of line displayed in the center of window
 	 */
-	public int getDocCenter(){
+	public int getCenterLine(){
 		return getDocPosition()+getWindowRows()/2+1;
 	}
 
@@ -209,32 +196,11 @@ public abstract class TextPanel extends JPanel  {
 		return scrollBar.getMaximum();
 	}
 
-	/**
-	 * Add element to highlight
-	 * @param e DocumentElement structure
-	 * @param c Color to use
-	 */
-	public void addHighlight(DocumentElement e, Color c){
-		highlight.put(e, c);
-		updateHighlight();
-	}
 
-	/**
-	 * Replace all highlights with new one
-	 * @param e 
-	 * @param c
-	 */
-	public void setHighlight(DocumentElement e, Color c){
-		highlight.clear();
-		highlight.put(e,c);
-		updateHighlight();
+	public boolean blockIsDisplayed(long firstLine, long lastLine){
+		return (lastLine>=(lineidx.startLine)&&firstLine<lineidx.startLine+lineidx.maxLines);
 	}
-
-	public void resetHighlight(){
-		highlight.clear();
-		updateHighlight();
-	}
-
+	
 
 
 	/*
@@ -277,44 +243,39 @@ public abstract class TextPanel extends JPanel  {
 	}
 
 	/**
+	 * Highlight block from line ls column cs to line le column ce with the color c
+	 */
+	public void highlightBlock(long startLine,int startCol,long endLine, int endCol, Color color){
+		//Dimensions
+		//Visible lines of the document
+		long wFirstLine = this.getDocPosition();
+		
+		try {
+			//Start with highlighting all the displayed window
+			int hlStart = 0;
+			int hlEnd=textArea.getLineEndOffset(Math.min(lineidx.maxLines-1,(int)((lineidx.docEndLine-wFirstLine)-1)));
+			
+			int firstLinePos = (int)(startLine - wFirstLine);
+			int lastLinePos = (int)(endLine - wFirstLine);
+			
+			if (firstLinePos >= 0) //Position of highlighed part 
+				hlStart = textArea.getLineStartOffset(firstLinePos)+startCol-1;
+	
+			if (lineidx.isDisplayed(endLine)){	
+				hlEnd = textArea.getLineStartOffset(lastLinePos)+endCol-1;
+			}
+			hl.addHighlight(hlStart,hlEnd,new DefaultHighlighter.DefaultHighlightPainter(color));
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	/**
 	 * Update highlight
 	 */
 	protected void updateHighlight(){
 		hl.removeAllHighlights();
-		
-		//Highlight elements
-		for (DocumentElement element:highlight.keySet()){
-			highlight(element,highlight.get(element));
-		}
-	}
-
-
-	/**
-	 * try to highlight specific document element in current displayable part
-	 * @param element
-	 * @param color
-	 */
-	private void highlight(DocumentElement element,Color color){
-		if (textArea.getLineCount()<=2) return;//Return if text is not loaded yet for some reason.
-		//Dimensions
-		//First visible line in document
-		long wFirstLine = lineidx.startLine;
-		//Check if we have any line to highlight
-		if (lineidx.blockIsDisplayed(element.getFirstLine(), element.getLastLine()))
-			try {
-				int hlStart = 0;
-				int hlEnd=textArea.getLineEndOffset(Math.min(lineidx.maxLines-1,(int)((lineidx.docEndLine-wFirstLine)-1)));
-				int firstLinePos = (int)(element.getFirstLine() - wFirstLine);
-				int lastLinePos = (int)(element.getLastLine() - wFirstLine);
-				if (firstLinePos >= 0) //Position of highlighed part 
-					hlStart = textArea.getLineStartOffset(firstLinePos)+element.getFirstCol()-1;
-				if (lineidx.isDisplayed(element.getLastLine())){	
-					hlEnd = textArea.getLineStartOffset(lastLinePos)+element.getLastCol()-1;
-				}
-				hl.addHighlight(hlStart,hlEnd,new DefaultHighlighter.DefaultHighlightPainter(color));
-			} catch (BadLocationException e) {
-				e.printStackTrace();
-			}
 	}
 	
 
