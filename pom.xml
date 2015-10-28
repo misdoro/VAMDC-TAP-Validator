@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>org.vamdc.xml</groupId>
 			<artifactId>xsams-io</artifactId>
-			<version>${VAMDC.release.version}</version>
+			<version>12.07r3-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
