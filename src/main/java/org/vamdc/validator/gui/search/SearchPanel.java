@@ -9,6 +9,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.vamdc.validator.Setting;
+
 public class SearchPanel extends JPanel implements ActionListener{
 	
 	private static final long serialVersionUID = 4894504594389348097L;
@@ -26,6 +28,8 @@ public class SearchPanel extends JPanel implements ActionListener{
 		this.add(doSearch);
 		this.add(doClear);
 		this.searcher=searcher;
+		this.ignoreCase.setSelected(Setting.GUISearchIgnoreCase.getBool());
+		ignoreCase.addActionListener(this);
 		doSearch.addActionListener(this);
 		doClear.addActionListener(this);
 	}
@@ -37,6 +41,8 @@ public class SearchPanel extends JPanel implements ActionListener{
 			searcher.searchString(search.getText(), ignoreCase.isSelected());
 		}else if (e.getSource()==doClear){
 			searcher.searchString("", ignoreCase.isSelected());
+		}else if (e.getSource()==ignoreCase){
+			Setting.GUISearchIgnoreCase.saveValue(ignoreCase.isSelected());
 		}
 	}
 

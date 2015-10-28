@@ -219,39 +219,7 @@ public class MainFrameController implements ActionListener {
 				);
 	}
 
-	//public void search() {
-	//	frame.xsamsPanel.centerLine(searchNext(frame.xsamsPanel.getDocCenter()));
-	//}
-
-	/**
-	 * Handle search
-	 */
-	/*public int searchNext(int startLine){
-		String searchText = search.getSearchText();
-		if (searchText==null || searchText.equals("")) return -1;
-		int foundLine = doc.searchString(searchText, startLine,search.ignoreCase());
-		if (foundLine==-1){
-			switch (JOptionPane.showConfirmDialog(
-					frame,
-					"String "+searchText+" not found, start from the beginning?",
-					"Search",
-					JOptionPane.YES_NO_OPTION))
-					{
-					case JOptionPane.OK_OPTION:
-						foundLine = doc.searchString(searchText,0,search.ignoreCase());
-						break;
-					case JOptionPane.NO_OPTION:
-						return -1;
-					}
-		}
-		if (foundLine==-1){
-			showError("String "+searchText+" not found.","Search");
-			return -1;
-		}
-
-		return foundLine;
-	}*/
-
+	
 	/**
 	 * Handle query action
 	 */
@@ -292,6 +260,7 @@ public class MainFrameController implements ActionListener {
 
 		}
 	}
+	
 	protected void processHeaders(Map<HeaderMetrics, String> previewQuery) {
 		StringBuilder message=new StringBuilder();
 		for (Entry<HeaderMetrics,String> metric:previewQuery.entrySet()){
