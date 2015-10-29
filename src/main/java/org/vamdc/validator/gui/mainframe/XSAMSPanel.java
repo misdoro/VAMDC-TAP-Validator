@@ -2,6 +2,7 @@ package org.vamdc.validator.gui.mainframe;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.vamdc.validator.gui.textpanel.TextSearchPanel;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -18,7 +19,7 @@ public class XSAMSPanel extends TextSearchPanel implements ComponentUpdateInterf
 	private XSAMSIOModel xsamsDoc=null;
 	
 	//XML Elements to highlight
-	private HashMap<DocumentElement,Color> highlight=new HashMap<DocumentElement,Color>();
+	private HashMap<Color,DocumentElement> highlight=new HashMap<Color,DocumentElement>();
 	
 	@Override
 	public void resetComponent() {
@@ -69,13 +70,13 @@ public class XSAMSPanel extends TextSearchPanel implements ComponentUpdateInterf
 	 */
 	public void setHighlight(DocumentElement e, Color c){
 		highlight.clear();
-		highlight.put(e,c);
-		updateHighlight();
+		highlight.put(c,e);
+		highlightUpdate();
 	}
 
 	public void resetHighlight(){
 		highlight.clear();
-		updateHighlight();
+		highlightUpdate();
 	}
 
 	/**
@@ -84,20 +85,20 @@ public class XSAMSPanel extends TextSearchPanel implements ComponentUpdateInterf
 	 * @param c Color to use
 	 */
 	public void addHighlight(DocumentElement e, Color c){
-		highlight.put(e, c);
-		updateHighlight();
+		highlight.put(c,e);
+		highlightUpdate();
 	}
 	
 	/**
 	 * Update highlight
 	 */
 	@Override
-	protected void updateHighlight(){
-		super.updateHighlight();
+	protected void highlightUpdate(){
+		super.highlightUpdate();
 		
 		//Highlight elements
-		for (DocumentElement element:highlight.keySet()){
-			highlight(element,highlight.get(element));
+		for (Map.Entry<Color,DocumentElement> element:highlight.entrySet()){
+			highlight(element.getValue(),element.getKey());
 		}
 	}
 	

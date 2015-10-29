@@ -33,8 +33,8 @@ public abstract class TextSearchPanel extends TextPanel implements SearchInterfa
 	public abstract int searchString(String text,int startLine, boolean ignoreCase);
 	
 	@Override
-	protected void updateHighlight(){
-		super.updateHighlight();
+	protected void highlightUpdate(){
+		super.highlightUpdate();
 		if (searchString!=null)
 			highlightSearchResult();
 	}
@@ -44,7 +44,7 @@ public abstract class TextSearchPanel extends TextPanel implements SearchInterfa
 		this.searchString=search;
 		this.searchStringLowCase=search.toLowerCase();
 		this.searchIgnoreCase=ignoreCase;
-		this.updateHighlight();
+		this.highlightUpdate();
 		searchNext();
 	}
 	

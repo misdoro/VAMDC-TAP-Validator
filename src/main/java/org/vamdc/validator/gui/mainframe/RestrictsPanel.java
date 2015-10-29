@@ -33,7 +33,7 @@ public class RestrictsPanel extends TextPanel implements ComponentUpdateInterfac
 					keyword=Restrictable.valueOfIgnoreCase(restrict);
 				}catch (IllegalArgumentException e){}
 				if (keyword==null)
-					highlightLine(i+1, Color.LIGHT_GRAY);
+					highlightLine(i, Color.LIGHT_GRAY);
 			}
 		}else{
 			reset();

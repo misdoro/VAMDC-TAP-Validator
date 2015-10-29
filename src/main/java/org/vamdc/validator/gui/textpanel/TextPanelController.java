@@ -15,7 +15,7 @@ import javax.swing.text.BadLocationException;
 public abstract class TextPanelController implements ComponentListener,AdjustmentListener, MouseWheelListener,MouseInputListener{
 	
 	protected TextPanel panel;
-	private int oldWindowRows=0;//Old rows count, update text only if it doesn't match current.
+	
 	
 	/**
 	 * It is called when we had double click on certain line of document
@@ -51,12 +51,13 @@ public abstract class TextPanelController implements ComponentListener,Adjustmen
 	public void componentMoved(ComponentEvent e) {
 	}
 
+	private int oldPanelRows=0;//Old panel rows count. Upon resizing, update the text only if the current value does not match this.
 	@Override
 	public void componentResized(ComponentEvent e) {
-		//updateDimensions();
-		if (oldWindowRows!=panel.getWindowRows()){
+		int newPanelRows=panel.getWindowRows();
+		if (oldPanelRows!=newPanelRows){
 			panel.updateText();
-			oldWindowRows = panel.getWindowRows();
+			oldPanelRows = newPanelRows;
 		}
 	}
 

@@ -129,7 +129,7 @@ public abstract class TextPanel extends JPanel  {
 		textArea.setText(text);
 		lineidx.updateIndex();
 		scrollBar.setVisibleAmount(this.getWindowRows()-1);
-		updateHighlight();
+		highlightUpdate();
 	}
 	
 	@Override
@@ -225,15 +225,19 @@ public abstract class TextPanel extends JPanel  {
 	public int getWindowRows(){
 		return lineidx.getDisplayableRows();
 	}
+	
+	public void highlightClear(){
+		hl.removeAllHighlights();
+	}
 
 	/**
 	 * Highlight line index i
 	 * @param lineNumber line number to highlight
 	 */
 	public void highlightLine(long lineNumber,Color c) {
-		if (lineidx.isDisplayed(lineNumber)) //Check if line is really displayed :)
+		if (lineidx.isDisplayed(lineNumber+1)) //Check if line is really displayed :)
 			try {
-				int windowline = (int)(lineNumber-getDocPosition());
+				int windowline = (int)(lineNumber+1-getDocPosition());
 				hl.addHighlight(textArea.getLineStartOffset(windowline),
 						textArea.getLineEndOffset(windowline),
 						new DefaultHighlighter.DefaultHighlightPainter(c));
@@ -270,11 +274,11 @@ public abstract class TextPanel extends JPanel  {
 		}
 		
 	}
-
+	
 	/**
 	 * Update highlight
 	 */
-	protected void updateHighlight(){
+	protected void highlightUpdate(){
 		hl.removeAllHighlights();
 	}
 	

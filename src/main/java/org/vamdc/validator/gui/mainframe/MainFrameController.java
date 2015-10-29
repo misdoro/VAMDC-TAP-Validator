@@ -26,6 +26,7 @@ import org.vamdc.validator.gui.console.ConsolePanel;
 import org.vamdc.validator.gui.settings.SettingsDialog;
 import org.vamdc.validator.gui.textpanel.TextPanel;
 import org.vamdc.validator.gui.textpanel.TextPanelController;
+import org.vamdc.validator.interfaces.DocumentElementsLocator;
 import org.vamdc.validator.interfaces.DocumentError;
 import org.vamdc.validator.interfaces.DocumentError.Type;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
@@ -66,11 +67,14 @@ public class MainFrameController implements ActionListener {
 
 		@Override
 		public void clickedLine(int lineNum) {
-			if (xsamsdoc.getElementsLocator().getErrors().size()<=lineNum)
+			DocumentElementsLocator el=xsamsdoc.getElementsLocator();
+			if (el==null || el!=null && el.getErrors().size()<=lineNum)
 				return;
-			DocumentError clickedError = xsamsdoc.getElementsLocator().getErrors().get((int) lineNum);
+			DocumentError clickedError = el.getErrors().get((int) lineNum);
+			panel.highlightClear();
+			panel.highlightLine(lineNum, new Color(0.9f,0.6f,0.6f));
 			if (clickedError.getType()==Type.element){
-				xsamsPanel.setHighlight(clickedError.getElement(), Color.RED);
+				xsamsPanel.addHighlight(clickedError.getElement(), Color.RED);
 				xsamsPanel.centerLine((int)clickedError.getElement().getFirstLine());
 				centerError(clickedError);
 				eth.setError(clickedError);
@@ -78,7 +82,6 @@ public class MainFrameController implements ActionListener {
 						TransferHandler.COPY);
 			}else if (clickedError.getType()==Type.search){
 				xsamsPanel.searchString(clickedError.getSearchString(), false);
-				xsamsPanel.searchNext();
 			}
 
 		}
@@ -89,7 +92,7 @@ public class MainFrameController implements ActionListener {
 				if (line>xsamsPanel.getWindowRows())
 					return;
 				int ls = xsamsPanel.getTextArea().getLineStartOffset(line);
-				xsamsPanel.getTextArea().setCaretPosition(ls+(int)clickedError.getElement().getLastCol());
+				xsamsPanel.getTextArea().setCaretPosition(ls+(int)clickedError.getElement().getLastCol()-1);
 			} catch (BadLocationException e) {
 			}
 		}
