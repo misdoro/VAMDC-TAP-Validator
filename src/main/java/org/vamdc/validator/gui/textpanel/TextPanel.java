@@ -2,6 +2,7 @@ package org.vamdc.validator.gui.textpanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.TransferHandler;
 import javax.swing.event.ChangeEvent;
@@ -17,6 +19,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 
 
@@ -41,7 +45,7 @@ public abstract class TextPanel extends JPanel  {
 
 
 
-	private static class JIndexTextArea extends JTextArea implements ChangeListener{
+	private static class JIndexTextArea extends JTextPane implements ChangeListener{
 		private static final long serialVersionUID = 4499919184133885310L;
 		/**
 		 * Displayable area height
@@ -64,6 +68,12 @@ public abstract class TextPanel extends JPanel  {
 		 * Line height
 		 */
 		private int lineHeight=0;
+		
+		private JIndexTextArea(){
+			SimpleAttributeSet attribs = new SimpleAttributeSet();
+			StyleConstants.setAlignment(attribs , StyleConstants.ALIGN_RIGHT);
+			this.setParagraphAttributes(attribs,true);
+		}
 
 		@Override  
 		public void paint(Graphics g) {  
@@ -87,10 +97,11 @@ public abstract class TextPanel extends JPanel  {
 		}
 
 		private String genLineNums(){
-			int lines = this.getDisplayableRows();
 			StringBuilder text = new StringBuilder();
-			for(long i = startLine; (i < startLine+lines)&&i<=docEndLine; i++)
+			for(long i = startLine; (i < startLine+maxLines)&&i<=docEndLine; i++)
 				text.append(i).append("\n");
+			if (docEndLine>maxLines && startLine+maxLines<docEndLine)
+				text.append("…\n").append(docEndLine).append("\n");
 			return text.toString();
 		}
 
@@ -210,15 +221,15 @@ public abstract class TextPanel extends JPanel  {
 		return textArea;
 	}
 
-	public JScrollPane getScroll() {
+	public Component getScroll() {
 		return scroll;
 	}
 
-	public JScrollBar getScrollBar() {
+	public Component getScrollBar() {
 		return scrollBar;
 	}
 
-	public JTextArea getIndexArea(){
+	public Component getIndexArea(){
 		return lineidx;
 	}
 

@@ -20,7 +20,7 @@ public class ValidationPanel extends TextPanel implements ComponentUpdateInterfa
 	public void updateText() {
 		if (xsamsDoc!=null && xsamsDoc.getElementsLocator()!=null && xsamsDoc.getElementsLocator().getErrors()!=null){
 			List<DocumentError> errors = xsamsDoc.getElementsLocator().getErrors();
-			this.setText( getTextInfo(errors,this.getScrollBar().getValue(),this.getWindowRows()));
+			this.setText( getTextInfo(errors,this.getDocPosition(),this.getWindowRows()));
 		}else
 			this.resetComponent();
 	}

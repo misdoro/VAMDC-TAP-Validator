@@ -9,6 +9,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
 import javax.swing.event.MouseInputListener;
 import javax.swing.text.BadLocationException;
 
@@ -36,7 +37,7 @@ public abstract class TextPanelController implements ComponentListener,Adjustmen
 				panel.getScroll().removeMouseWheelListener(i);
 		panel.getScroll().addMouseWheelListener(this);
 		panel.getScrollBar().addMouseWheelListener(this);
-		panel.getScrollBar().addAdjustmentListener(this);
+		((JScrollBar) panel.getScrollBar()).addAdjustmentListener(this);
 		panel.getTextArea().addMouseListener(this);
 	}
 	
