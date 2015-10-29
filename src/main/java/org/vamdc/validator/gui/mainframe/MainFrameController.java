@@ -15,7 +15,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
 import org.vamdc.dictionary.HeaderMetrics;
@@ -76,7 +75,6 @@ public class MainFrameController implements ActionListener {
 			if (clickedError.getType()==Type.element){
 				xsamsPanel.addHighlight(clickedError.getElement(), Color.RED);
 				xsamsPanel.centerLine((int)clickedError.getElement().getFirstLine());
-				centerError(clickedError);
 				eth.setError(clickedError);
 				eth.exportToClipboard(panel, panel.getToolkit().getSystemClipboard(),
 						TransferHandler.COPY);
@@ -84,17 +82,6 @@ public class MainFrameController implements ActionListener {
 				xsamsPanel.searchString(clickedError.getSearchString(), false);
 			}
 
-		}
-
-		private void centerError(DocumentError clickedError) {
-			try {
-				int line = (int)clickedError.getElement().getLastLine()-xsamsPanel.getDocPosition();
-				if (line>xsamsPanel.getWindowRows())
-					return;
-				int ls = xsamsPanel.getTextArea().getLineStartOffset(line);
-				xsamsPanel.getTextArea().setCaretPosition(ls+(int)clickedError.getElement().getLastCol()-1);
-			} catch (BadLocationException e) {
-			}
 		}
 
 	}
