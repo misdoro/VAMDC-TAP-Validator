@@ -1,6 +1,5 @@
 package org.vamdc.validator.gui.mainframe;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -14,7 +13,6 @@ import java.util.Map.Entry;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
 import javax.swing.text.JTextComponent;
 
 import org.vamdc.dictionary.HeaderMetrics;
@@ -22,12 +20,10 @@ import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
 import org.vamdc.validator.gui.PositionMemoryDialog;
 import org.vamdc.validator.gui.console.ConsolePanel;
+import org.vamdc.validator.gui.processors.ProcessorsDialog;
 import org.vamdc.validator.gui.settings.SettingsDialog;
 import org.vamdc.validator.gui.textpanel.TextPanel;
 import org.vamdc.validator.gui.textpanel.TextPanelController;
-import org.vamdc.validator.interfaces.DocumentElementsLocator;
-import org.vamdc.validator.interfaces.DocumentError;
-import org.vamdc.validator.interfaces.DocumentError.Type;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.io.Input;
 import org.vamdc.validator.report.XMLReport;
@@ -48,43 +44,6 @@ public class MainFrameController implements ActionListener {
 		public void clickedLine(int lineNum) {
 			panel.centerLine(lineNum);
 		}
-	}
-
-	public class ValidationPanelController extends TextPanelController{
-
-		private XSAMSIOModel xsamsdoc;
-		private XSAMSPanel xsamsPanel;
-		private ErrorTransferHandler eth;
-
-		public ValidationPanelController(TextPanel valPanel,
-				XSAMSIOModel document, XSAMSPanel xsamsPanel) {
-			super(valPanel);
-			this.xsamsdoc = document;
-			this.xsamsPanel = xsamsPanel;
-			eth = new ErrorTransferHandler(document);
-			valPanel.setTransferHandler(eth);
-		}
-
-		@Override
-		public void clickedLine(int lineNum) {
-			DocumentElementsLocator el=xsamsdoc.getElementsLocator();
-			if (el==null || el!=null && el.getErrors().size()<=lineNum)
-				return;
-			DocumentError clickedError = el.getErrors().get((int) lineNum);
-			panel.highlightClear();
-			panel.highlightLine(lineNum, new Color(0.9f,0.6f,0.6f));
-			if (clickedError.getType()==Type.element){
-				xsamsPanel.addHighlight(clickedError.getElement(), Color.RED);
-				xsamsPanel.centerLine((int)clickedError.getElement().getFirstLine());
-				eth.setError(clickedError);
-				eth.exportToClipboard(panel, panel.getToolkit().getSystemClipboard(),
-						TransferHandler.COPY);
-			}else if (clickedError.getType()==Type.search){
-				xsamsPanel.searchString(clickedError.getSearchString(), false);
-			}
-
-		}
-
 	}
 
 	private static class RestrictablesController extends TextPanelController{
@@ -129,6 +88,7 @@ public class MainFrameController implements ActionListener {
 	public final LocatorPanelController locController; 
 	private ConsolePanel logPanel;
 	private PositionMemoryDialog settingsDialog;
+	private ProcessorsDialog procs;
 	private final JFileChooser saveChooser;
 	private final JFileChooser loadChooser;
 
@@ -201,7 +161,12 @@ public class MainFrameController implements ActionListener {
 			JOptionPane.showMessageDialog(frame, ValidatorMain.ABOUT_MESSAGE);
 		}else if (command == MenuBar.CMD_RETURNABLES){
 			GetReturnables.process(doc.getInputStream());
+		}else if (command == MenuBar.CMD_PROCESSORS){
+			if (procs==null|| Setting.RegistryURL.getValue()!=procs.getRegistrySetting())
+				procs = new ProcessorsDialog(frame);
+			procs.setVisible(true);
 		}
+		
 	}
 
 	public void showLogPanel() {
