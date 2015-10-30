@@ -18,17 +18,18 @@ public class MenuBar extends JMenuBar{
 	/**
 	 * Commands definition
 	 */
-	public final static String CMD_OPEN		="MenuOpen";
-	public final static String CMD_OPENURL  ="MenuOpenUrl";
-	public final static String CMD_RELOAD	="MenuReload";
-	public final static String CMD_SAVE		="MenuSave";
-	public final static String CMD_REPORT	="MenuSaveReport";
-	public final static String CMD_EXIT		="MenuExit";
-	public final static String CMD_FINDNEXT	="MenuFindNext";
-	public final static String CMD_CONFIG	="MenuConfigure";
-	public final static String CMD_ABOUT	="MenuAbout";
-	public final static String CMD_USAGE	="MenuUsage";
-	public final static String CMD_LOG		="MenuLog";
+	public final static String CMD_OPEN			="MenuOpen";
+	public final static String CMD_OPENURL  	="MenuOpenUrl";
+	public final static String CMD_RELOAD		="MenuReload";
+	public final static String CMD_SAVE			="MenuSave";
+	public final static String CMD_REPORT		="MenuSaveReport";
+	public final static String CMD_EXIT			="MenuExit";
+	public final static String CMD_FINDNEXT		="MenuFindNext";
+	public final static String CMD_CONFIG		="MenuConfigure";
+	public final static String CMD_ABOUT		="MenuAbout";
+	public final static String CMD_USAGE		="MenuUsage";
+	public final static String CMD_LOG			="MenuLog";
+	public final static String CMD_RETURNABLES	="MenuReturnables";
 	
 	private static final long serialVersionUID = -6004839698908145L;
 	
@@ -36,7 +37,7 @@ public class MenuBar extends JMenuBar{
 
 	private JMenu		menuFile		=	new JMenu("File");
 	private	JMenu		menuEdit		=	new JMenu("Edit");
-	private	JMenu		menuSettings	=	new JMenu("Settings");
+	private	JMenu		menuSettings	=	new JMenu("Tools");
 	private JMenu		menuHelp		=	new JMenu("Help");
 
 
@@ -60,6 +61,7 @@ public class MenuBar extends JMenuBar{
 		// ---------- OPTIONS MENU
 		this.addJMenuItem(menuSettings, "Configure", CMD_CONFIG, "Modify configuration", KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
 		this.addJMenuItem(menuSettings, "Console", CMD_LOG, "Open log console", KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK);
+		this.addJMenuItem(menuSettings, "Returnables", CMD_RETURNABLES, "Get Returnables from the document", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
 		this.add(menuSettings);
 
 

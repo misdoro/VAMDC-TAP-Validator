@@ -69,6 +69,12 @@ public interface XSAMSIOModel{
 	 */
 	public int searchString(String word, int lineOffset, boolean ignoreCase);
 	
+	/**
+	 * Get an input stream allowing to read the temporary document.
+	 * @return the input stream allowing to read the entire document.
+	 */
+	public InputStream getInputStream();
+	
 
 	/**
 	 * Close everything

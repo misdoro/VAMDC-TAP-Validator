@@ -3,6 +3,7 @@ package org.vamdc.validator.storage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.vamdc.validator.Setting;
@@ -170,6 +171,13 @@ public class RawStorage extends OutputStream{
 			monitor.started();
 		else if (position%REPORT_INTERVAL_BYTES == 0)
 			monitor.tick();
+	}
+
+	public InputStream getInputStream() {
+		if (this.storageStream!=null)
+			return this.storageStream.getInputStream();
+		return null;
+		
 	}
 
 }

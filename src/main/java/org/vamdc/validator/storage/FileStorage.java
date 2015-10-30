@@ -2,9 +2,11 @@ package org.vamdc.validator.storage;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
@@ -93,6 +95,15 @@ public class FileStorage extends OutputStream implements DocumentStorage{
 		out.flush();
 		buf.close();
 		out.close();
+	}
+
+	@Override
+	public InputStream getInputStream() {
+		try {
+			return new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+		}
+		return null;
 	}
 
 		

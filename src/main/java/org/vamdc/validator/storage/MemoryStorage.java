@@ -1,10 +1,12 @@
 package org.vamdc.validator.storage;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
@@ -16,9 +18,9 @@ public class MemoryStorage extends ByteArrayOutputStream implements DocumentStor
 	public String getBlock(long startByte, int length) {
 		byte[] block;
 		if (startByte < 0 
-				|| startByte > (this.buf.length) 
+				|| startByte > (this.count) 
 				|| length <=0 
-				|| length > (this.buf.length - startByte)) 
+				|| length > (this.count - startByte)) 
 			return "";
 		
 		block = Arrays.copyOfRange(this.buf, (int)startByte, (int)startByte+length);
@@ -37,7 +39,7 @@ public class MemoryStorage extends ByteArrayOutputStream implements DocumentStor
 		IOException ex=null;
 		try {
 			fos = new FileOutputStream(filename);
-			fos.write(this.buf);
+			fos.write(this.buf,0,this.count);
 		}catch (IOException e) {
 			ex=e;
 		}finally{
@@ -55,7 +57,12 @@ public class MemoryStorage extends ByteArrayOutputStream implements DocumentStor
 
 	@Override
 	public long getSize() {
-		return (long)this.buf.length;
+		return (long)this.count;
+	}
+
+	@Override
+	public InputStream getInputStream() {
+		return new ByteArrayInputStream(this.buf,0,this.count);
 	}
 
 }

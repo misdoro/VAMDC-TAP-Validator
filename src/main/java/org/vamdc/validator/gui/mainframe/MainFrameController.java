@@ -32,6 +32,7 @@ import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.io.Input;
 import org.vamdc.validator.report.XMLReport;
 import org.vamdc.validator.source.XSAMSSourceException;
+import org.vamdc.validator.transform.GetReturnables;
 
 
 public class MainFrameController implements ActionListener {
@@ -198,6 +199,8 @@ public class MainFrameController implements ActionListener {
 			handleSaveReport();
 		}else if (command == MenuBar.CMD_ABOUT){
 			JOptionPane.showMessageDialog(frame, ValidatorMain.ABOUT_MESSAGE);
+		}else if (command == MenuBar.CMD_RETURNABLES){
+			GetReturnables.process(doc.getInputStream());
 		}
 	}
 

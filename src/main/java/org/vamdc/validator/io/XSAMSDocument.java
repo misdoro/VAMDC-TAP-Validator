@@ -61,6 +61,13 @@ public class XSAMSDocument implements XSAMSIOModel{
 			return storage.getLines((int) lineIndex, lineCount);
 		else return "";
 	}
+	
+	@Override
+	public InputStream getInputStream() {
+		if (storage!=null)
+			return storage.getInputStream();
+		return null;
+	}
 
 	@Override
 	public long getLineCount() {
@@ -298,6 +305,8 @@ public class XSAMSDocument implements XSAMSIOModel{
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+
+
 
 
 

@@ -3,6 +3,7 @@ package org.vamdc.validator.interfaces;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Interface for document intermediate storage, implemented in FileStorage and MemoryStorage
@@ -33,10 +34,16 @@ public interface DocumentStorage {
 	public void saveFile(File filename) throws FileNotFoundException, IOException;
 	
 	/**
-	 * Get size of stored document
+	 * Get size of the stored document
 	 * @return size of XSAMS document in bytes
 	 */
 	public long getSize();
+	
+	/**
+	 * Provide an InputStream to read the document contents
+	 * @return
+	 */
+	public InputStream getInputStream();
 	
 
 	
