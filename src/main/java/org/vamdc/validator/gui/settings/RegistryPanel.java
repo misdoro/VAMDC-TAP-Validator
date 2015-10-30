@@ -2,6 +2,8 @@ package org.vamdc.validator.gui.settings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
 
 import javax.swing.BoxLayout;
@@ -20,15 +22,13 @@ import org.vamdc.validator.gui.settings.FieldVerifier.Type;
 public class RegistryPanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 8296380326849668408L;
 	
-	private static final String registrySuffix = "services/RegistryQueryv1_0";
+	public static final String registrySuffix = "services/RegistryQueryv1_0";
 	
 	private SettingField regURL;
 	
 	private JButton reload;
-	
-	private Registry registry;
-	
-	private CapabilitiesField caps;
+		
+	private CapabilitiesField capabilitiesField;
 	
 	public RegistryPanel(Collection<SettingControl> fields, CapabilitiesField caps){
 		super();
@@ -41,32 +41,46 @@ public class RegistryPanel extends JPanel implements ActionListener{
 		reload.addActionListener(this);
 		this.add(reload);
 		
-		this.caps = caps;
+		this.capabilitiesField = caps;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		caps.load();
-		String reg = regURL.getText();
-		if (reg!=null && reg.length()>0){
-			try {
-				if (!reg.endsWith("/"))
-					reg+="/";
-				this.registry = RegistryFactory.getClient(reg+registrySuffix);
-			
-				if (registry!=null){
-					Collection<String> ivoaIDs=registry.getIVOAIDs(Service.VAMDC_TAP);
-					for (String id:ivoaIDs){
-						for (VamdcTapService mirror:registry.getMirrors(id)){
-							caps.addItem(mirror.CapabilitiesEndpoint.toString());
-						}
-					}
-				}
-			} catch (RegistryCommunicationException e1) {
-				JOptionPane.showMessageDialog(this, e1.getMessage());
+		try{
+			URL registryURL = getRegistryURL(regURL.getText());
+			Registry reg = RegistryFactory.getClient(registryURL);
+			if (reg!=null){
+				capabilitiesField.load();
+				loadFromRegistry(reg);
 			}
-			
+		} catch (MalformedURLException ex) {
+			JOptionPane.showMessageDialog(this, "Malformed registry URL"+ex.getMessage());
+			ex.printStackTrace();
+		} catch (RegistryCommunicationException e1) {
+			JOptionPane.showMessageDialog(this, e1.getMessage());
+			e1.printStackTrace();
 		}
+		
+	}
+
+	private void loadFromRegistry(Registry reg) {
+		if (reg!=null){
+			for (String id:reg.getIVOAIDs(Service.VAMDC_TAP)){
+				for (VamdcTapService mirror:reg.getMirrors(id)){
+					if (mirror.CapabilitiesEndpoint!=null)
+						capabilitiesField.addItem(mirror.CapabilitiesEndpoint.toString());
+				}
+			}
+		}
+	}
+
+	public static URL getRegistryURL(String regBase) throws MalformedURLException {
+		if (regBase!=null && regBase.length()>0){
+			if (!regBase.endsWith("/"))
+				regBase+="/";
+			return new URL(regBase+registrySuffix);
+		}
+		return null;
 	}
 
 }
