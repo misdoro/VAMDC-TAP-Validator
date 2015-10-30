@@ -18,8 +18,8 @@ public class ProcessorsTableModel extends AbstractTableModel{
 	
 	private ArrayList<Processor> processors=new ArrayList<Processor>();
 	
-	final static int COL_IVOAID=0;
-	final static int COL_TITLE=1;
+	final static int COL_IVOAID=1;
+	final static int COL_TITLE=0;
 	
 	private class Processor{
 		URI IVOAID;
