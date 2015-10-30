@@ -53,6 +53,7 @@ public enum Setting {
 	GUILogConsoleDim("guiLogConsoleDim",""),
 	GUISettingsDim("guiSettingsDim",""),
 	GUIMainDim("guiMainDim",""),
+	GUIProcessorsDim("guiProcsDim",""),
 	
 	GUISearchIgnoreCase("guiSearchIgnoreCase",false);
 

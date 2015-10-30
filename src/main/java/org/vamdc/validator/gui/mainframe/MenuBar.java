@@ -30,6 +30,7 @@ public class MenuBar extends JMenuBar{
 	public final static String CMD_USAGE		="MenuUsage";
 	public final static String CMD_LOG			="MenuLog";
 	public final static String CMD_RETURNABLES	="MenuReturnables";
+	public final static String CMD_PROCESSORS	="MenuProcs";
 	
 	private static final long serialVersionUID = -6004839698908145L;
 	
@@ -58,10 +59,11 @@ public class MenuBar extends JMenuBar{
 		this.addJMenuItem('E',menuEdit, "Find Next", CMD_FINDNEXT, "Find next item", KeyEvent.VK_F3, 0);
 		this.add(menuEdit);
 
-		// ---------- OPTIONS MENU
+		// ---------- Tools MENU
 		this.addJMenuItem(menuSettings, "Configure", CMD_CONFIG, "Modify configuration", KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
 		this.addJMenuItem(menuSettings, "Console", CMD_LOG, "Open log console", KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK);
-		this.addJMenuItem(menuSettings, "Returnables", CMD_RETURNABLES, "Get Returnables from the document", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
+		this.addJMenuItem(menuSettings, "Returnables", CMD_RETURNABLES, "Get Returnables from the document", -1,0);
+		this.addJMenuItem(menuSettings, "Processors", CMD_PROCESSORS, "Show available processors", -1,0);
 		this.add(menuSettings);
 
 
