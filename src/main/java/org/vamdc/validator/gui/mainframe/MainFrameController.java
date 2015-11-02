@@ -18,6 +18,7 @@ import javax.swing.text.JTextComponent;
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.ValidatorMain;
+import org.vamdc.validator.gui.LazyFileChooser;
 import org.vamdc.validator.gui.PositionMemoryDialog;
 import org.vamdc.validator.gui.console.ConsolePanel;
 import org.vamdc.validator.gui.processors.ProcessorsDialog;
@@ -89,15 +90,20 @@ public class MainFrameController implements ActionListener {
 	private ConsolePanel logPanel;
 	private PositionMemoryDialog settingsDialog;
 	private ProcessorsDialog procs;
-	private final JFileChooser saveChooser;
-	private final JFileChooser loadChooser;
+	private LazyFileChooser saveChooser = new LazyFileChooser(Setting.GUIFileSavePath);
+	private LazyFileChooser loadChooser = new LazyFileChooser(Setting.GUIFileOpenPath);
+	//private final JFileChooser saveChooser;
+	//private final JFileChooser loadChooser;
 
 	public MainFrameController(XSAMSIOModel doc,MainFrame frame){
 		this.doc=doc;
 		this.frame=frame;
 
-		settingsDialog = new SettingsDialog(frame,this);
 		logPanel = new ConsolePanel(frame);
+		settingsDialog = new SettingsDialog(frame,this);
+		procs = new ProcessorsDialog(frame);
+		
+		
 		if (Setting.GUILogConsole.getBool())
 			showLogPanel();
 
@@ -107,14 +113,6 @@ public class MainFrameController implements ActionListener {
 		new XsamsPanelController(frame.xsamsPanel,this.doc);
 		new ValidationPanelController(frame.valPanel,this.doc,frame.xsamsPanel);
 		new RestrictablesController(frame.restrictPanel,frame.getQueryField());
-
-		saveChooser = new JFileChooser();
-		File cdir = new File(Setting.GUIFileSavePath.getValue());
-		saveChooser.setCurrentDirectory(cdir);
-
-		loadChooser = new JFileChooser();
-		File fodir = new File(Setting.GUIFileOpenPath.getValue());
-		loadChooser.setCurrentDirectory(fodir);
 
 		locController = new LocatorPanelController(doc,frame.xsamsPanel);
 
@@ -156,8 +154,6 @@ public class MainFrameController implements ActionListener {
 		}else if (command == MenuBar.CMD_RETURNABLES){
 			GetReturnables.process(doc.getInputStream());
 		}else if (command == MenuBar.CMD_PROCESSORS){
-			if (procs==null|| Setting.RegistryURL.getValue()!=procs.getRegistrySetting())
-				procs = new ProcessorsDialog(frame);
 			procs.setVisible(true);
 		}
 		
@@ -233,10 +229,9 @@ public class MainFrameController implements ActionListener {
 
 			File filename = loadChooser.getSelectedFile();
 			if (filename.exists() && filename.canRead()&& inputThread==null){
-				//Save new file path
-				Setting.GUIFileOpenPath.saveValue(filename.getPath());
-
+				loadChooser.savePath();
 				asyncLoadFile(filename);
+				
 			}
 		}
 	}
@@ -354,9 +349,7 @@ public class MainFrameController implements ActionListener {
 					"File "+filename.getAbsolutePath()+" already exists! Overwrite?",
 					"Save",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)){
-
-				//Save path in preferences for future use
-				Setting.GUIFileSavePath.saveValue(filename.getPath());
+				saveChooser.savePath();
 				return filename;
 			}
 		}
