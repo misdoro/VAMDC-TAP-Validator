@@ -25,7 +25,7 @@ public class ConsolePanel extends PositionMemoryDialog{
 	private JPanel panel = new JPanel();
 
 	public ConsolePanel(Frame owner){
-		super("Log console",owner,Setting.GUILogConsoleDim);
+		super(owner,"Log console",Setting.GUILogConsoleDim);
 		initDialog();
 		initLayout();
 		initStreams();
@@ -77,14 +77,12 @@ public class ConsolePanel extends PositionMemoryDialog{
 	}
 
 	protected void initCloseEvent() {
-		this.addWindowListener(
-				new WindowAdapter(){
-					@Override
-					public void windowClosing(WindowEvent e){
-						Setting.GUILogConsole.saveValue(Boolean.FALSE);
-					}
-				}
-				);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Setting.GUILogConsole.saveValue(Boolean.FALSE);
+			}
+		});
 	}
 	
 

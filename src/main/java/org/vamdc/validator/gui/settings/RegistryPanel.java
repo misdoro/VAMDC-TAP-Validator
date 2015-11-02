@@ -50,7 +50,7 @@ public class RegistryPanel extends JPanel implements ActionListener{
 			URL registryURL = getRegistryURL(regURL.getText());
 			Registry reg = RegistryFactory.getClient(registryURL);
 			if (reg!=null){
-				capabilitiesField.load();
+				capabilitiesField.loadSetting();
 				loadFromRegistry(reg);
 			}
 		} catch (MalformedURLException ex) {

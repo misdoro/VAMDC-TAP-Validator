@@ -13,15 +13,20 @@ public class SettingCheckbox extends JCheckBox implements SettingControl{
 	public SettingCheckbox(Setting option,String label){
 		super(label);
 		this.option = option;
-		load();
+		loadSetting();
 	}
 	
-	public void load(){
+	public void loadSetting(){
 		this.setSelected(option.getBool());
 	}
 	
-	public void save(){
+	public void saveSetting(){
 		option.setValue(this.isSelected());
+	}
+
+	@Override
+	public boolean verifySetting() {
+		return this.isSelected() == option.getBool();
 	}
 	
 }

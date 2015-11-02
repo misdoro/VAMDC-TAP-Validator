@@ -16,15 +16,16 @@ public class PositionMemoryDialog extends JDialog{
 
 	protected WindowPositionHandler wph;
 	
-	public PositionMemoryDialog(String name, Frame owner, Setting dialogPosition){
+	public PositionMemoryDialog(Frame owner,String name, Setting dialogPosition){
 		super(owner,name);
 		wph = new WindowPositionHandler(this,dialogPosition);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 	
-	public void hideDialog(){
-		wph.saveDimensions();
-		this.setVisible(false);
+	@Override
+	public void setVisible(boolean b){
+		if (!b) wph.saveDimensions();
+		super.setVisible(b);
 	}
 	
 	

@@ -13,15 +13,22 @@ public class SettingField extends JTextField implements SettingControl{
 	public SettingField(Setting option){
 		super();
 		this.option = option;
-		load();
+		loadSetting();
 	}
 	
-	public void load(){
+	@Override
+	public void loadSetting(){
 		this.setText(option.getValue());
 	}
 	
-	public void save(){
+	@Override
+	public void saveSetting(){
 		option.setValue(this.getText());
+	}
+
+	@Override
+	public boolean verifySetting() {
+		return this.getText().equals(option.getValue());
 	}
 	
 }

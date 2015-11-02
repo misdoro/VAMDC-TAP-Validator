@@ -12,15 +12,20 @@ public class CapabilitiesField extends HistoryComboBox implements SettingControl
 	}
 
 	@Override
-	public void load() {
+	public void loadSetting() {
 		super.loadValues();
 		this.setText(Setting.ServiceVOSIURL.getValue());
 	}
 
 	@Override
-	public void save() {
+	public void saveSetting() {
 		Setting.ServiceVOSIURL.setValue(this.getText());
 		super.saveValue(this.getText());
+	}
+
+	@Override
+	public boolean verifySetting() {
+		return this.getText().equals(Setting.ServiceVOSIURL.getValue());
 	}
 	
 	

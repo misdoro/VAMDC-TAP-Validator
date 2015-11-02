@@ -1,6 +1,7 @@
 package org.vamdc.validator.gui.settings;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -29,15 +30,15 @@ import org.vamdc.validator.gui.settings.FieldVerifier.Type;
  * @author doronin
  *
  */
-public class SettingsPanel extends JPanel{
+public class SettingsPanel extends JPanel implements SettingControl{
 	private static final long serialVersionUID = -6257407488101227895L;
 
 	public static final String CMD_SAVE="Save";
 	public static final String CMD_RESET="Reset";
 	public static final String CMD_DEFAULTS="Defaults";
 
-	private MainFrameController main;
-	private SettingsPanelController control;
+	private MainFrameController mainController;
+	private SettingsPanelController myController;
 	
 	private Collection<SettingControl> fields = new ArrayList<SettingControl>();
 	private JRadioButton useNetMode,usePlugMode;
@@ -47,17 +48,12 @@ public class SettingsPanel extends JPanel{
 	//Button group for operation mode chooser
 	private ButtonGroup opModeGroup= new ButtonGroup();
 	
-	public SettingsPanel(MainFrameController main){
+	public SettingsPanel(MainFrameController main,	Dialog parentDialog){
 		super();
-		this.main = main;
-		init();
-	}
-	
-	private void init(){
-		control = new SettingsPanelController(main, this);
+		this.mainController = main;
+		this.myController = new SettingsPanelController(mainController, this,parentDialog);
 		initLayout();
-		loadSettings();
-		
+		loadSetting();
 	}
 	
 	private void initLayout(){
@@ -70,6 +66,10 @@ public class SettingsPanel extends JPanel{
 
 	}
 
+	public SettingsPanelController getController(){
+		return this.myController;
+	}
+	
 	/**
 	 * @return panel with schemaLocation input fields
 	 */
@@ -257,20 +257,19 @@ public class SettingsPanel extends JPanel{
 
 	private void addButton(JPanel buttonPanel, String command){
 		JButton newBtn = new JButton(command);
-		newBtn.addActionListener(control);
+		newBtn.addActionListener(myController);
 		buttonPanel.add(newBtn);
 	}
 
 	/**
 	 * Save settings from all fields into application-wide preferences
 	 */
-	public void saveSettings(){
+	@Override
+	public void saveSetting(){
 		
 		for (SettingControl field:fields){
-			field.save();
+			field.saveSetting();
 		}
-		
-		
 		
 		String opMode = OperationModes.network.name();
 		if(usePlugMode.isSelected())
@@ -290,12 +289,13 @@ public class SettingsPanel extends JPanel{
 	/**
 	 * Load all field values from properties
 	 */
-	public void loadSettings(){
+	@Override
+	public void loadSetting(){
 		
 		Setting.load();
 		
 		for (SettingControl field:fields){
-			field.load();
+			field.loadSetting();
 		}
 		
 		switch(OperationModes.valueOf(Setting.OperationMode.getValue())){
@@ -312,6 +312,18 @@ public class SettingsPanel extends JPanel{
 		}
 		
 		nsTableModel.setNSString(Setting.SchemaLocations.getValue());
+	}
+
+	/**
+	 * Return true if all components are in sync with the backing Settings
+	 */
+	@Override
+	public boolean verifySetting() {
+		for (SettingControl field:fields){
+			if (!field.verifySetting())
+				return false;
+		}
+		return true;
 	}
 
 }

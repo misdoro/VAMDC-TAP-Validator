@@ -97,7 +97,7 @@ public class MainFrameController implements ActionListener {
 		this.frame=frame;
 
 		settingsDialog = new SettingsDialog(frame,this);
-		initLog(frame);
+		logPanel = new ConsolePanel(frame);
 		if (Setting.GUILogConsole.getBool())
 			showLogPanel();
 
@@ -118,12 +118,6 @@ public class MainFrameController implements ActionListener {
 
 		locController = new LocatorPanelController(doc,frame.xsamsPanel);
 
-	}
-
-
-
-	private void initLog(MainFrame frame){
-		logPanel=new ConsolePanel(frame);
 	}
 
 	@Override
@@ -384,7 +378,6 @@ public class MainFrameController implements ActionListener {
 	 */
 	public void reloadComponents() throws Exception{
 		doc.reconfigure();
-		settingsDialog.hideDialog();
 		frame.resetComponent();
 	}
 
@@ -399,8 +392,8 @@ public class MainFrameController implements ActionListener {
 					}
 					@Override
 					public void windowClosing(WindowEvent e){
-						logPanel.hideDialog();
-						settingsDialog.hideDialog();
+						logPanel.setVisible(false);
+						settingsDialog.setVisible(false);
 						frame.wph.saveDimensions();
 					}
 				}

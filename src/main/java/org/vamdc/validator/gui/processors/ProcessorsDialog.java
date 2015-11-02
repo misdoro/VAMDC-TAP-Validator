@@ -10,7 +10,7 @@ public class ProcessorsDialog extends PositionMemoryDialog {
 	private ProcessorsPanel panel = new ProcessorsPanel(this);
 	
 	public ProcessorsDialog(Frame owner) {
-		super("Processors", owner, Setting.GUIProcessorsDim);
+		super(owner,"Processors", Setting.GUIProcessorsDim);
 		this.setContentPane(panel);
 		this.setModal(true);
 		wph.loadDimensions();
