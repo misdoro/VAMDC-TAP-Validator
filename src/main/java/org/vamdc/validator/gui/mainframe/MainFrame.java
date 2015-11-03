@@ -43,7 +43,6 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public final ValidationPanel valPanel = new ValidationPanel();
 	public final RestrictsPanel restrictPanel = new RestrictsPanel();
 	public final MainFrame frame = this;
-	public final WindowPositionHandler wph = new WindowPositionHandler(this,Setting.GUIMainDim);
 	
 	private final QueryField query = new QueryField();
 	private transient XSAMSIOModel document;
@@ -59,6 +58,19 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public MainFrame(){
 		super("VAMDC-TAP service validation GUI");
 		this.document = new XSAMSDocument();
+		
+		//TODO: this should be split into a separate thread to speed-up the startup
+		SwingUtilities.invokeLater(
+				new Runnable(){
+				@Override
+				public void run() {
+					try{
+						document.reconfigure();
+						frame.resetComponent();
+					}catch(Exception e){
+						
+					}
+				}});
 		
 		//Set controller
 		this.controller = new MainFrameController(document,this);
@@ -80,7 +92,8 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		this.setPreferredSize(new Dimension(800, 600));
 		
 		this.setIconImage(getIcoImage());
-		wph.loadDimensions();
+		
+		new WindowPositionHandler(this,Setting.GUIMainDim).loadDimensions();
 		this.setVisible(true);
 		
 	}

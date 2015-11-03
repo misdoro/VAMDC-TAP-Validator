@@ -1,58 +1,56 @@
 package org.vamdc.validator.gui.processors;
 
-import java.awt.BorderLayout;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-import javax.swing.JDialog;
+import java.awt.BorderLayout;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
-import org.vamdc.registry.client.Registry;
-import org.vamdc.registry.client.RegistryCommunicationException;
-import org.vamdc.registry.client.RegistryFactory;
-import org.vamdc.validator.Setting;
-import org.vamdc.validator.gui.settings.RegistryPanel;
 
 public class ProcessorsPanel extends JPanel{
 	private static final long serialVersionUID = 1631879366858257558L;
 	
-	private ProcessorsTableModel tablemod;
+	private AbstractTableModel tablemod;
+	private ProcessorsController controller;
 	private JTable procTable;
-	private JDialog mydialog;
-	private String registrySetting;
+	private JLabel registryLabel;
 	
 	
 	public ProcessorsPanel(ProcessorsDialog processorsDialog){
-		super(new BorderLayout());
-		this.mydialog=processorsDialog;
-		try {
-			registrySetting = Setting.RegistryURL.getValue();
-			URL regURL = RegistryPanel.getRegistryURL(registrySetting);
-			Registry reg = RegistryFactory.getClient(regURL);
-			
-			tablemod=new ProcessorsTableModel(reg);
-			procTable = new JTable(tablemod);
-			JScrollPane tablePane = new JScrollPane(procTable);
-			this.add(tablePane,BorderLayout.CENTER);
-			
-			this.add(new ProcessorsSavePanel(mydialog,procTable,tablemod),BorderLayout.SOUTH);
-			
-		} catch (RegistryCommunicationException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			mydialog.setVisible(false);
-		}
+		super();
+		this.setLayout(new BorderLayout());
+		
+		this.controller = new ProcessorsController(this);
+		this.procTable = new JTable(new WaitingTableModel("Waiting for the registry..."));
+		this.registryLabel = new JLabel("Registry: ");
+		
+		this.add(new JScrollPane(this.procTable),BorderLayout.CENTER);
+		this.add(this.registryLabel,BorderLayout.NORTH);
+		this.add(new ProcessorsSavePanel(this.controller),BorderLayout.SOUTH);
+		
 	}
 	
-	public String getRegistrySetting(){
-		return registrySetting;
-	}
-
 	public int[] getSelectedRows(){
 		return procTable.getSelectedRows();
 	}
+	
+	public AbstractTableModel getTableModel(){
+		return tablemod;
+	}
+
+	public void setModel(AbstractTableModel tablemodel) {
+		this.procTable.setModel(tablemodel);
+		this.tablemod = tablemodel;
+		this.procTable.validate();
+	}
+	
+	public void setRegistryLabel(String label){
+		this.registryLabel.setText("Registry: "+label);
+	}
+	
+	
 
 }

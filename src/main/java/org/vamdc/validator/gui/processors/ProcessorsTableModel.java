@@ -16,12 +16,12 @@ public class ProcessorsTableModel extends AbstractTableModel{
 
 	private Registry registryClient;
 	
-	private ArrayList<Processor> processors=new ArrayList<Processor>();
+	protected ArrayList<Processor> processors=new ArrayList<Processor>();
 	
 	final static int COL_IVOAID=1;
 	final static int COL_TITLE=0;
 	
-	private class Processor{
+	class Processor{
 		URI IVOAID;
 		String title;
 		
@@ -35,7 +35,7 @@ public class ProcessorsTableModel extends AbstractTableModel{
 		}
 		
 	}
-	
+		
 	public ProcessorsTableModel(Registry regclient){
 		this.registryClient=regclient;
 		for (String civoaid:registryClient.getIVOAIDs(Service.CONSUMER)){
@@ -61,7 +61,7 @@ public class ProcessorsTableModel extends AbstractTableModel{
 		case COL_IVOAID:
 			return "IVOA ID";
 		case COL_TITLE:
-			return "Title";
+			return "Processor title";
 		}
 		return "";
 	}
@@ -79,6 +79,18 @@ public class ProcessorsTableModel extends AbstractTableModel{
 		}
 		return null;
 	}
+	
+	@Override
+	public String toString(){
+		StringBuilder result = new StringBuilder();
+		for (Processor proc:processors){
+			result.append("\"").append(proc.IVOAID).append("\",\"").append(escapeCell(proc.title)).append("\"\n");
+		}
+		return result.toString();
+	}
 
+	private String escapeCell(String value){
+		return value.replace("\"", "\\\"");
+	}
 
 }

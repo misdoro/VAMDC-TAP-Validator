@@ -137,13 +137,6 @@ public class XSAMSDocument implements XSAMSIOModel{
 	 * Default constructor
 	 */
 	public XSAMSDocument(){
-		try{
-			reconfigure();
-		}catch (XSAMSSourceException e){
-			errorMsg = e.getMessage();
-		} catch (XSAMSValidatorException e) {
-			errorMsg = e.getMessage();
-		}
 	}
 
 	private XSAMSSource source;

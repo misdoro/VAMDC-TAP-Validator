@@ -44,6 +44,7 @@ public enum Setting {
 
 	GUIFileSavePath("guifileSavePath",""),
 	GUIFileOpenPath("guifileOpenPath",""),
+	GUIFileProcessors("guifileProcessors",""),
 	GUIQueryHistory("guiqueries","Select * where AtomSymbol='Fe';"),
 
 	GUIVOSIHistory("guiVOSIHistory",""),

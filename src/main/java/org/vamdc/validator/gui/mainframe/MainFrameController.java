@@ -92,8 +92,6 @@ public class MainFrameController implements ActionListener {
 	private ProcessorsDialog procs;
 	private LazyFileChooser saveChooser = new LazyFileChooser(Setting.GUIFileSavePath);
 	private LazyFileChooser loadChooser = new LazyFileChooser(Setting.GUIFileOpenPath);
-	//private final JFileChooser saveChooser;
-	//private final JFileChooser loadChooser;
 
 	public MainFrameController(XSAMSIOModel doc,MainFrame frame){
 		this.doc=doc;
@@ -130,8 +128,9 @@ public class MainFrameController implements ActionListener {
 				doc.stopQuery();
 			}
 		}else if (command == MenuBar.CMD_EXIT){
-			if (JOptionPane.showConfirmDialog(frame, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
-				System.exit(0);
+			if (JOptionPane.showConfirmDialog(frame, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+			}
 		}else if (command == MenuBar.CMD_FINDNEXT){
 			frame.xsamsPanel.searchNext();
 		}else if (command == MenuBar.CMD_CONFIG){
@@ -314,7 +313,7 @@ public class MainFrameController implements ActionListener {
 	 * Handle file save action
 	 */
 	private void handleFileSave() {
-		File filename=pickFilename(doc.getFilename());
+		File filename= saveChooser.pickAFileName(frame,doc.getFilename());
 		if (filename!=null){
 			//Tell storage to save file
 			try{
@@ -336,31 +335,13 @@ public class MainFrameController implements ActionListener {
 		});
 	}
 
-	private File pickFilename(String nameSuggestion) {
-		File filename=null;
-		saveChooser.setSelectedFile(new File(nameSuggestion));
-		//Show save dialog
-		if(saveChooser.showSaveDialog(frame)==JFileChooser.APPROVE_OPTION){
-			//If selected file
-			filename = saveChooser.getSelectedFile();
-			//Check if file exists, ask user to overwrite
-			if (!filename.exists() || (filename.exists() && JOptionPane.showConfirmDialog(
-					frame,
-					"File "+filename.getAbsolutePath()+" already exists! Overwrite?",
-					"Save",
-					JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)){
-				saveChooser.savePath();
-				return filename;
-			}
-		}
-		return null;
-	}
+	
 
 	/**
 	 * Handle save validation report 
 	 */
 	private void handleSaveReport(){
-		File filename = pickFilename(doc.getFilename()+".report.xml");
+		File filename = saveChooser.pickAFileName(frame, doc.getFilename()+".report.xml");
 		if (filename!=null){
 			new XMLReport(doc,filename,doc.getFilename()).write();
 		}
@@ -387,7 +368,6 @@ public class MainFrameController implements ActionListener {
 					public void windowClosing(WindowEvent e){
 						logPanel.setVisible(false);
 						settingsDialog.setVisible(false);
-						frame.wph.saveDimensions();
 					}
 				}
 				);

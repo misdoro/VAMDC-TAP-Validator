@@ -22,11 +22,4 @@ public class PositionMemoryDialog extends JDialog{
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 	
-	@Override
-	public void setVisible(boolean b){
-		if (!b) wph.saveDimensions();
-		super.setVisible(b);
-	}
-	
-	
 }
