@@ -1,6 +1,5 @@
 package org.vamdc.validator.gui.console;
 
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -22,20 +21,16 @@ public class ConsolePanel extends PositionMemoryDialog{
 	private static final long serialVersionUID = 5729446011617248198L;
 
 	private JTextArea text = new JTextArea();
-	private JPanel panel = new JPanel();
 
 	public ConsolePanel(Frame owner){
 		super(owner,"Log console",Setting.GUILogConsoleDim);
-		initDialog();
-		initLayout();
+
 		initStreams();
-		initCloseEvent();
-		wph.loadDimensions();
+		if (Setting.GUILogConsole.getBool())
+			this.setVisible(true);
 	}
 
-	private void initDialog() {
-		this.setContentPane(panel);
-	}
+
 
 	private void initStreams() {
 		System.out.println("Switching output to GUI Console (ctrl-t to show)");
@@ -45,13 +40,17 @@ public class ConsolePanel extends PositionMemoryDialog{
 		this.clear();
 	}
 
-	private void initLayout(){
+	protected JPanel lazyInitLayout(){
+		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-
-		JScrollPane scroll = new JScrollPane(text);
 		text.setEditable(false);
-		panel.add(scroll);
-		panel.setPreferredSize(new Dimension(640,480));
+		panel.add(new JScrollPane(text));
+		
+		//panel.setPreferredSize(new Dimension(640,480));
+
+		initCloseEvent();
+		
+		return panel;
 	}
 
 	private static class TextPrinter extends FilterOutputStream{

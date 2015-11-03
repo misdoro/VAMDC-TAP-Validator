@@ -1,6 +1,5 @@
 package org.vamdc.validator.gui.settings;
 
-import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -102,8 +102,7 @@ public class MainFrameController implements ActionListener {
 		procs = new ProcessorsDialog(frame);
 		
 		
-		if (Setting.GUILogConsole.getBool())
-			showLogPanel();
+
 
 		initCloseEvent();
 
@@ -151,7 +150,7 @@ public class MainFrameController implements ActionListener {
 			settingsDialog.setVisible(true);
 		}else if (command == MenuBar.CMD_LOG){
 			Setting.GUILogConsole.saveValue(true);
-			showLogPanel();
+			logPanel.setVisible(true);
 		}else if (command == MenuBar.CMD_OPEN){
 			handleFileOpen();
 		}else if (command == MenuBar.CMD_OPENURL){

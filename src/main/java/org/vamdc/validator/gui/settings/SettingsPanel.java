@@ -37,7 +37,6 @@ public class SettingsPanel extends JPanel implements SettingControl{
 	public static final String CMD_RESET="Reset";
 	public static final String CMD_DEFAULTS="Defaults";
 
-	private MainFrameController mainController;
 	private SettingsPanelController myController;
 	
 	private Collection<SettingControl> fields = new ArrayList<SettingControl>();
@@ -48,9 +47,8 @@ public class SettingsPanel extends JPanel implements SettingControl{
 	//Button group for operation mode chooser
 	private ButtonGroup opModeGroup= new ButtonGroup();
 	
-	public SettingsPanel(MainFrameController main,	Dialog parentDialog){
+	public SettingsPanel(MainFrameController mainController,	Dialog parentDialog){
 		super();
-		this.mainController = main;
 		this.myController = new SettingsPanelController(mainController, this,parentDialog);
 		initLayout();
 		loadSetting();

@@ -20,13 +20,11 @@ public class WindowPositionHandler {
 	}
 	
 	public void saveDimensions(){
-		System.out.println("Saving dimensions for "+slaveWindow.getClass());
 		Rectangle pos = slaveWindow.getBounds();
 		dimensionOption.saveObject(pos);
 	}
 	
 	public void loadDimensions(){
-		System.out.println("Loading dimensions for "+slaveWindow.getClass());
 		Object pos = dimensionOption.loadObject();
 		slaveWindow.pack();
 		if (pos instanceof Rectangle){
