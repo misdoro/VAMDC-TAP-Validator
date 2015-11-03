@@ -8,6 +8,11 @@ package org.vamdc.validator.interfaces;
 public interface ProgressMonitor {
 
 	/**
+	 * Method called when the model has finished the initialization
+	 */
+	public void init();
+	
+	/**
 	 * Method called when Model starts fetching XSAMS document
 	 */
 	public void started();

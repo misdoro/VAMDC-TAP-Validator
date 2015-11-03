@@ -59,18 +59,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		super("VAMDC-TAP service validation GUI");
 		this.document = new XSAMSDocument();
 		
-		//TODO: this should be split into a separate thread to speed-up the startup
-		SwingUtilities.invokeLater(
-				new Runnable(){
-				@Override
-				public void run() {
-					try{
-						document.reconfigure();
-						frame.resetComponent();
-					}catch(Exception e){
-						
-					}
-				}});
+		
 		
 		//Set controller
 		this.controller = new MainFrameController(document,this);
@@ -228,6 +217,16 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 			comp.updateFromModel(isFinal);
 	}
 
+	
+	@Override
+	public void init() {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				resetComponent();
+			}}
+		);
+	}
+	
 	@Override
 	public void started() {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -266,5 +265,9 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 			}}
 		);
 	}
+
+
+
+
 	
 }

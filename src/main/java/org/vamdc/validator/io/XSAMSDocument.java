@@ -137,6 +137,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 	 * Default constructor
 	 */
 	public XSAMSDocument(){
+		
 	}
 
 	private XSAMSSource source;
@@ -266,6 +267,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 		//Setup XSAMS source
 		source = setupSource();
 
+		monitor.init();
 	}
 
 	@Override

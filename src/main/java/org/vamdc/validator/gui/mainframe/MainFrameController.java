@@ -114,6 +114,20 @@ public class MainFrameController implements ActionListener {
 
 		locController = new LocatorPanelController(doc,frame.xsamsPanel);
 
+		asyncReconfigure();
+	}
+	
+	private void asyncReconfigure() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					doc.reconfigure();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	@Override
