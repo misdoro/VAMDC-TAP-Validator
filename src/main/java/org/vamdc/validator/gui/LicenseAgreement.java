@@ -3,6 +3,7 @@ package org.vamdc.validator.gui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
@@ -34,7 +35,7 @@ public class LicenseAgreement {
 	private static Boolean acceptLicenseAgreement(Component parent){
 		JEditorPane editorPane = new JEditorPane();
 	    editorPane.setEditable(false);
-	    java.net.URL helpURL = LicenseAgreement.class.getResource("/disclaimer.html");
+	    URL helpURL = LicenseAgreement.class.getResource("/disclaimer.html");
 	      
 	    if (helpURL != null) {
 	    	try {
@@ -52,9 +53,8 @@ public class LicenseAgreement {
 	    scrollPane.setPreferredSize(new Dimension(800, 600));
 	      
 	    Object[] options = { "I accept", "I do not accept" };
-	    int result = JOptionPane.showOptionDialog(parent, scrollPane, "Terms and Conditions",
+	    return JOptionPane.OK_OPTION == JOptionPane.showOptionDialog(parent, scrollPane, "Terms and Conditions",
 	    		  			JOptionPane.OK_CANCEL_OPTION , JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
-	    return result == 0;
 	}
 	
 }
