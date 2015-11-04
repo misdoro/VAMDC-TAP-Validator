@@ -62,7 +62,7 @@ public class MenuBar extends JMenuBar{
 		// ---------- Tools MENU
 		this.addJMenuItem(menuSettings, "Configure", CMD_CONFIG, "Modify configuration", KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
 		this.addJMenuItem(menuSettings, "Console", CMD_LOG, "Open log console", KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK);
-		this.addJMenuItem(menuSettings, "Returnables", CMD_RETURNABLES, "Get Returnables from the document", -1,0);
+		//this.addJMenuItem(menuSettings, "Returnables", CMD_RETURNABLES, "Get Returnables from the document", -1,0);
 		this.addJMenuItem(menuSettings, "Processors", CMD_PROCESSORS, "Show available processors", -1,0);
 		this.add(menuSettings);
 
