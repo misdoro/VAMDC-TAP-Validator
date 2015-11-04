@@ -65,7 +65,6 @@ public class SearchPanel extends JPanel implements ActionListener, CaretListener
 			oldSearch=newSearch;
 			searcher.searchString(newSearch, ignoreCase.isSelected(), false);
 		}
-		System.out.println(e.toString()+newSearch);
 	}
 
 }
