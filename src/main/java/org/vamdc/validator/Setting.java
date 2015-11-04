@@ -56,7 +56,9 @@ public enum Setting {
 	GUIMainDim("guiMainDim",""),
 	GUIProcessorsDim("guiProcsDim",""),
 	
-	GUISearchIgnoreCase("guiSearchIgnoreCase",false);
+	GUISearchIgnoreCase("guiSearchIgnoreCase",false),
+	GUISearchInteractive("guiSearchInteractive",true),
+	
 
 	;
 

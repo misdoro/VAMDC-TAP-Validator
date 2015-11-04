@@ -40,12 +40,16 @@ public abstract class TextSearchPanel extends TextPanel implements SearchInterfa
 	}
 	
 	@Override
-	public void searchString(String search,boolean ignoreCase){
+	public void searchString(String search,boolean ignoreCase,boolean searchNext){
 		this.searchString=search;
-		this.searchStringLowCase=search.toLowerCase();
+		if (ignoreCase)
+			this.searchStringLowCase=search.toLowerCase();
 		this.searchIgnoreCase=ignoreCase;
 		this.highlightUpdate();
-		searchNext();
+		if (searchNext)
+			this.searchNext();
+		else
+			this.searchHere();
 	}
 	
 	private void highlightSearchResult() {
@@ -58,7 +62,7 @@ public abstract class TextSearchPanel extends TextPanel implements SearchInterfa
 			}
 			int start=0,position = 0;
 
-			while((position=text.indexOf(searchString, start))>=0){
+			while((position=text.indexOf(searchText, start))>=0){
 				try {
 					hl.addHighlight(position,position+searchText.length(), 
 							new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY));
@@ -70,19 +74,22 @@ public abstract class TextSearchPanel extends TextPanel implements SearchInterfa
 		}
 	}
 	
+	public void searchHere(){
+		this.centerLine(this.searchNext(this.getCenterLine()-1,true));
+	}
 	
 	@Override
 	public void searchNext(){
-		this.centerLine(this.searchNext(this.getCenterLine()));
+		this.centerLine(this.searchNext(this.getCenterLine(),false));
 	}
 	
-	private int searchNext(int startLine){
+	private int searchNext(int startLine,boolean silent){
 		if (this.searchString==null || this.searchString.isEmpty()) return -1;
 		int foundLine = this.searchString(this.searchString, startLine,this.searchIgnoreCase);
-		if (foundLine==-1 && startLine>1){
+		if (foundLine==-1 && startLine>1 && !silent){
 			switch (JOptionPane.showConfirmDialog(
 					this,
-					"String "+this.searchString+" not found, start from the beginning?",
+					"String \""+this.searchString+"\" not found, start from the beginning?",
 					"Search",
 					JOptionPane.YES_NO_OPTION))
 					{
@@ -93,12 +100,15 @@ public abstract class TextSearchPanel extends TextPanel implements SearchInterfa
 						return -1;
 					}
 		}
-		if (foundLine==-1){
-			final String message="String "+this.searchString+" not found.";
+		if (foundLine==-1 && !silent){
+			final String message="String \""+this.searchString+"\" not found.";
 			JOptionPane.showMessageDialog(this, message,"Search",JOptionPane.ERROR_MESSAGE);
 			return -1;
 		}
 
+		if (foundLine==-1 && silent){
+			return startLine;
+		}
 		return foundLine;
 	}
 	
