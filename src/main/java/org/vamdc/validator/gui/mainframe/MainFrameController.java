@@ -100,7 +100,7 @@ public class MainFrameController implements ActionListener {
 		logPanel = new ConsolePanel(frame);
 		settingsDialog = new SettingsDialog(frame,this);
 		procs = new ProcessorsDialog(frame);
-		
+		frame.addNotifiedChild(procs);
 		
 
 
@@ -116,7 +116,7 @@ public class MainFrameController implements ActionListener {
 		asyncReconfigure();
 	}
 	
-	private void asyncReconfigure() {
+	public void asyncReconfigure() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -359,16 +359,6 @@ public class MainFrameController implements ActionListener {
 			new XMLReport(doc,filename,doc.getFilename()).write();
 		}
 	}
-
-	/**
-	 * Update child components, reload settings.
-	 */
-	public void reloadComponents() throws Exception{
-		doc.reconfigure();
-		frame.resetComponent();
-	}
-
-
 
 	private void initCloseEvent() {
 		frame.addWindowListener(

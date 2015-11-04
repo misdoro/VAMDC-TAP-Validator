@@ -72,6 +72,11 @@ public class PluginXSAMSSource implements XSAMSSource{
 	}
 
 	@Override
+	public Collection<String> getPreferredProcessors() {
+		return Collections.emptyList();
+	}
+	
+	@Override
 	public Map<HeaderMetrics, String> getMetrics(String query) throws XSAMSSourceException {
 		RequestProcess myrequest = prepareRequest(query);
 		
@@ -88,5 +93,6 @@ public class PluginXSAMSSource implements XSAMSSource{
 		}
 		return result;
 	}
-	
+
+
 }

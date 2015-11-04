@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.io.input.TeeInputStream;
@@ -226,7 +226,6 @@ public class XSAMSDocument implements XSAMSIOModel{
 		default:
 			break;
 		}
-
 		return src;
 	}
 
@@ -272,19 +271,25 @@ public class XSAMSDocument implements XSAMSIOModel{
 
 	@Override
 	public Collection<String> getRestrictables() {
-		Collection<String> restrict = new ArrayList<String>();
 		if (source!=null)
-			restrict.addAll(source.getRestrictables());
-		return restrict;
+			return Collections.unmodifiableCollection(source.getRestrictables());
+		return Collections.emptyList();
 	}
 
 	@Override
 	public Collection<String> getSampleQueries() {
-		Collection<String> queries = new ArrayList<String>();
-		if (source!=null && source.getSampleQueries()!=null)
-			queries.addAll(source.getSampleQueries());
-		return queries;
+		if (source!=null)
+			return Collections.unmodifiableCollection(source.getSampleQueries());
+		return Collections.emptyList();
 	}
+	
+	@Override
+	public Collection<String> getPreferredProcessors() {
+		if (source!=null)
+			return Collections.unmodifiableCollection(source.getPreferredProcessors());
+		return Collections.emptyList();
+	}
+	
 
 	@Override
 	public String getQuery() {
@@ -300,6 +305,8 @@ public class XSAMSDocument implements XSAMSIOModel{
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+
+
 
 
 

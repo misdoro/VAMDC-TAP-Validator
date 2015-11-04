@@ -86,6 +86,11 @@ public class HttpXSAMSSource implements XSAMSSource {
 	public Collection<String> getSampleQueries() {
 		return caps.getSampleQueries();
 	}
+	
+	@Override
+	public Collection<String> getPreferredProcessors() {
+		return caps.getPreferredProcessors();
+	}
 
 
 	
@@ -197,6 +202,8 @@ public class HttpXSAMSSource implements XSAMSSource {
 		}
 		return result;
 	}
+
+
 
 
 

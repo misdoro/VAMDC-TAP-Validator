@@ -41,7 +41,7 @@ public class ValidationPanelController extends TextPanelController{
 			eth.exportToClipboard(panel, panel.getToolkit().getSystemClipboard(),
 					TransferHandler.COPY);
 		}else if (clickedError.getType()==Type.search){
-			xsamsPanel.searchString(clickedError.getSearchString(), false);
+			xsamsPanel.searchString(clickedError.getSearchString(), false,true);
 		}
 
 	}

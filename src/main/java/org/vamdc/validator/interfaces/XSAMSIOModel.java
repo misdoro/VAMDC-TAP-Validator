@@ -111,6 +111,12 @@ public interface XSAMSIOModel{
 	public Collection<String> getSampleQueries();
 	
 	/**
+	 * Get preferred processors defined by an xsams source
+	 * @return collection of the preferred processor IVOAIDs
+	 */
+	public abstract Collection<String> getPreferredProcessors();
+	
+	/**
 	 * Load XSAMS document from disk 
 	 * @param xsamsDocument file containing XSAMS document
 	 * @return loaded lines count

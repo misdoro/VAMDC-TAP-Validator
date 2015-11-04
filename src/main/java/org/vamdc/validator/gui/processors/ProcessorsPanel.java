@@ -2,6 +2,9 @@ package org.vamdc.validator.gui.processors;
 
 
 import java.awt.BorderLayout;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,7 +20,7 @@ public class ProcessorsPanel extends JPanel{
 	private ProcessorsController controller;
 	private JTable procTable;
 	private JLabel registryLabel;
-	
+	private Set<String> nodeProcessors;
 	
 	public ProcessorsPanel(ProcessorsDialog processorsDialog){
 		super();
@@ -45,12 +48,30 @@ public class ProcessorsPanel extends JPanel{
 		this.procTable.setModel(tablemodel);
 		this.tablemod = tablemodel;
 		this.procTable.validate();
+		updateSelectedProcessors();
 	}
 	
 	public void setRegistryLabel(String label){
 		this.registryLabel.setText("Registry: "+label);
 	}
 	
-	
+	public void updateSelectedProcessors(){
+
+		if (nodeProcessors!=null && this.tablemod instanceof ProcessorsTableModel){
+			procTable.clearSelection();
+			int length=tablemod.getRowCount();
+			for (int i=0;i<length;i++){
+				String value = tablemod.getValueAt(i,ProcessorsTableModel.COL_IVOAID).toString();
+				if (nodeProcessors.contains(value)){
+					procTable.addRowSelectionInterval(i, i);
+				}
+			}
+		}
+	}
+
+	public void setNodeProcessors(Collection<String> nodeProcessors) {
+		this.nodeProcessors = new TreeSet<String>(nodeProcessors);
+		updateSelectedProcessors();
+	}
 
 }

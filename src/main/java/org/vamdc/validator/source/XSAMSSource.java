@@ -34,6 +34,12 @@ public interface XSAMSSource{
 	public abstract Collection<String> getSampleQueries();
 	
 	/**
+	 * Get preferred processors
+	 * @return collection of the preferred processor IVOAIDs
+	 */
+	public abstract Collection<String> getPreferredProcessors();
+	
+	/**
 	 * Get estimated result document metrics
 	 * @param query VSS query to give to plugin
 	 * @return map of header keywords and their integer values

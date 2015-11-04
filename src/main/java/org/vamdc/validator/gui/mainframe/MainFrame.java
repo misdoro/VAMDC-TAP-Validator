@@ -99,6 +99,13 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 		return query.getText();
 	}
 	
+	public void addNotifiedChild(ComponentUpdateInterface component){
+		if (component!=null){
+			this.childComponents.add(component);
+			component.setModel(this.document);
+		}
+			
+	}
 	
     private static Image getIcoImage() {
         URL imgURL = MainFrame.class.getResource(ICON_PATH);
@@ -222,7 +229,7 @@ public class MainFrame extends JFrame implements ComponentUpdateInterface, Progr
 	public void init() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				resetComponent();
+				frame.resetComponent();
 			}}
 		);
 	}

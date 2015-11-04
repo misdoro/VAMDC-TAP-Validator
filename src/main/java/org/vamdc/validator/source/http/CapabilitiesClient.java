@@ -27,6 +27,7 @@ public class CapabilitiesClient {
 	private String vTapEndpoint;
 	private Collection<String> restrictables;
 	private Collection<String> sampleQueries;
+	private Collection<String> processors;
 	
 	public CapabilitiesClient(String endpointURL) throws XSAMSSourceException{
 		Capabilities caps;
@@ -37,6 +38,7 @@ public class CapabilitiesClient {
 		}
 		restrictables=new ArrayList<String>();
 		sampleQueries=new ArrayList<String>();
+		processors=new ArrayList<String>();
 		
 		for (Capability cap:caps.getCapability()){
 			if (STDIDAvailability.equals(cap.getStandardID())){
@@ -46,8 +48,10 @@ public class CapabilitiesClient {
 			}else if (cap instanceof VamdcTap){
 				vTapEndpoint = extractAccessUrl(cap);
 				VamdcTap vts = (VamdcTap)cap;
+				
 				restrictables.addAll(vts.getRestrictable());
 				sampleQueries.addAll(vts.getSampleQuery());
+				processors.addAll(vts.getApplication());
 			}
 		}
 		validateVariables(endpointURL);
@@ -79,9 +83,12 @@ public class CapabilitiesClient {
 	public String getCapabilitiesEndpoint(){ return endpointCapab; }
 	public Collection<String> getRestrictables(){ return restrictables; }
 	public Collection<String> getSampleQueries(){ return sampleQueries; }
+	public Collection<String> getPreferredProcessors() { return processors; }
 	
 	public static CapabilitiesClient empty(){
 		return new CapabilitiesClient();
 	}
+
+
 	
 }
