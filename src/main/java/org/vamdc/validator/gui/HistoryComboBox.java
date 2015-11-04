@@ -7,7 +7,7 @@ import javax.swing.JComboBox;
 
 import org.vamdc.validator.Setting;
 
-public class HistoryComboBox extends JComboBox{
+public class HistoryComboBox extends JComboBox<String>{
 
 	private static final long serialVersionUID = 7778562723435344834L;
 	private String separator;
@@ -49,7 +49,7 @@ public class HistoryComboBox extends JComboBox{
 	 * Verify if an object is not yet in the list of elements
 	 */
 	@Override
-	public void addItem(Object anObject) {
+	public void addItem(String anObject) {
 		for (Object item:items){
 			if (item.equals(anObject))
 				return;
