@@ -81,7 +81,7 @@ public class SettingsPanelController extends WindowAdapter implements ActionList
 		panel.loadSetting();
 		//reconfigure model
 		try{
-			main.asyncReconfigure();
+			main.asyncDocReconfigure();
 			hideParentDialog();
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(panel,"Exception while applying new settings: "+ex.getMessage(), "Settings",JOptionPane.ERROR_MESSAGE);

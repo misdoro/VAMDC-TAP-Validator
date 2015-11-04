@@ -53,7 +53,7 @@ public class ValidatorMain{
 			proc = new CLIProcess(parser);
 		}
 
-		final String[] remainder = parser.getRemainingArgs();
+		final String[] remainingArguments = parser.getRemainingArgs();
 		
 		if (proc.getStatus() == CLIProcess.STATUS_DONE_NOTHING){
 			System.out.println("Starting GUI");
@@ -64,10 +64,8 @@ public class ValidatorMain{
 					if (!LicenseAgreement.verify(frame))
 						System.exit(0);
 					
-					if (Setting.GUILogConsole.getBool())
-						frame.controller.showLogPanel();
-					if (remainder!=null && remainder.length>0)
-						frame.controller.asyncLoadFile(new File(remainder[0]));
+					if (remainingArguments!=null && remainingArguments.length>0)
+						frame.controller.asyncLoadFile(new File(remainingArguments[0]));
 				}
 			});
 		}

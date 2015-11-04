@@ -113,10 +113,10 @@ public class MainFrameController implements ActionListener {
 
 		locController = new LocatorPanelController(doc,frame.xsamsPanel);
 
-		asyncReconfigure();
+		asyncDocReconfigure();
 	}
 	
-	public void asyncReconfigure() {
+	public void asyncDocReconfigure() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -169,14 +169,6 @@ public class MainFrameController implements ActionListener {
 			procs.setVisible(true);
 		}
 		
-	}
-
-	public void showLogPanel() {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				logPanel.setVisible(true);
-			}}
-				);
 	}
 
 	
@@ -364,13 +356,11 @@ public class MainFrameController implements ActionListener {
 		frame.addWindowListener(
 				new WindowAdapter(){
 					@Override
-					public void windowActivated(WindowEvent arg0) {
-						frame.updateFromModel(false);//Needed for correct line count in restrictables
-					}
-					@Override
 					public void windowClosing(WindowEvent e){
-						logPanel.setVisible(false);
-						settingsDialog.setVisible(false);
+						//Save dialog positions on main window close
+						logPanel.saveDimensions();
+						settingsDialog.saveDimensions();
+						procs.saveDimensions();
 					}
 				}
 				);

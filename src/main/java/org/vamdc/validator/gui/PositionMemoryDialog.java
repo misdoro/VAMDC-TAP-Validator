@@ -15,10 +15,11 @@ public abstract class PositionMemoryDialog extends JDialog{
 
 	private static final long serialVersionUID = 862006088829415251L;
 
+	private WindowPositionHandler wph;
 	
 	public PositionMemoryDialog(Frame owner,String name, Setting dialogPosition){
 		super(owner,name);
-		new WindowPositionHandler(this,dialogPosition).loadDimensions();
+		wph=new WindowPositionHandler(this,dialogPosition);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 	
@@ -35,8 +36,17 @@ public abstract class PositionMemoryDialog extends JDialog{
 		if (b && panel==null){
 			panel=lazyInitLayout();
 			this.setContentPane(panel);
+			wph.loadDimensions();
 		}
 		super.setVisible(b);
+	}
+	
+	public void loadDimensions(){
+		wph.loadDimensions();
+	}
+	
+	public void saveDimensions(){
+		wph.saveDimensions();
 	}
 	
 }
