@@ -54,6 +54,8 @@ public class LazyFileChooser {
 	}
 
 	public File pickAFileName(Component frame, String nameSuggestion) {
+		if (nameSuggestion==null)
+			return null;
 		verifyBackingChooser();
 
 		File selectedFile = null;
