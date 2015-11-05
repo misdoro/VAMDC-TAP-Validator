@@ -3,6 +3,7 @@ package org.vamdc.validator.gui.settings;
 import javax.swing.JTextField;
 
 import org.vamdc.validator.Setting;
+import org.vamdc.validator.gui.TextPopup;
 
 public class SettingField extends JTextField implements SettingControl{
 
@@ -14,6 +15,7 @@ public class SettingField extends JTextField implements SettingControl{
 		super();
 		this.option = option;
 		loadSetting();
+		new TextPopup().add(this);
 	}
 	
 	@Override

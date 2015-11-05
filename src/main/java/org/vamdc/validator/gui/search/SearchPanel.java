@@ -12,6 +12,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import org.vamdc.validator.Setting;
+import org.vamdc.validator.gui.TextPopup;
 
 public class SearchPanel extends JPanel implements ActionListener, CaretListener{
 	
@@ -27,6 +28,7 @@ public class SearchPanel extends JPanel implements ActionListener, CaretListener
 	public SearchPanel(SearchInterface searcher){
 		super();
 		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+		new TextPopup().add(search);
 		this.add(search);
 		this.add(ignoreCase);
 		this.add(doSearch);

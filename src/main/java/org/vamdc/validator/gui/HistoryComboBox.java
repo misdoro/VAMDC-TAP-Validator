@@ -23,6 +23,7 @@ public class HistoryComboBox extends JComboBox<String>{
 		this.parameter = parameter;
 		this.items=new ArrayList<Object>();
 		loadValues();
+		new TextPopup().add(this);
 	}
 
 	public String getText() {
