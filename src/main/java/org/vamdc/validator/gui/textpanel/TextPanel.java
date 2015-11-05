@@ -22,6 +22,8 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import org.vamdc.validator.gui.TextPopup;
+
 
 
 /**
@@ -132,7 +134,7 @@ public abstract class TextPanel extends JPanel  {
 	public TextPanel(){
 		super();
 		buildPanel();
-
+		new TextPopup().add(textArea);
 		hl = textArea.getHighlighter();
 	}
 

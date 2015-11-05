@@ -56,7 +56,9 @@ public class ErrorTransferHandler extends TransferHandler{
 		@Override
 		public Object getTransferData(DataFlavor flavor)
 				throws UnsupportedFlavorException, IOException {
-			if (isDataFlavorSupported(flavor)){
+			if (error==null || document==null) 
+				return "";
+			if ( isDataFlavorSupported(flavor)){
 				String eol = System.getProperty("line.separator");
 				
 				StringBuilder result = new StringBuilder();

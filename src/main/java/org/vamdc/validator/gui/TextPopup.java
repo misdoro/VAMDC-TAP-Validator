@@ -142,7 +142,7 @@ public class TextPopup extends JPopupMenu{
     {
         jtextComponent = (JTextComponent)event.getSource();
 
-        boolean enableUndo = undoManager.canUndo();
+        boolean enableUndo = jtextComponent.isEditable() && undoManager.canUndo();
         boolean enableCut = false;
         boolean enableCopy = false;
         boolean enablePaste = false;
@@ -164,15 +164,17 @@ public class TextPopup extends JPopupMenu{
         {
             if (selectedText.length() > 0)
             {
-                enableCut = true;
                 enableCopy = true;
-                enableDelete = true;
+                if (jtextComponent.isEditable()){
+                	enableCut = true;
+                	enableDelete = true;
+                }
             }
         }
 
         try
         {
-            if (clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor))
+            if (jtextComponent.isEditable()&&clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor))
             {
                 enablePaste = true;
             }
