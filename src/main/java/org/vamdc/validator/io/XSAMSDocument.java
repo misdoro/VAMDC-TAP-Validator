@@ -205,7 +205,7 @@ public class XSAMSDocument implements XSAMSIOModel{
 				storage.flush();
 		}
 
-		if (pretty.getTransformException()!=null){
+		if (pretty!=null && pretty.getTransformException()!=null){
 			//If there were exceptions in the prettyprinter, make them pop up
 			throw new IOException(pretty.getTransformException());
 		}
