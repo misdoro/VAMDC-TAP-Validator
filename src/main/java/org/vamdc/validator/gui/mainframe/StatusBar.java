@@ -35,7 +35,11 @@ public class StatusBar extends JLabel implements ComponentUpdateInterface{
 	 */
 	@Override
 	public void resetComponent() {
-		this.setText("Status");
+		if (model!=null){
+			this.setText(model.getSourceStatus());
+		}else{
+			this.setText("Model not initialized");
+		}
 	}
 
 	/**

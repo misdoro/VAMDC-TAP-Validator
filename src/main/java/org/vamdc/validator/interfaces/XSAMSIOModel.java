@@ -157,5 +157,11 @@ public interface XSAMSIOModel{
 	 * @param filename current filename of the document (override automatically recognized)
 	 */
 	public void setFilename(String filename);
+
+	/**
+	 * Get the current XSAMS source status to display
+	 * @return Source information string
+	 */
+	public String getSourceStatus();
 	
 }

@@ -46,5 +46,11 @@ public interface XSAMSSource{
 	 * @throws XSAMSSourceException 
 	 */
 	public abstract Map<HeaderMetrics,String> getMetrics(String query) throws XSAMSSourceException;
+
+	/**
+	 * Get the source status information
+	 * @return
+	 */
+	public abstract String getStatus();
 	
 }

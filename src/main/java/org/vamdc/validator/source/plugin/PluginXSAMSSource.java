@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.dictionary.Restrictable;
+import org.vamdc.tapservice.api.DatabasePlugin;
 import org.vamdc.validator.Setting;
 import org.vamdc.validator.interfaces.XSAMSIOModel;
 import org.vamdc.validator.source.XSAMSSource;
@@ -92,6 +93,17 @@ public class PluginXSAMSSource implements XSAMSSource{
 				result.put(header, val.toString());
 		}
 		return result;
+	}
+
+	@Override
+	public String getStatus() {
+		String status="";
+		DatabasePlugin dbp=talker.getPlugInst();
+		if (dbp!=null)
+			status=dbp.getClass().toString()+"initialized";
+		else
+			status="not initialized";
+		return "Plugin "+status;
 	}
 
 

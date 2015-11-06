@@ -306,6 +306,13 @@ public class XSAMSDocument implements XSAMSIOModel{
 		this.filename = filename;
 	}
 
+	@Override
+	public String getSourceStatus() {
+		if (this.source!=null)
+			return this.source.getStatus();
+		return "Source not initialized";
+	}
+
 
 
 

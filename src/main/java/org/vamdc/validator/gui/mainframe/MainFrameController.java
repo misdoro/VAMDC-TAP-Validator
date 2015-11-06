@@ -30,6 +30,7 @@ import org.vamdc.validator.io.Input;
 import org.vamdc.validator.report.XMLReport;
 import org.vamdc.validator.source.XSAMSSourceException;
 import org.vamdc.validator.transform.GetReturnables;
+import org.vamdc.validator.validation.XSAMSValidatorException;
 
 
 public class MainFrameController implements ActionListener {
@@ -123,10 +124,16 @@ public class MainFrameController implements ActionListener {
 				try {
 					doc.reconfigure();
 				} catch (Exception e) {
+					showError("Exception during initialization: "+e.getMessage(),"Initialization");
 					e.printStackTrace();
 				}
 			}
 		}).start();
+	}
+	
+	public void reconfigure() throws XSAMSSourceException, XSAMSValidatorException{
+		if (doc!=null)
+			doc.reconfigure();
 	}
 
 	@Override

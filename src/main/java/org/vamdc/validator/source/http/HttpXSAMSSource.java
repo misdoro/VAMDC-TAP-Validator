@@ -94,10 +94,11 @@ public class HttpXSAMSSource implements XSAMSSource {
 
 
 	
-	private void checkAvailability() throws XSAMSSourceException {
+	private boolean checkAvailability() throws XSAMSSourceException {
 		AvailabilityClient avail = new AvailabilityClient(caps.getAvailabilityEndpoint());
 		if (!avail.isAvailable())
 			throw new XSAMSSourceException("Service not available: "+avail.getMessage());
+		return avail.isAvailable();
 	}
 
 
@@ -201,6 +202,23 @@ public class HttpXSAMSSource implements XSAMSSource {
 				result.put(header, values.get(0));
 		}
 		return result;
+	}
+
+	@Override
+	public String getStatus() {
+		String available="";
+		if (caps.getAvailabilityEndpoint()!=null){
+			AvailabilityClient avc = new AvailabilityClient(caps.getAvailabilityEndpoint());
+			if (avc.isAvailable()){
+				available=" Available.";
+			}else{
+				available=" Unavailable: "+avc.getMessage();
+			}
+			
+		}else{
+			available="Status unknown.";
+		}
+		return "Network mode, node "+this.baseURLStr+" "+available;
 	}
 
 
